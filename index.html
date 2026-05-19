@@ -15,34 +15,48 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 
         :root {
-            --bg-body: #f8fafc; --bg-card: #ffffff; --bg-input: #f1f5f9;         
-            --primary-dark: #0f172a; --primary: #334155;          
-            --accent: #2563eb; --accent-hover: #1d4ed8;
-            --success: #059669; --danger: #dc2626;           
-            --text-muted: #64748b; --text-light: #94a3b8;
-            --border-soft: #e2e8f0; --border-focus: #bfdbfe;     
+            /* Se agregó un tono sutilmente azulado al fondo para quitar tanto blanco */
+            --bg-body: #edf2f7; 
+            --bg-card: #ffffff; 
+            --bg-input: #f1f5f9;         
+            --primary-dark: #0f172a; 
+            --primary: #334155;          
+            --accent: #2563eb; 
+            --accent-hover: #1d4ed8;
+            --success: #059669; 
+            --danger: #dc2626;           
+            --text-muted: #64748b; 
+            --text-light: #94a3b8;
+            --border-soft: #e2e8f0; 
+            --border-focus: #bfdbfe;     
             --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --radius-lg: 16px; --radius-md: 10px;
+            --radius-lg: 16px; 
+            --radius-md: 10px;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--primary); line-height: 1.6; padding-bottom: 80px; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--primary); line-height: 1.6; padding-bottom: 20px; overflow-x: hidden; }
 
         /* ==========================================================================
            ENCABEZADO
            ========================================================================== */
-        .main-header { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-soft); padding: 16px 20px; position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .main-header { 
+            background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(241,245,249,0.95) 100%); /* Leve degradado */
+            backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-soft); padding: 16px 20px; position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+        }
         .header-container { max-width: 1340px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .brand-section { display: flex; align-items: center; gap: 12px; }
         .logo-svg { width: 38px; height: 38px; }
         .brand-text { display: flex; flex-direction: column; }
         .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.5px; line-height: 1.2; }
-        .subtitle { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+        .subtitle { font-size: 12px; font-weight: 500; color: var(--accent); } /* Toque de color al subtitulo */
 
         .header-actions { display: flex; gap: 10px; }
-        .btn-entrar { display: flex; align-items: center; gap: 6px; background-color: var(--bg-input); color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; }
+        .btn-entrar { display: flex; align-items: center; gap: 6px; background-color: var(--bg-card); color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .btn-entrar:hover { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
         .btn-calendar { background-color: #eff6ff; color: var(--accent); border-color: #bfdbfe; }
         .btn-calendar:hover { background-color: var(--accent); color: white; border-color: var(--accent); }
+        .btn-mi-cuenta { background-color: #ecfdf5; color: var(--success); border-color: #a7f3d0; }
+        .btn-mi-cuenta:hover { background-color: var(--success); color: white; border-color: var(--success); }
 
         .admin-float-tab { position: fixed; right: 0; top: 50%; transform: translateY(-50%); background-color: var(--primary-dark); color: white; padding: 14px 10px; border-radius: 12px 0 0 12px; cursor: pointer; z-index: 899; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 12px rgba(0,0,0,0.15); transition: all 0.2s ease; }
         .admin-float-tab:hover { padding-right: 16px; background-color: var(--accent); }
@@ -54,8 +68,8 @@
         .layout-wrapper { display: flex; justify-content: center; gap: 24px; max-width: 1340px; margin: 0 auto; padding: 0 16px; }
         .side-column { width: 250px; margin-top: 32px; display: none; flex-direction: column; gap: 20px; }
         
-        .side-widget { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-card); }
-        .side-widget h3 { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .side-widget { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-top: 4px solid var(--accent); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-card); }
+        .side-widget h3 { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
         .side-widget p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
         .side-widget ul { list-style: none; }
         .side-widget ul li { margin-bottom: 8px; font-size: 13px; }
@@ -70,7 +84,7 @@
         .main-content { flex: 1; max-width: 800px; margin: 32px 0; padding: 0; }
         @media (max-width: 1199px) { .main-content { margin: 32px auto; padding: 0 16px; } }
 
-        .form-section, .filters-section { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-card); }
+        .form-section, .filters-section { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-top: 4px solid var(--primary-dark); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-card); }
         .section-title { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
 
         .form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 12px; }
@@ -110,10 +124,8 @@
         .filter-btn { font-size: 13px; font-weight: 600; padding: 10px 20px; border: 1px solid var(--border-soft); background-color: var(--bg-card); color: var(--text-muted); border-radius: 24px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .filter-btn.active { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
 
-        .filters-row { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 600px) { .filters-row { grid-template-columns: 1fr 1fr; } }
-
-        .post-card { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-card); }
+        .post-card { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-left: 4px solid var(--accent); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-card); transition: transform 0.2s ease;}
+        .post-card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
         .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;}
         
         .badge-wrapper { display: flex; gap: 6px; flex-wrap: wrap;}
@@ -132,7 +144,7 @@
 
         .replies-container { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-soft); }
         .replies-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 16px; }
-        .reply-item { background-color: var(--bg-input); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; }
+        .reply-item { background-color: var(--bg-input); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; border-left: 3px solid var(--border-soft); }
         .reply-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .reply-user { font-weight: 700; font-size: 14px; color: var(--primary-dark); }
         .reply-date { font-size: 11px; color: var(--text-light); }
@@ -197,6 +209,7 @@
         .calendar-day.holiday { background: #fef2f2; border-color: #fca5a5; }
         .calendar-day.holiday:hover { background: #fee2e2; }
         .calendar-day.empty { background: transparent; border: none; cursor: default; }
+        .calendar-day.today-marker { background-color: #fffbeb; border-color: #f59e0b; } /* Resaltar día actual */
 
         .day-number { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: var(--primary-dark); }
         .holiday-name { font-size: 10px; color: #b91c1c; line-height: 1.1; font-weight: 700;}
@@ -212,7 +225,7 @@
         
         .holiday-alert { background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; margin-bottom: 16px; display: flex; gap: 8px; align-items: center;}
 
-        .event-card-cal { background: white; padding: 14px; border-radius: 8px; border: 1px solid var(--border-soft); margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .event-card-cal { background: white; padding: 14px; border-radius: 8px; border: 1px solid var(--border-soft); margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border-left: 4px solid var(--accent); }
         .event-type-badge { font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; color: white; display: inline-block; margin-bottom: 8px; }
         .event-type-badge.tarea { background: #f59e0b; }
         .event-type-badge.prueba { background: #ef4444; }
@@ -220,9 +233,22 @@
         .event-title-cal { font-size: 14px; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
         .event-author-cal { font-size: 12px; color: var(--text-muted); font-weight: 500;}
 
-        .add-event-box { background: white; padding: 16px; border-radius: 12px; border: 1px dashed var(--text-light); margin-top: 24px; }
+        .add-event-box { background: white; padding: 16px; border-radius: 12px; border: 1px dashed var(--accent); margin-top: 24px; }
         .add-event-box h4 { font-size: 14px; margin-bottom: 16px; color: var(--primary-dark); font-weight: 700; }
         .auth-warning { font-size: 12px; color: var(--danger); font-weight: 600; text-align: center; margin-top: 10px; }
+
+        /* FOOTER DE DESARROLLADOR */
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 40px;
+            max-width: 1340px;
+            margin-left: auto;
+            margin-right: auto;
+            border-top: 1px solid var(--border-soft);
+        }
 
         @media (max-width: 600px) {
             .form-section, .filters-section, .post-card { padding: 20px; }
@@ -244,7 +270,7 @@
         <div class="calendar-header">
             <h2>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                Calendario Escolar 2026
+                Calendario Escolar
             </h2>
             <button class="calendar-close" id="calendar-close-btn">&times;</button>
         </div>
@@ -296,7 +322,7 @@
 
     <aside class="admin-sidebar" id="admin-sidebar">
         <div class="sidebar-header">
-            <h2>Acceso Docente</h2>
+            <h2>Acceso al Sistema</h2>
             <button class="sidebar-close" id="sidebar-close">&times;</button>
         </div>
         
@@ -316,11 +342,11 @@
 
         <div class="sidebar-content hidden" id="admin-dashboard-view">
             <div class="admin-status-box">
-                <p><strong>✅ Sesión Institucional Activa</strong></p>
+                <p><strong>✅ Sesión Activa</strong></p>
                 <p id="logged-user-email" style="font-size: 12px; margin-top: 4px; color: var(--primary);"></p>
             </div>
-            <p class="sidebar-desc">Tienes permisos para moderar el foro y agendar evaluaciones/tareas en el calendario de la institución.</p>
-            <button class="btn-submit btn-danger" id="btn-logout">Cerrar Sesión</button>
+            <p class="sidebar-desc">Tienes permisos activos para moderar el foro y registrar evaluaciones en el calendario.</p>
+            <button class="btn-submit btn-danger" id="btn-logout">Cerrar Sesión Segura</button>
         </div>
     </aside>
 
@@ -332,7 +358,7 @@
                     <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <div class="brand-text"><h1>Conecta Edu</h1><span class="subtitle">Foro Académico Institucional</span></div>
+                <div class="brand-text"><h1>Conecta Edu</h1><span class="subtitle">Plataforma Oficial</span></div>
             </div>
             <div class="header-actions">
                 <button id="calendar-toggle-btn" class="btn-entrar btn-calendar">
@@ -340,8 +366,8 @@
                     <span>Calendario</span>
                 </button>
                 <button id="admin-toggle-btn" class="btn-entrar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                    <span>Acceder</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span id="btn-login-text">Acceder</span>
                 </button>
             </div>
         </div>
@@ -351,14 +377,14 @@
         
         <aside class="side-column">
             <div class="side-widget">
-                <h3>🏫 Institución</h3>
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Institución</h3>
                 <p>Bienvenido a la red de Conecta Edu. Mantente al día con los comunicados oficiales de nuestro establecimiento.</p>
             </div>
             <div class="side-widget">
-                <h3>🔗 Enlaces Útiles</h3>
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Enlaces Útiles</h3>
                 <ul>
                     <li><a href="#">Mineduc Chile</a></li>
-                    <li><a href="#">Reglamento de Convivencia</a></li>
+                    <li><a href="#">Reglamento Interno</a></li>
                     <li><a href="#">Soporte Técnico</a></li>
                 </ul>
             </div>
@@ -408,16 +434,20 @@
 
         <aside class="side-column">
             <div class="side-widget">
-                <h3>⚡ Normas del Foro</h3>
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Normas del Foro</h3>
                 <p>Mantengamos un ambiente respetuoso. Los mensajes tienen un máximo de 400 caracteres para asegurar publicaciones concisas y claras.</p>
             </div>
             <div class="side-widget">
-                <h3>⏰ Horario General</h3>
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Horario General</h3>
                 <p>Lunes a Viernes:<br>08:00 - 17:00 hrs.<br>Agenda abierta las 24 horas.</p>
             </div>
         </aside>
 
     </div>
+
+    <footer class="site-footer">
+        <p>Desarrollado por profesor Matías Poblete</p>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
@@ -446,9 +476,12 @@
         let searchQuery = '';
         let currentUser = null; 
 
-        let calMonth = 2; // Inicia en Marzo 2026
-        const calYear = 2026;
-        let selectedDateKey = null;
+        // DETECCIÓN AUTOMÁTICA DEL DÍA ACTUAL
+        const todayDate = new Date();
+        let calMonth = todayDate.getMonth();
+        let calYear = todayDate.getFullYear();
+        let selectedDateKey = `${calYear}-${calMonth + 1}-${todayDate.getDate()}`; // Marca el día exacto de hoy
+
         const holidays2026 = { "2026-1-1": "Año Nuevo", "2026-4-3": "Viernes Santo", "2026-4-4": "Sábado Santo", "2026-5-1": "Día del Trabajador", "2026-5-21": "Glorias Navales", "2026-6-21": "Pueblos Indígenas", "2026-6-29": "San Pedro y San Pablo", "2026-7-16": "Virgen del Carmen", "2026-8-15": "Asunción de la Virgen", "2026-9-18": "Independencia Nacional", "2026-9-19": "Glorias del Ejército", "2026-10-12": "Encuentro Dos Mundos", "2026-10-31": "Iglesias Evangélicas", "2026-11-1": "Todos los Santos", "2026-12-8": "Inmaculada Concepción", "2026-12-25": "Navidad" };
         const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
@@ -467,8 +500,15 @@
             });
 
             onAuthStateChanged(auth, (user) => {
+                const btnToggleText = document.getElementById('btn-login-text');
+                const btnToggleMain = document.getElementById('admin-toggle-btn');
+
                 if (user) {
                     currentUser = user;
+                    // Cambio de texto dinámico
+                    if (btnToggleText) btnToggleText.textContent = "Mi Cuenta";
+                    btnToggleMain.classList.add('btn-mi-cuenta');
+
                     document.getElementById('admin-login-view').classList.add('hidden');
                     document.getElementById('admin-dashboard-view').classList.remove('hidden');
                     document.getElementById('logged-user-email').textContent = user.email;
@@ -486,13 +526,19 @@
                     
                 } else {
                     currentUser = null;
+                    // Retorno a estado original
+                    if (btnToggleText) btnToggleText.textContent = "Acceder";
+                    btnToggleMain.classList.remove('btn-mi-cuenta');
+
                     document.getElementById('admin-login-view').classList.remove('hidden');
                     document.getElementById('admin-dashboard-view').classList.add('hidden');
                     document.getElementById('admin-float-tab').classList.add('hidden');
                 }
                 
                 renderPosts();
-                if (selectedDateKey) renderDayDetails(selectedDateKey);
+                if (selectedDateKey && document.getElementById('calendar-modal').classList.contains('show')) {
+                    renderDayDetails(selectedDateKey);
+                }
             });
 
             setupEventListeners();
@@ -500,25 +546,18 @@
 
         function saveToStorage() {
             setDoc(forumDocRef, { posts: posts, events: calendarEvents })
-            .catch(e => {
-                console.error("Error al guardar en Firebase:", e);
-                alert("⚠️ Error de Firebase al guardar los cambios. Asegúrate de tener habilitadas las 'Rules' de lectura/escritura pública o restringida en tu consola de Firestore.");
-            });
+            .catch(e => { console.error("Error al guardar:", e); alert("⚠️ Error al sincronizar con Firebase."); });
         }
 
         function setupEventListeners() {
-            // Contador en tiempo real para el limitador de caracteres
             const messageTxt = document.getElementById('message');
             const counterDiv = document.getElementById('char-counter');
             if (messageTxt && counterDiv) {
                 messageTxt.addEventListener('input', () => {
                     const currentLength = messageTxt.value.length;
                     counterDiv.textContent = `${currentLength} / 400 caracteres`;
-                    if (currentLength >= 360) {
-                        counterDiv.style.color = 'var(--danger)';
-                    } else {
-                        counterDiv.style.color = 'var(--text-light)';
-                    }
+                    if (currentLength >= 360) counterDiv.style.color = 'var(--danger)';
+                    else counterDiv.style.color = 'var(--text-light)';
                 });
             }
 
@@ -529,8 +568,7 @@
 
             document.getElementById('btn-google-login').addEventListener('click', () => {
                 signInWithPopup(auth, provider).then(() => openAdmin(false)).catch(err => {
-                    console.error("Login Error:", err);
-                    alert("Error al iniciar sesión con Google: " + err.message + "\nVerifica que los popups no estén bloqueados y que el dominio local o de hosting esté en la lista autorizada en la consola de Firebase Authentication.");
+                    console.error("Login Error:", err); alert("Error de Inicio de Sesión: " + err.message);
                 });
             });
             
@@ -544,8 +582,9 @@
             document.getElementById('calendar-toggle-btn').addEventListener('click', () => {
                 document.getElementById('calendar-modal').classList.add('show');
                 document.getElementById('calendar-overlay-bg').classList.add('show');
-                document.getElementById('cal-month-select').value = calMonth;
+                document.getElementById('cal-month-select').value = calMonth; // Ajusta el select al mes actual automáticamente
                 renderCalendarGrid();
+                renderDayDetails(selectedDateKey);
             });
             document.getElementById('calendar-close-btn').addEventListener('click', closeCalendar);
             document.getElementById('calendar-overlay-bg').addEventListener('click', closeCalendar);
@@ -579,21 +618,11 @@
             const overlay = document.getElementById('sidebar-overlay');
             const floater = document.getElementById('admin-float-tab');
             
-            if(state) {
-                sidebar.classList.add('open');
-                overlay.classList.add('show');
-                floater.classList.add('hidden');
-            } else {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('show');
-                if (currentUser) floater.classList.remove('hidden');
-            }
+            if(state) { sidebar.classList.add('open'); overlay.classList.add('show'); floater.classList.add('hidden'); }
+            else { sidebar.classList.remove('open'); overlay.classList.remove('show'); if (currentUser) floater.classList.remove('hidden'); }
         }
         
-        function closeCalendar() {
-            document.getElementById('calendar-modal').classList.remove('show');
-            document.getElementById('calendar-overlay-bg').classList.remove('show');
-        }
+        function closeCalendar() { document.getElementById('calendar-modal').classList.remove('show'); document.getElementById('calendar-overlay-bg').classList.remove('show'); }
 
         // --- CALENDARIO ESCOLAR LÓGICA ---
         function renderCalendarGrid() {
@@ -606,6 +635,7 @@
             const firstDay = new Date(calYear, calMonth, 1).getDay();
             const emptyDays = firstDay === 0 ? 6 : firstDay - 1;
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+            const stringToday = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`; // Para pintar de otro color el día que es hoy
 
             for (let i = 0; i < emptyDays; i++) {
                 const div = document.createElement('div'); div.className = 'calendar-day empty'; grid.appendChild(div);
@@ -615,9 +645,10 @@
                 const dateKey = `${calYear}-${calMonth + 1}-${day}`;
                 const holiday = holidays2026[dateKey];
                 const dayEvents = calendarEvents[dateKey] || [];
+                const isToday = (dateKey === stringToday);
 
                 const div = document.createElement('div');
-                div.className = `calendar-day ${holiday ? 'holiday' : ''} ${selectedDateKey === dateKey ? 'active' : ''}`;
+                div.className = `calendar-day ${holiday ? 'holiday' : ''} ${selectedDateKey === dateKey ? 'active' : ''} ${isToday ? 'today-marker' : ''}`;
                 
                 let eventsHtml = '';
                 if(dayEvents.length > 0) {
@@ -637,7 +668,7 @@
 
             document.getElementById('empty-day-state').style.display = 'none';
             document.getElementById('day-events-panel').style.display = 'block';
-            document.getElementById('selected-day-title').textContent = `${dayNum} de ${monthNames[calMonth]} 2026`;
+            document.getElementById('selected-day-title').textContent = `${dayNum} de ${monthNames[calMonth]} ${calYear}`;
             
             const alertCont = document.getElementById('holiday-alert-container');
             alertCont.innerHTML = holidayStr ? `<div class="holiday-alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Feriado: ${holidayStr}</div>` : '';
@@ -675,8 +706,8 @@
 
         function handleCreateCalendarEvent(e) {
             e.preventDefault();
-            if (!currentUser) return alert("Debes iniciar sesión con Google para agendar.");
-            if (!selectedDateKey) return alert("Selecciona un día en el calendario primero.");
+            if (!currentUser) return alert("Debes iniciar sesión para agendar.");
+            if (!selectedDateKey) return alert("Selecciona un día primero.");
 
             const newEvt = {
                 id: 'evt_' + Date.now(),
@@ -691,104 +722,53 @@
 
             saveToStorage();
             document.getElementById('event-title').value = '';
-            
-            // Forzar renderizado inmediato local para optimizar UX reactiva
-            renderCalendarGrid();
-            renderDayDetails(selectedDateKey);
+            renderCalendarGrid(); renderDayDetails(selectedDateKey);
         }
 
-        window.removeEvent = function(dateKey, evtId) {
-            if(!currentUser) return;
-            if(confirm("¿Eliminar evento del calendario?")) {
-                calendarEvents[dateKey] = calendarEvents[dateKey].filter(e => e.id !== evtId);
-                saveToStorage();
-            }
-        };
+        window.removeEvent = function(dateKey, evtId) { if(currentUser && confirm("¿Eliminar evento?")) { calendarEvents[dateKey] = calendarEvents[dateKey].filter(e => e.id !== evtId); saveToStorage(); } };
 
         // --- FORO LÓGICA PRINCIPAL ---
         function handleCreatePost(e) {
             e.preventDefault();
             const role = document.getElementById('author-role').value;
-            if (!role) return alert('Selecciona tu Rol (Docente, Apoderado o Estudiante).');
+            if (!role) return alert('Selecciona tu Rol.');
 
             const messageVal = document.getElementById('message').value.trim();
-            if(messageVal.length > 400) return alert('El mensaje excede el límite permitido de 400 caracteres.');
+            if(messageVal.length > 400) return alert('Límite de caracteres superado.');
 
-            const newPost = {
-                id: 'post_' + Date.now(),
-                author: document.getElementById('author').value.trim(),
-                role: role,
-                category: document.getElementById('category').value,
-                course: document.getElementById('course').value,
-                subject: document.getElementById('subject').value,
-                title: document.getElementById('title').value.trim(),
-                message: messageVal,
-                date: new Date().toLocaleString('es-CL', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                replies: []
-            };
-
-            posts.unshift(newPost); 
-            saveToStorage();
+            const newPost = { id: 'post_' + Date.now(), author: document.getElementById('author').value.trim(), role: role, category: document.getElementById('category').value, course: document.getElementById('course').value, subject: document.getElementById('subject').value, title: document.getElementById('title').value.trim(), message: messageVal, date: new Date().toLocaleString('es-CL', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }), replies: [] };
+            posts.unshift(newPost); saveToStorage();
             
-            document.getElementById('title').value = '';
-            document.getElementById('message').value = '';
-            
+            document.getElementById('title').value = ''; document.getElementById('message').value = '';
             const counterDiv = document.getElementById('char-counter');
-            if (counterDiv) {
-                counterDiv.textContent = '0 / 400 caracteres';
-                counterDiv.style.color = 'var(--text-light)';
-            }
+            if (counterDiv) { counterDiv.textContent = '0 / 400 caracteres'; counterDiv.style.color = 'var(--text-light)'; }
 
-            if(!currentUser) {
-                document.getElementById('author').value = '';
-                document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active'));
-                document.getElementById('author-role').value = '';
-            }
+            if(!currentUser) { document.getElementById('author').value = ''; document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active')); document.getElementById('author-role').value = ''; }
         }
 
-        window.removePost = function(id) { if (currentUser && confirm('¿Eliminar publicación permanentemente?')) { posts = posts.filter(p => p.id !== id); saveToStorage(); } };
+        window.removePost = function(id) { if (currentUser && confirm('¿Eliminar publicación?')) { posts = posts.filter(p => p.id !== id); saveToStorage(); } };
         window.removeReply = function(postId, replyId) { if (currentUser && confirm('¿Borrar comentario?')) { const p = posts.find(x => x.id === postId); if (p) { p.replies = p.replies.filter(r => r.id !== replyId); saveToStorage(); } } };
 
         window.handleCreateReply = function(e, postId) {
             e.preventDefault(); const form = e.target; const p = posts.find(x => x.id === postId);
-            if (p) {
-                p.replies.push({ id: 'reply_' + Date.now(), author: form.querySelector('.reply-author-input').value.trim(), message: form.querySelector('.reply-textarea').value.trim(), date: new Date().toLocaleString('es-CL', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) });
-                saveToStorage();
-            }
+            if (p) { p.replies.push({ id: 'reply_' + Date.now(), author: form.querySelector('.reply-author-input').value.trim(), message: form.querySelector('.reply-textarea').value.trim(), date: new Date().toLocaleString('es-CL', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) }); saveToStorage(); }
         }
 
         function renderPosts() {
             const container = document.getElementById('posts-container');
             container.innerHTML = '';
-            const filtered = posts.filter(p => {
-                const mFilter = (currentFilter === 'Todos' || p.category === currentFilter);
-                const mSearch = (p.title.toLowerCase().includes(searchQuery) || p.message.toLowerCase().includes(searchQuery));
-                return mFilter && mSearch;
-            });
-
-            if (filtered.length === 0) return container.innerHTML = `<p style="text-align:center; color:#94a3b8; padding: 40px 0;">No hay publicaciones en esta vista.</p>`;
+            const filtered = posts.filter(p => (currentFilter === 'Todos' || p.category === currentFilter) && (p.title.toLowerCase().includes(searchQuery) || p.message.toLowerCase().includes(searchQuery)));
+            if (filtered.length === 0) return container.innerHTML = `<p style="text-align:center; color:#94a3b8; padding: 40px 0;">No hay publicaciones.</p>`;
 
             filtered.forEach(post => {
                 const rClass = post.role ? post.role.toLowerCase() : 'docente';
                 const courseLbl = post.course !== 'General' ? `<span class="badge badge-course">${escapeHTML(post.course)}</span>` : '';
                 const subjLbl = post.subject !== 'General' ? `<span class="badge badge-subject">${escapeHTML(post.subject)}</span>` : '';
                 
-                const repHtml = post.replies.map(r => `
-                    <div class="reply-item">
-                        <div class="reply-meta"><span class="reply-user">${escapeHTML(r.author)}</span><div><span class="reply-date">${r.date}</span> ${currentUser ? `<button class="btn-reply-delete" onclick="removeReply('${post.id}', '${r.id}')">Borrar</button>` : ''}</div></div>
-                        <p class="reply-body">${escapeHTML(r.message)}</p>
-                    </div>
-                `).join('');
+                const repHtml = post.replies.map(r => `<div class="reply-item"><div class="reply-meta"><span class="reply-user">${escapeHTML(r.author)}</span><div><span class="reply-date">${r.date}</span> ${currentUser ? `<button class="btn-reply-delete" onclick="removeReply('${post.id}', '${r.id}')">Borrar</button>` : ''}</div></div><p class="reply-body">${escapeHTML(r.message)}</p></div>`).join('');
 
                 const card = document.createElement('article'); card.className = `post-card`;
-                card.innerHTML = `
-                    <div class="post-header"><div class="badge-wrapper"><span class="badge ${post.category === 'Comunicado' ? 'comunicado' : 'consulta'}">${post.category}</span><span class="badge ${rClass}">${escapeHTML(post.role || 'Docente')}</span>${courseLbl}${subjLbl}</div></div>
-                    <h3 class="post-title">${escapeHTML(post.title)}</h3><p class="post-body">${escapeHTML(post.message)}</p>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${currentUser ? `<button class="btn-moderator-delete" onclick="removePost('${post.id}')">Eliminar Muro</button>` : ''}</div>
-                    <div class="replies-container">
-                        ${post.replies.length > 0 ? `<div class="replies-title">Respuestas (${post.replies.length})</div>` : ''}<div class="replies-list">${repHtml}</div>
-                        <form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" ${currentUser ? `value="${escapeHTML(currentUser.displayName || '')}"` : ''} required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form>
-                    </div>`;
+                card.innerHTML = `<div class="post-header"><div class="badge-wrapper"><span class="badge ${post.category === 'Comunicado' ? 'comunicado' : 'consulta'}">${post.category}</span><span class="badge ${rClass}">${escapeHTML(post.role || 'Docente')}</span>${courseLbl}${subjLbl}</div></div><h3 class="post-title">${escapeHTML(post.title)}</h3><p class="post-body">${escapeHTML(post.message)}</p><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${currentUser ? `<button class="btn-moderator-delete" onclick="removePost('${post.id}')">Eliminar</button>` : ''}</div><div class="replies-container">${post.replies.length > 0 ? `<div class="replies-title">Respuestas (${post.replies.length})</div>` : ''}<div class="replies-list">${repHtml}</div><form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" ${currentUser ? `value="${escapeHTML(currentUser.displayName || '')}"` : ''} required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form></div>`;
                 container.appendChild(card);
             });
         }

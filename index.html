@@ -15,7 +15,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 
         :root {
-            /* Se agregó un tono sutilmente azulado al fondo para quitar tanto blanco */
+            var(--bg-body): #edf2f7; 
             --bg-body: #edf2f7; 
             --bg-card: #ffffff; 
             --bg-input: #f1f5f9;         
@@ -40,7 +40,7 @@
            ENCABEZADO
            ========================================================================== */
         .main-header { 
-            background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(241,245,249,0.95) 100%); /* Leve degradado */
+            background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(241,245,249,0.95) 100%);
             backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-soft); padding: 16px 20px; position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
         }
         .header-container { max-width: 1340px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
@@ -48,7 +48,7 @@
         .logo-svg { width: 38px; height: 38px; }
         .brand-text { display: flex; flex-direction: column; }
         .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.5px; line-height: 1.2; }
-        .subtitle { font-size: 12px; font-weight: 500; color: var(--accent); } /* Toque de color al subtitulo */
+        .subtitle { font-size: 12px; font-weight: 500; color: var(--accent); }
 
         .header-actions { display: flex; gap: 10px; }
         .btn-entrar { display: flex; align-items: center; gap: 6px; background-color: var(--bg-card); color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
@@ -76,13 +76,13 @@
         .side-widget ul li a { color: var(--accent); text-decoration: none; font-weight: 600; transition: color 0.2s; }
         .side-widget ul li a:hover { color: var(--accent-hover); text-decoration: underline; }
 
-        @media (min-width: 1200px) { .side-column { display: flex; } }
+        @media (min-width: 1100px) { .side-column { display: flex; } }
 
         /* ==========================================================================
            FORMULARIOS Y CONTENEDOR CENTRAL
            ========================================================================== */
         .main-content { flex: 1; max-width: 800px; margin: 32px 0; padding: 0; }
-        @media (max-width: 1199px) { .main-content { margin: 32px auto; padding: 0 16px; } }
+        @media (max-width: 1099px) { .main-content { margin: 32px auto; padding: 0 16px; } }
 
         .form-section, .filters-section { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-top: 4px solid var(--primary-dark); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-card); }
         .section-title { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
@@ -173,6 +173,8 @@
 
         .sidebar-content { padding: 24px; flex: 1; overflow-y: auto; }
         .sidebar-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;}
+        
+        .alert-domain { background-color: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 20px; display: flex; gap: 8px;}
 
         .btn-google { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background-color: white; color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 14px; font-size: 15px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .btn-google:hover { background-color: #f8fafc; border-color: #cbd5e1; }
@@ -209,7 +211,7 @@
         .calendar-day.holiday { background: #fef2f2; border-color: #fca5a5; }
         .calendar-day.holiday:hover { background: #fee2e2; }
         .calendar-day.empty { background: transparent; border: none; cursor: default; }
-        .calendar-day.today-marker { background-color: #fffbeb; border-color: #f59e0b; } /* Resaltar día actual */
+        .calendar-day.today-marker { background-color: #fffbeb; border-color: #f59e0b; }
 
         .day-number { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: var(--primary-dark); }
         .holiday-name { font-size: 10px; color: #b91c1c; line-height: 1.1; font-weight: 700;}
@@ -327,6 +329,10 @@
         </div>
         
         <div class="sidebar-content" id="admin-login-view">
+            <div class="alert-domain">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <span>Solo permitido para correos con el dominio <strong>@slepcolchagua.cl</strong></span>
+            </div>
             <p class="sidebar-desc">Inicia sesión con tu correo institucional de Google para obtener permisos de moderación y agendar en el calendario escolar.</p>
             
             <button class="btn-google" id="btn-google-login">
@@ -342,7 +348,7 @@
 
         <div class="sidebar-content hidden" id="admin-dashboard-view">
             <div class="admin-status-box">
-                <p><strong>✅ Sesión Activa</strong></p>
+                <p><strong>✅ Sesión Institucional Activa</strong></p>
                 <p id="logged-user-email" style="font-size: 12px; margin-top: 4px; color: var(--primary);"></p>
             </div>
             <p class="sidebar-desc">Tienes permisos activos para moderar el foro y registrar evaluaciones en el calendario.</p>
@@ -385,6 +391,7 @@
                 <ul>
                     <li><a href="#">Mineduc Chile</a></li>
                     <li><a href="#">Reglamento Interno</a></li>
+                    <li><a href="#">Protocolos Convivencia</a></li>
                     <li><a href="#">Soporte Técnico</a></li>
                 </ul>
             </div>
@@ -467,8 +474,10 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-        
         const forumDocRef = doc(db, "forum_data", "posts_collection");
+
+        // DOMINIO AUTORIZADO
+        const DOMINIO_INSTITUCIONAL = "@slepcolchagua.cl";
 
         let posts = [];
         let calendarEvents = {}; 
@@ -480,7 +489,7 @@
         const todayDate = new Date();
         let calMonth = todayDate.getMonth();
         let calYear = todayDate.getFullYear();
-        let selectedDateKey = `${calYear}-${calMonth + 1}-${todayDate.getDate()}`; // Marca el día exacto de hoy
+        let selectedDateKey = `${calYear}-${calMonth + 1}-${todayDate.getDate()}`;
 
         const holidays2026 = { "2026-1-1": "Año Nuevo", "2026-4-3": "Viernes Santo", "2026-4-4": "Sábado Santo", "2026-5-1": "Día del Trabajador", "2026-5-21": "Glorias Navales", "2026-6-21": "Pueblos Indígenas", "2026-6-29": "San Pedro y San Pablo", "2026-7-16": "Virgen del Carmen", "2026-8-15": "Asunción de la Virgen", "2026-9-18": "Independencia Nacional", "2026-9-19": "Glorias del Ejército", "2026-10-12": "Encuentro Dos Mundos", "2026-10-31": "Iglesias Evangélicas", "2026-11-1": "Todos los Santos", "2026-12-8": "Inmaculada Concepción", "2026-12-25": "Navidad" };
         const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -504,8 +513,13 @@
                 const btnToggleMain = document.getElementById('admin-toggle-btn');
 
                 if (user) {
+                    // VALIDACIÓN ESTRICTA DE CORREO INSTITUCIONAL
+                    if (!user.email.endsWith(DOMINIO_INSTITUCIONAL)) {
+                        signOut(auth); // Cierra sesión inmediatamente si burló el primer filtro
+                        return;
+                    }
+
                     currentUser = user;
-                    // Cambio de texto dinámico
                     if (btnToggleText) btnToggleText.textContent = "Mi Cuenta";
                     btnToggleMain.classList.add('btn-mi-cuenta');
 
@@ -526,7 +540,6 @@
                     
                 } else {
                     currentUser = null;
-                    // Retorno a estado original
                     if (btnToggleText) btnToggleText.textContent = "Acceder";
                     btnToggleMain.classList.remove('btn-mi-cuenta');
 
@@ -567,8 +580,19 @@
             document.getElementById('sidebar-overlay').addEventListener('click', () => openAdmin(false));
 
             document.getElementById('btn-google-login').addEventListener('click', () => {
-                signInWithPopup(auth, provider).then(() => openAdmin(false)).catch(err => {
-                    console.error("Login Error:", err); alert("Error de Inicio de Sesión: " + err.message);
+                signInWithPopup(auth, provider).then((result) => {
+                    const user = result.user;
+                    // RESTRICCIÓN DE DOMINIO AL HACER LOGIN
+                    if (!user.email.endsWith(DOMINIO_INSTITUCIONAL)) {
+                        signOut(auth).then(() => {
+                            alert(`ACCESO DENEGADO.\n\nEl correo ${user.email} no está autorizado.\nPor favor, utiliza exclusivamente una cuenta @slepcolchagua.cl`);
+                        });
+                    } else {
+                        openAdmin(false);
+                    }
+                }).catch(err => {
+                    console.error("Login Error:", err); 
+                    alert("Error de Inicio de Sesión: " + err.message);
                 });
             });
             
@@ -582,7 +606,7 @@
             document.getElementById('calendar-toggle-btn').addEventListener('click', () => {
                 document.getElementById('calendar-modal').classList.add('show');
                 document.getElementById('calendar-overlay-bg').classList.add('show');
-                document.getElementById('cal-month-select').value = calMonth; // Ajusta el select al mes actual automáticamente
+                document.getElementById('cal-month-select').value = calMonth; 
                 renderCalendarGrid();
                 renderDayDetails(selectedDateKey);
             });
@@ -635,7 +659,7 @@
             const firstDay = new Date(calYear, calMonth, 1).getDay();
             const emptyDays = firstDay === 0 ? 6 : firstDay - 1;
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-            const stringToday = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`; // Para pintar de otro color el día que es hoy
+            const stringToday = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`;
 
             for (let i = 0; i < emptyDays; i++) {
                 const div = document.createElement('div'); div.className = 'calendar-day empty'; grid.appendChild(div);
@@ -768,7 +792,7 @@
                 const repHtml = post.replies.map(r => `<div class="reply-item"><div class="reply-meta"><span class="reply-user">${escapeHTML(r.author)}</span><div><span class="reply-date">${r.date}</span> ${currentUser ? `<button class="btn-reply-delete" onclick="removeReply('${post.id}', '${r.id}')">Borrar</button>` : ''}</div></div><p class="reply-body">${escapeHTML(r.message)}</p></div>`).join('');
 
                 const card = document.createElement('article'); card.className = `post-card`;
-                card.innerHTML = `<div class="post-header"><div class="badge-wrapper"><span class="badge ${post.category === 'Comunicado' ? 'comunicado' : 'consulta'}">${post.category}</span><span class="badge ${rClass}">${escapeHTML(post.role || 'Docente')}</span>${courseLbl}${subjLbl}</div></div><h3 class="post-title">${escapeHTML(post.title)}</h3><p class="post-body">${escapeHTML(post.message)}</p><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${currentUser ? `<button class="btn-moderator-delete" onclick="removePost('${post.id}')">Eliminar</button>` : ''}</div><div class="replies-container">${post.replies.length > 0 ? `<div class="replies-title">Respuestas (${post.replies.length})</div>` : ''}<div class="replies-list">${repHtml}</div><form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" ${currentUser ? `value="${escapeHTML(currentUser.displayName || '')}"` : ''} required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form></div>`;
+                card.innerHTML = `<div class="post-header"><div class="badge-wrapper"><span class="badge ${post.category === 'Comunicado' ? 'comunicado' : 'consulta'}">${post.category}</span><span class="badge ${rClass}">${escapeHTML(post.role || 'Docente')}</span>${courseLbl}${subjLbl}</div></div><h3 class="post-title">${escapeHTML(post.title)}</h3><p class="post-body">${escapeHTML(post.message)}</p><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${currentUser ? `<button class=\"btn-moderator-delete\" onclick=\"removePost('${post.id}')\">Eliminar</button>` : ''}</div><div class="replies-container">${post.replies.length > 0 ? `<div class="replies-title">Respuestas (${post.replies.length})</div>` : ''}<div class="replies-list">${repHtml}</div><form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" ${currentUser ? `value="${escapeHTML(currentUser.displayName || '')}"` : ''} required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form></div>`;
                 container.appendChild(card);
             });
         }

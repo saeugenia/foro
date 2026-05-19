@@ -15,7 +15,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 
         :root {
-            var(--bg-body): #edf2f7; 
             --bg-body: #edf2f7; 
             --bg-card: #ffffff; 
             --bg-input: #f1f5f9;         
@@ -45,7 +44,7 @@
         }
         .header-container { max-width: 1340px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .brand-section { display: flex; align-items: center; gap: 12px; }
-        .logo-svg { width: 38px; height: 38px; }
+        .logo-svg { width: 38px; height: 38px; } /* Clase existente usada para el nuevo logo del librito */
         .brand-text { display: flex; flex-direction: column; }
         .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.5px; line-height: 1.2; }
         .subtitle { font-size: 12px; font-weight: 500; color: var(--accent); }
@@ -191,6 +190,16 @@
         .calendar-header h2 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px;}
         .calendar-close { background: none; border: none; font-size: 28px; color: white; cursor: pointer; transition: 0.2s;}
         .calendar-close:hover { color: #fca5a5; }
+        
+        /* CSS para el nuevo logo de la escuela en el calendario, circular y elegante */
+        .school-logo-cal { 
+            width: 32px;
+            height: 32px;
+            border-radius: 50%; /* Lo hace circular */
+            border: 2px solid white; /* Un borde para resaltarlo */
+            object-fit: cover; /* Asegura que la imagen cubra el área circular */
+            margin-right: 12px; /* Espacio antes del botón de cerrar */
+        }
 
         .calendar-body { display: grid; grid-template-columns: 1fr 340px; flex: 1; overflow: hidden; }
         @media (max-width: 800px) { .calendar-body { grid-template-columns: 1fr; overflow-y: auto; } }
@@ -274,6 +283,7 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 Calendario Escolar
             </h2>
+            <img id="school-logo-img" class="school-logo-cal hidden" src="logo2.jpg" alt="Logo de la Escuela">
             <button class="calendar-close" id="calendar-close-btn">&times;</button>
         </div>
         <div class="calendar-body">
@@ -359,11 +369,7 @@
     <header class="main-header">
         <div class="header-container">
             <div class="brand-section">
-                <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2563eb" /><stop offset="100%" stop-color="#0f172a" /></linearGradient></defs>
-                    <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <img class="logo-svg" src="image_913c48.png" alt="Conecta Edu Book Logo">
                 <div class="brand-text"><h1>Conecta Edu</h1><span class="subtitle">Plataforma Oficial</span></div>
             </div>
             <div class="header-actions">
@@ -511,15 +517,20 @@
             onAuthStateChanged(auth, (user) => {
                 const btnToggleText = document.getElementById('btn-login-text');
                 const btnToggleMain = document.getElementById('admin-toggle-btn');
+                const schoolLogoImg = document.getElementById('school-logo-img'); // Nuevo: Obtener el elemento del logo de la escuela
 
                 if (user) {
                     // VALIDACIÓN ESTRICTA DE CORREO INSTITUCIONAL
                     if (!user.email.endsWith(DOMINIO_INSTITUCIONAL)) {
                         signOut(auth); // Cierra sesión inmediatamente si burló el primer filtro
+                        if (schoolLogoImg) schoolLogoImg.classList.add('hidden'); // Ocultar el logo de la escuela
                         return;
                     }
 
                     currentUser = user;
+                    // Nuevo: Mostrar el logo de la escuela en la esquina del calendario
+                    if (schoolLogoImg) schoolLogoImg.classList.remove('hidden');
+
                     if (btnToggleText) btnToggleText.textContent = "Mi Cuenta";
                     btnToggleMain.classList.add('btn-mi-cuenta');
 
@@ -540,6 +551,9 @@
                     
                 } else {
                     currentUser = null;
+                    // Nuevo: Ocultar el logo de la escuela
+                    if (schoolLogoImg) schoolLogoImg.classList.add('hidden');
+
                     if (btnToggleText) btnToggleText.textContent = "Acceder";
                     btnToggleMain.classList.remove('btn-mi-cuenta');
 

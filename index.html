@@ -12,162 +12,65 @@
         /* ==========================================================================
            PALETA DE COLORES Y VARIABLES GLOBALES
            ========================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 
         :root {
-            --bg-body: #f8fafc;          
-            --bg-card: #ffffff;
-            --bg-input: #f1f5f9;         
-            
-            --primary-dark: #0f172a;     
-            --primary: #334155;          
-            --accent: #2563eb;           
-            --accent-hover: #1d4ed8;
-            
-            --success: #059669;          
-            --danger: #dc2626;           
-            
-            --text-muted: #64748b;       
-            --text-light: #94a3b8;
-            
-            --border-soft: #e2e8f0;
-            --border-focus: #bfdbfe;     
+            --bg-body: #f8fafc; --bg-card: #ffffff; --bg-input: #f1f5f9;         
+            --primary-dark: #0f172a; --primary: #334155;          
+            --accent: #2563eb; --accent-hover: #1d4ed8;
+            --success: #059669; --danger: #dc2626;           
+            --text-muted: #64748b; --text-light: #94a3b8;
+            --border-soft: #e2e8f0; --border-focus: #bfdbfe;     
             --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --radius-lg: 16px;
-            --radius-md: 10px;
+            --radius-lg: 16px; --radius-md: 10px;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--primary);
-            line-height: 1.6;
-            padding-bottom: 80px;
-            overflow-x: hidden;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--primary); line-height: 1.6; padding-bottom: 80px; overflow-x: hidden; }
 
         /* ==========================================================================
-           ENCABEZADO INSTITUCIONAL
+           ENCABEZADO
            ========================================================================== */
-        .main-header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--border-soft);
-            padding: 16px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 900;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-
-        .header-container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .main-header { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-soft); padding: 16px 20px; position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .header-container { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .brand-section { display: flex; align-items: center; gap: 12px; }
         .logo-svg { width: 38px; height: 38px; }
         .brand-text { display: flex; flex-direction: column; }
         .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.5px; line-height: 1.2; }
         .subtitle { font-size: 12px; font-weight: 500; color: var(--text-muted); }
 
         .header-actions { display: flex; gap: 10px; }
-
-        .btn-entrar {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background-color: var(--bg-input);
-            color: var(--primary-dark);
-            border: 1px solid var(--border-soft);
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
+        .btn-entrar { display: flex; align-items: center; gap: 6px; background-color: var(--bg-input); color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; }
         .btn-entrar:hover { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
-        
-        .btn-calendar {
-            background-color: #eff6ff;
-            color: var(--accent);
-            border-color: #bfdbfe;
-        }
+        .btn-calendar { background-color: #eff6ff; color: var(--accent); border-color: #bfdbfe; }
         .btn-calendar:hover { background-color: var(--accent); color: white; border-color: var(--accent); }
 
-        .admin-float-tab {
-            position: fixed; right: 0; top: 50%; transform: translateY(-50%);
-            background-color: var(--primary-dark); color: white;
-            padding: 14px 10px; border-radius: 12px 0 0 12px;
-            cursor: pointer; z-index: 899; display: flex;
-            align-items: center; justify-content: center;
-            box-shadow: -2px 0 12px rgba(0,0,0,0.15); transition: all 0.2s ease;
-        }
+        .admin-float-tab { position: fixed; right: 0; top: 50%; transform: translateY(-50%); background-color: var(--primary-dark); color: white; padding: 14px 10px; border-radius: 12px 0 0 12px; cursor: pointer; z-index: 899; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 12px rgba(0,0,0,0.15); transition: all 0.2s ease; }
         .admin-float-tab:hover { padding-right: 16px; background-color: var(--accent); }
+        .hidden { display: none !important; }
 
         /* ==========================================================================
-           CONTENEDOR CENTRAL Y FORMULARIOS
+           FORMULARIOS Y CONTENEDOR CENTRAL
            ========================================================================== */
         .main-content { max-width: 800px; margin: 32px auto; padding: 0 16px; }
-
-        .form-section, .filters-section {
-            background-color: var(--bg-card); border: 1px solid var(--border-soft);
-            border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-card);
-        }
-
+        .form-section, .filters-section { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-card); }
         .section-title { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
 
         .form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 12px; }
         .form-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 12px; }
-
-        @media (min-width: 600px) {
-            .form-grid { grid-template-columns: 1fr 1fr; }
-            .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-        }
+        @media (min-width: 600px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
 
         .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .form-group label { font-size: 13px; font-weight: 600; color: var(--primary); }
 
-        input[type="text"], input[type="password"], select, textarea, .input-reply {
-            font-family: inherit; font-size: 14px; padding: 12px;
-            border: 1px solid var(--border-soft); border-radius: var(--radius-md);
-            background-color: var(--bg-input); color: var(--primary-dark);
-            outline: none; transition: all 0.2s ease; width: 100%;
-        }
-
-        input:focus, select:focus, textarea:focus, .input-reply:focus {
-            border-color: var(--accent); background-color: var(--bg-card); box-shadow: 0 0 0 3px var(--border-focus);
-        }
+        input[type="text"], select, textarea, .input-reply { font-family: inherit; font-size: 14px; padding: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-md); background-color: var(--bg-input); color: var(--primary-dark); outline: none; transition: all 0.2s ease; width: 100%; }
+        input:focus, select:focus, textarea:focus, .input-reply:focus { border-color: var(--accent); background-color: var(--bg-card); box-shadow: 0 0 0 3px var(--border-focus); }
 
         .select-wrapper { position: relative; }
-        .select-wrapper select {
-            appearance: none; cursor: pointer;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 10px auto; padding-right: 40px;
-        }
+        .select-wrapper select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 10px auto; padding-right: 40px; }
 
+        /* ROLES */
         .role-selector-container { display: flex; gap: 8px; flex-wrap: wrap; }
-        .role-chip-btn {
-            flex: 1; min-width: 90px; font-family: inherit; background-color: var(--bg-card);
-            color: var(--text-muted); border: 1px solid var(--border-soft); padding: 10px 12px;
-            font-size: 13px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;
-        }
-
+        .role-chip-btn { flex: 1; min-width: 90px; font-family: inherit; background-color: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-soft); padding: 10px 12px; font-size: 13px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; }
         .role-chip-btn[data-role="Docente"]:hover, .role-chip-btn[data-role="Docente"].active { background-color: #eff6ff; color: var(--accent); border-color: var(--accent); }
         .role-chip-btn[data-role="Docente"].active { font-weight: 700; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1); }
         .role-chip-btn[data-role="Apoderado"]:hover, .role-chip-btn[data-role="Apoderado"].active { background-color: #ecfdf5; color: var(--success); border-color: var(--success); }
@@ -175,15 +78,11 @@
         .role-chip-btn[data-role="Estudiante"]:hover, .role-chip-btn[data-role="Estudiante"].active { background-color: #fffbeb; color: #d97706; border-color: #f59e0b; }
         .role-chip-btn[data-role="Estudiante"].active { font-weight: 700; box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1); }
 
-        .btn-submit {
-            display: flex; align-items: center; justify-content: center; width: 100%;
-            background-color: var(--accent); color: white; border: none; padding: 14px;
-            font-size: 15px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; margin-top: 8px;
-        }
+        .btn-submit { display: flex; align-items: center; justify-content: center; width: 100%; background-color: var(--accent); color: white; border: none; padding: 14px; font-size: 15px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; margin-top: 8px; }
         .btn-submit:hover { background-color: var(--accent-hover); }
 
         /* ==========================================================================
-           BÚSQUEDA, FILTROS Y TARJETAS
+           TARJETAS Y MURO
            ========================================================================== */
         .search-box { position: relative; margin-bottom: 20px; }
         .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
@@ -231,20 +130,11 @@
         .btn-reply-delete { background: none; border: none; color: var(--danger); font-size: 12px; font-weight: 700; cursor: pointer; margin-left: 12px;}
 
         /* ==========================================================================
-           BARRA LATERAL DE ADMINISTRACIÓN
+           BARRA LATERAL Y GOOGLE AUTH
            ========================================================================== */
-        .admin-sidebar {
-            position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100%;
-            background-color: var(--bg-card); box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
-            z-index: 1001; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column;
-        }
+        .admin-sidebar { position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100%; background-color: var(--bg-card); box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1); z-index: 1001; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
         .admin-sidebar.open { right: 0; }
-
-        .overlay-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
-            z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease;
-        }
+        .overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .overlay-bg.show { opacity: 1; visibility: visible; }
 
         .sidebar-header { padding: 24px; border-bottom: 1px solid var(--border-soft); display: flex; justify-content: space-between; align-items: center; }
@@ -254,27 +144,18 @@
         .sidebar-content { padding: 24px; flex: 1; overflow-y: auto; }
         .sidebar-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;}
 
-        .admin-status-box { background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: var(--radius-md); color: #166534; font-size: 14px; margin-bottom: 24px; text-align: center; }
-        .btn-danger { background: #ef4444 !important; }
-        .hidden { display: none !important; }
+        .btn-google { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background-color: white; color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 14px; font-size: 15px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .btn-google:hover { background-color: #f8fafc; border-color: #cbd5e1; }
+        .btn-danger { background: #ef4444 !important; color: white;}
+        .admin-status-box { background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 16px; border-radius: var(--radius-md); color: #1e3a8a; font-size: 14px; margin-bottom: 24px; text-align: center; }
 
         /* ==========================================================================
-           NUEVO: CALENDARIO ESCOLAR (MODAL)
+           CALENDARIO ESCOLAR (MODAL)
            ========================================================================== */
-        .calendar-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95);
-            background: var(--bg-card); width: 95%; max-width: 900px; max-height: 90vh;
-            border-radius: var(--radius-lg); box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            z-index: 1005; opacity: 0; visibility: hidden; transition: all 0.3s ease;
-            display: flex; flex-direction: column; overflow: hidden;
-        }
+        .calendar-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: var(--bg-card); width: 95%; max-width: 900px; max-height: 90vh; border-radius: var(--radius-lg); box-shadow: 0 20px 40px rgba(0,0,0,0.3); z-index: 1005; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
         .calendar-modal.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
 
-        .calendar-header {
-            padding: 20px 24px; border-bottom: 1px solid var(--border-soft);
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--primary-dark); color: white;
-        }
+        .calendar-header { padding: 20px 24px; border-bottom: 1px solid var(--border-soft); display: flex; justify-content: space-between; align-items: center; background: var(--primary-dark); color: white; }
         .calendar-header h2 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px;}
         .calendar-close { background: none; border: none; font-size: 28px; color: white; cursor: pointer; transition: 0.2s;}
         .calendar-close:hover { color: #fca5a5; }
@@ -292,11 +173,7 @@
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
         .day-name { text-align: center; font-weight: 700; font-size: 12px; color: var(--text-muted); padding-bottom: 8px; }
         
-        .calendar-day {
-            aspect-ratio: 1; border: 1px solid var(--border-soft); border-radius: 8px;
-            padding: 8px; cursor: pointer; transition: 0.2s; position: relative;
-            display: flex; flex-direction: column; background: var(--bg-card);
-        }
+        .calendar-day { aspect-ratio: 1; border: 1px solid var(--border-soft); border-radius: 8px; padding: 8px; cursor: pointer; transition: 0.2s; position: relative; display: flex; flex-direction: column; background: var(--bg-card); }
         .calendar-day:hover { border-color: var(--accent); background: #f8fafc; }
         .calendar-day.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--border-focus); background: #eff6ff;}
         .calendar-day.holiday { background: #fef2f2; border-color: #fca5a5; }
@@ -327,7 +204,8 @@
 
         .add-event-box { background: white; padding: 16px; border-radius: 12px; border: 1px dashed var(--text-light); margin-top: 24px; }
         .add-event-box h4 { font-size: 14px; margin-bottom: 16px; color: var(--primary-dark); font-weight: 700; }
-        
+        .auth-warning { font-size: 12px; color: var(--danger); font-weight: 600; text-align: center; margin-top: 10px; }
+
         @media (max-width: 600px) {
             .form-section, .filters-section, .post-card { padding: 20px; }
             .brand-text h1 { font-size: 18px; }
@@ -358,67 +236,36 @@
                     <button id="cal-prev-btn">&larr; Ant</button>
                     <div class="select-wrapper">
                         <select id="cal-month-select">
-                            <option value="0">Enero 2026</option>
-                            <option value="1">Febrero 2026</option>
-                            <option value="2">Marzo 2026</option>
-                            <option value="3">Abril 2026</option>
-                            <option value="4">Mayo 2026</option>
-                            <option value="5">Junio 2026</option>
-                            <option value="6">Julio 2026</option>
-                            <option value="7">Agosto 2026</option>
-                            <option value="8">Septiembre 2026</option>
-                            <option value="9">Octubre 2026</option>
-                            <option value="10">Noviembre 2026</option>
-                            <option value="11">Diciembre 2026</option>
+                            <option value="0">Enero 2026</option><option value="1">Febrero 2026</option><option value="2">Marzo 2026</option>
+                            <option value="3">Abril 2026</option><option value="4">Mayo 2026</option><option value="5">Junio 2026</option>
+                            <option value="6">Julio 2026</option><option value="7">Agosto 2026</option><option value="8">Septiembre 2026</option>
+                            <option value="9">Octubre 2026</option><option value="10">Noviembre 2026</option><option value="11">Diciembre 2026</option>
                         </select>
                     </div>
                     <button id="cal-next-btn">Sig &rarr;</button>
                 </div>
-                <div class="calendar-grid" id="calendar-grid">
-                    </div>
+                <div class="calendar-grid" id="calendar-grid"></div>
             </div>
             
             <div class="calendar-sidebar">
                 <div id="day-events-panel" style="display: none;">
                     <div class="day-details-title" id="selected-day-title">Selecciona un día</div>
-                    
                     <div id="holiday-alert-container"></div>
-                    
-                    <div id="events-container">
-                        </div>
+                    <div id="events-container"></div>
 
-                    <div class="add-event-box">
-                        <h4>Asignar Actividad</h4>
+                    <div class="add-event-box" id="add-event-box">
+                        <h4>Agendar Actividad</h4>
                         <form id="add-event-form" style="display:flex; flex-direction:column; gap:10px;">
-                            <input type="text" id="event-title" placeholder="Ej. Prueba de Ciencias Naturales" required>
-                            
+                            <input type="text" id="event-title" placeholder="Ej. Prueba de Ciencias" required>
                             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                                <div class="select-wrapper">
-                                    <select id="event-type" required>
-                                        <option value="Tarea">Tarea</option>
-                                        <option value="Prueba">Prueba</option>
-                                        <option value="Presentación">Presentación</option>
-                                    </select>
-                                </div>
-                                <div class="select-wrapper">
-                                    <select id="event-course" required>
-                                        <option value="General">General</option>
-                                        <option value="1° Básico">1° Básico</option>
-                                        <option value="2° Básico">2° Básico</option>
-                                        <option value="3° Básico">3° Básico</option>
-                                        <option value="4° Básico">4° Básico</option>
-                                        <option value="5° Básico">5° Básico</option>
-                                        <option value="6° Básico">6° Básico</option>
-                                        <option value="7° Básico">7° Básico</option>
-                                        <option value="8° Básico">8° Básico</option>
-                                    </select>
-                                </div>
+                                <div class="select-wrapper"><select id="event-type" required><option value="Tarea">Tarea</option><option value="Prueba">Prueba</option><option value="Presentación">Presentación</option></select></div>
+                                <div class="select-wrapper"><select id="event-course" required><option value="General">General</option><option value="1° Básico">1° Básico</option><option value="2° Básico">2° Básico</option><option value="3° Básico">3° Básico</option><option value="4° Básico">4° Básico</option><option value="5° Básico">5° Básico</option><option value="6° Básico">6° Básico</option><option value="7° Básico">7° Básico</option><option value="8° Básico">8° Básico</option></select></div>
                             </div>
-                            
-                            <input type="text" id="event-author" placeholder="Tu Nombre (Ej. Prof. Silva)" required>
+                            <input type="text" id="event-author" placeholder="Tu Nombre" required readonly>
                             <button type="submit" class="btn-submit" style="padding: 10px; font-size:14px; margin-top:4px;">Guardar en Agenda</button>
                         </form>
                     </div>
+                    <p id="calendar-auth-warning" class="auth-warning">Inicia sesión como docente para agendar actividades.</p>
                 </div>
                 
                 <div id="empty-day-state" style="text-align:center; padding-top: 40px; color: var(--text-light);">
@@ -431,19 +278,31 @@
 
     <aside class="admin-sidebar" id="admin-sidebar">
         <div class="sidebar-header">
-            <h2>Acceso Administrativo</h2>
+            <h2>Acceso Docente</h2>
             <button class="sidebar-close" id="sidebar-close">&times;</button>
         </div>
+        
         <div class="sidebar-content" id="admin-login-view">
-            <p class="sidebar-desc">Ingrese sus credenciales de moderador para gestionar el foro institucional. (Usuario: <strong>admin</strong> / Clave: <strong>admin</strong>)</p>
-            <div class="form-group"><label>Usuario Institucional</label><input type="text" id="admin-user" placeholder="Ej. administrador"></div>
-            <div class="form-group"><label>Contraseña</label><input type="password" id="admin-pass" placeholder="••••••••"></div>
-            <button class="btn-submit" id="admin-login-btn">Iniciar Sesión</button>
+            <p class="sidebar-desc">Inicia sesión con tu correo institucional de Google para obtener permisos de moderación y agendar en el calendario escolar.</p>
+            
+            <button class="btn-google" id="btn-google-login">
+                <svg width="20" height="20" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                </svg>
+                Continuar con Google
+            </button>
         </div>
+
         <div class="sidebar-content hidden" id="admin-dashboard-view">
-            <div class="admin-status-box"><p><strong>✅ Modo Administrador Activo</strong></p></div>
-            <p class="sidebar-desc">Ahora tienes permisos para supervisar y eliminar publicaciones, comentarios o eventos fuera de lugar en la plataforma.</p>
-            <button class="btn-submit btn-danger" id="admin-logout-btn">Cerrar Sesión</button>
+            <div class="admin-status-box">
+                <p><strong>✅ Sesión Institucional Activa</strong></p>
+                <p id="logged-user-email" style="font-size: 12px; margin-top: 4px; color: var(--primary);"></p>
+            </div>
+            <p class="sidebar-desc">Tienes permisos para moderar el foro y agendar evaluaciones/tareas en el calendario de la institución.</p>
+            <button class="btn-submit btn-danger" id="btn-logout">Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -455,10 +314,7 @@
                     <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <div class="brand-text">
-                    <h1>Conecta Edu</h1>
-                    <span class="subtitle">Foro Académico Institucional</span>
-                </div>
+                <div class="brand-text"><h1>Conecta Edu</h1><span class="subtitle">Foro Académico Institucional</span></div>
             </div>
             <div class="header-actions">
                 <button id="calendar-toggle-btn" class="btn-entrar btn-calendar">
@@ -467,7 +323,7 @@
                 </button>
                 <button id="admin-toggle-btn" class="btn-entrar">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                    <span>Entrar</span>
+                    <span>Acceder</span>
                 </button>
             </div>
         </div>
@@ -475,13 +331,10 @@
 
     <main class="main-content">
         <section class="form-section">
-            <h2 class="section-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                Crear Nueva Publicación
-            </h2>
+            <h2 class="section-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Crear Nueva Publicación</h2>
             <form id="qa-form">
                 <div class="form-grid">
-                    <div class="form-group"><label for="author">Nombre</label><input type="text" id="author" placeholder="Ej. Prof. Alejandro Silva" required></div>
+                    <div class="form-group"><label for="author">Tu Nombre</label><input type="text" id="author" placeholder="Ej. Prof. Alejandro Silva" required></div>
                     <div class="form-group"><label>Rol Institucional</label>
                         <div class="role-selector-container">
                             <button type="button" class="role-chip-btn" data-role="Docente">Docente</button>
@@ -491,11 +344,13 @@
                         <input type="hidden" id="author-role" required>
                     </div>
                 </div>
+
                 <div class="form-grid-3">
                     <div class="form-group"><label for="category">Tipo</label><div class="select-wrapper"><select id="category" required><option value="Consulta">❓ Consulta</option><option value="Comunicado">📢 Comunicado</option></select></div></div>
-                    <div class="form-group"><label for="course">Curso Destino</label><div class="select-wrapper"><select id="course" required><option value="General">🏫 Institucional</option><option value="1° Básico">🎒 1° Básico</option><option value="2° Básico">🎒 2° Básico</option><option value="3° Básico">🎒 3° Básico</option><option value="4° Básico">🎒 4° Básico</option></select></div></div>
-                    <div class="form-group"><label for="subject">Asignatura</label><div class="select-wrapper"><select id="subject" required><option value="General">General / Orientación</option><option value="Lenguaje">📚 Lenguaje</option><option value="Matemática">🧮 Matemática</option><option value="Ciencias">🧪 Ciencias</option><option value="Historia">🌍 Historia</option></select></div></div>
+                    <div class="form-group"><label for="course">Curso Destino</label><div class="select-wrapper"><select id="course" required><option value="General">🏫 Toda la Institución</option><option value="1° Básico">🎒 1° Básico</option><option value="2° Básico">🎒 2° Básico</option><option value="3° Básico">🎒 3° Básico</option><option value="4° Básico">🎒 4° Básico</option><option value="5° Básico">🎒 5° Básico</option><option value="6° Básico">🎒 6° Básico</option><option value="7° Básico">🎒 7° Básico</option><option value="8° Básico">🎒 8° Básico</option></select></div></div>
+                    <div class="form-group"><label for="subject">Asignatura</label><div class="select-wrapper"><select id="subject" required><option value="General">General / Orientación</option><option value="Lenguaje y Comunicación">📚 Lenguaje</option><option value="Matemática">🧮 Matemática</option><option value="Ciencias Naturales">🧪 Ciencias</option><option value="Historia">🌍 Historia</option><option value="Inglés">🇬🇧 Inglés</option></select></div></div>
                 </div>
+
                 <div class="form-group"><label for="title">Asunto / Título</label><input type="text" id="title" placeholder="Ej. Citación a reunión / Duda sobre temario" required></div>
                 <div class="form-group"><label for="message">Detalle del Mensaje</label><textarea id="message" rows="4" placeholder="Escribe el contenido de tu publicación aquí..." required></textarea></div>
                 <button type="submit" class="btn-submit" id="submit-btn">Publicar en el Foro</button>
@@ -513,6 +368,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4",
@@ -525,32 +381,26 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        
         const forumDocRef = doc(db, "forum_data", "posts_collection");
 
-        // ESTADOS GLOBALES
         let posts = [];
+        let calendarEvents = {}; 
         let currentFilter = 'Todos';
         let searchQuery = '';
-        let isAdminMode = false;
+        let currentUser = null; // Guardará la sesión activa
 
-        // ESTADOS CALENDARIO 2026
-        let calendarEvents = {}; 
-        let calMonth = 2; // Inicia en Marzo (0-index)
+        // Variables de Calendario
+        let calMonth = 2; // Inicia en Marzo 2026
         const calYear = 2026;
         let selectedDateKey = null;
-
-        const holidays2026 = {
-            "2026-1-1": "Año Nuevo", "2026-4-3": "Viernes Santo", "2026-4-4": "Sábado Santo",
-            "2026-5-1": "Día del Trabajador", "2026-5-21": "Día de las Glorias Navales",
-            "2026-6-21": "Día Nac. Pueblos Indígenas", "2026-6-29": "San Pedro y San Pablo",
-            "2026-7-16": "Virgen del Carmen", "2026-8-15": "Asunción de la Virgen",
-            "2026-9-18": "Independencia Nacional", "2026-9-19": "Día de las Glorias del Ejército",
-            "2026-10-12": "Encuentro de Dos Mundos", "2026-10-31": "Iglesias Evangélicas",
-            "2026-11-1": "Día de Todos los Santos", "2026-12-8": "Inmaculada Concepción", "2026-12-25": "Navidad"
-        };
+        const holidays2026 = { "2026-1-1": "Año Nuevo", "2026-4-3": "Viernes Santo", "2026-4-4": "Sábado Santo", "2026-5-1": "Día del Trabajador", "2026-5-21": "Glorias Navales", "2026-6-21": "Pueblos Indígenas", "2026-6-29": "San Pedro y San Pablo", "2026-7-16": "Virgen del Carmen", "2026-8-15": "Asunción de la Virgen", "2026-9-18": "Independencia Nacional", "2026-9-19": "Glorias del Ejército", "2026-10-12": "Encuentro Dos Mundos", "2026-10-31": "Iglesias Evangélicas", "2026-11-1": "Todos los Santos", "2026-12-8": "Inmaculada Concepción", "2026-12-25": "Navidad" };
         const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
         function init() {
+            // Sincronización DB
             onSnapshot(forumDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -558,13 +408,45 @@
                     calendarEvents = data.events || {};
                 }
                 renderPosts();
-                
-                // Actualiza el calendario visualmente si está abierto
                 if (document.getElementById('calendar-modal').classList.contains('show')) {
                     renderCalendarGrid();
                     if (selectedDateKey) renderDayDetails(selectedDateKey);
                 }
             });
+
+            // Estado de Google Auth
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    document.getElementById('admin-login-view').classList.add('hidden');
+                    document.getElementById('admin-dashboard-view').classList.remove('hidden');
+                    document.getElementById('logged-user-email').textContent = user.email;
+                    
+                    // Si el panel no está abierto, mostramos la flecha lateral
+                    if(!document.getElementById('admin-sidebar').classList.contains('open')) {
+                        document.getElementById('admin-float-tab').classList.remove('hidden');
+                    }
+                    
+                    // Rellenar formulario principal si el docente quiere publicar
+                    document.getElementById('author').value = user.displayName;
+                    document.getElementById('author-role').value = 'Docente';
+                    document.querySelectorAll('.role-chip-btn').forEach(c => {
+                        c.classList.remove('active');
+                        if(c.getAttribute('data-role') === 'Docente') c.classList.add('active');
+                    });
+                    
+                } else {
+                    currentUser = null;
+                    document.getElementById('admin-login-view').classList.remove('hidden');
+                    document.getElementById('admin-dashboard-view').classList.add('hidden');
+                    document.getElementById('admin-float-tab').classList.add('hidden');
+                }
+                
+                // Refrescar vistas que dependen de permisos (Botones de borrar, formulario de calendario)
+                renderPosts();
+                if (selectedDateKey) renderDayDetails(selectedDateKey);
+            });
+
             setupEventListeners();
         }
 
@@ -572,41 +454,22 @@
             setDoc(forumDocRef, { posts: posts, events: calendarEvents }).catch(e => console.error("Error guardando:", e));
         }
 
-        // --- LÓGICA DE EVENTOS (FORO) ---
         function setupEventListeners() {
-            // Formularios Foro
-            document.getElementById('qa-form').addEventListener('submit', handleCreatePost);
-            document.getElementById('search-input').addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase().trim(); renderPosts(); });
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.getAttribute('data-filter'); renderPosts();
-                });
-            });
-            document.querySelectorAll('.role-chip-btn').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    document.getElementById('author-role').value = chip.getAttribute('data-role');
-                });
-            });
-
-            // UI Admin
+            // UI Admin Sidebar
             document.getElementById('admin-toggle-btn').addEventListener('click', () => openAdmin(true));
             document.getElementById('admin-float-tab').addEventListener('click', () => openAdmin(true));
             document.getElementById('sidebar-close').addEventListener('click', () => openAdmin(false));
             document.getElementById('sidebar-overlay').addEventListener('click', () => openAdmin(false));
-            
-            document.getElementById('admin-login-btn').addEventListener('click', () => {
-                if (document.getElementById('admin-user').value === 'admin' && document.getElementById('admin-pass').value === 'admin') {
-                    isAdminMode = true; document.getElementById('admin-login-view').classList.add('hidden'); document.getElementById('admin-dashboard-view').classList.remove('hidden');
-                    renderPosts(); openAdmin(false);
-                } else alert('Credenciales incorrectas.');
+
+            // Google Auth Buttons
+            document.getElementById('btn-google-login').addEventListener('click', () => {
+                signInWithPopup(auth, provider).then(() => openAdmin(false)).catch(err => console.error("Login Error:", err));
             });
-            document.getElementById('admin-logout-btn').addEventListener('click', () => {
-                isAdminMode = false; document.getElementById('admin-login-view').classList.remove('hidden'); document.getElementById('admin-dashboard-view').classList.add('hidden');
-                renderPosts(); openAdmin(false);
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    openAdmin(false);
+                    document.getElementById('author').value = "";
+                });
             });
 
             // UI Calendario Escolar
@@ -622,37 +485,58 @@
             document.getElementById('cal-prev-btn').addEventListener('click', () => { if(calMonth > 0) { calMonth--; document.getElementById('cal-month-select').value = calMonth; renderCalendarGrid(); }});
             document.getElementById('cal-next-btn').addEventListener('click', () => { if(calMonth < 11) { calMonth++; document.getElementById('cal-month-select').value = calMonth; renderCalendarGrid(); }});
             document.getElementById('cal-month-select').addEventListener('change', (e) => { calMonth = parseInt(e.target.value); renderCalendarGrid(); });
-
             document.getElementById('add-event-form').addEventListener('submit', handleCreateCalendarEvent);
+
+            // UI Formulario Principal
+            document.getElementById('qa-form').addEventListener('submit', handleCreatePost);
+            document.querySelectorAll('.role-chip-btn').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    document.getElementById('author-role').value = chip.getAttribute('data-role');
+                });
+            });
+
+            // Buscador y filtros
+            document.getElementById('search-input').addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase().trim(); renderPosts(); });
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter'); renderPosts();
+                });
+            });
         }
 
         function openAdmin(state) {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const floater = document.getElementById('admin-float-tab');
+            
             if(state) {
-                document.getElementById('admin-sidebar').classList.add('open');
-                document.getElementById('sidebar-overlay').classList.add('show');
-                document.getElementById('admin-float-tab').classList.add('hidden');
+                sidebar.classList.add('open');
+                overlay.classList.add('show');
+                floater.classList.add('hidden');
             } else {
-                document.getElementById('admin-sidebar').classList.remove('open');
-                document.getElementById('sidebar-overlay').classList.remove('show');
-                if (isAdminMode) document.getElementById('admin-float-tab').classList.remove('hidden');
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+                if (currentUser) floater.classList.remove('hidden');
             }
         }
+        
         function closeCalendar() {
             document.getElementById('calendar-modal').classList.remove('show');
             document.getElementById('calendar-overlay-bg').classList.remove('show');
         }
 
-        // --- LÓGICA DE CALENDARIO 2026 ---
+        // --- CALENDARIO ESCOLAR LÓGICA ---
         function renderCalendarGrid() {
             const grid = document.getElementById('calendar-grid');
             grid.innerHTML = '';
-
-            const daysWeek = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-            daysWeek.forEach(d => {
+            ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].forEach(d => {
                 const div = document.createElement('div'); div.className = 'day-name'; div.textContent = d; grid.appendChild(div);
             });
 
-            // Ajuste Lunes = 0
             const firstDay = new Date(calYear, calMonth, 1).getDay();
             const emptyDays = firstDay === 0 ? 6 : firstDay - 1;
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -678,18 +562,15 @@
 
                 div.innerHTML = `<div class="day-number">${day}</div>${holiday ? `<div class="holiday-name">${holiday}</div>` : ''}${eventsHtml}`;
                 div.onclick = () => { selectedDateKey = dateKey; renderCalendarGrid(); renderDayDetails(dateKey, day, holiday); };
-                
                 grid.appendChild(div);
             }
         }
 
         function renderDayDetails(dateKey, dayNum, holidayStr) {
-            // Si viene nulo el dayNum (por actualización firebase), lo recalculamos
             if(!dayNum) { dayNum = dateKey.split('-')[2]; holidayStr = holidays2026[dateKey]; }
 
             document.getElementById('empty-day-state').style.display = 'none';
             document.getElementById('day-events-panel').style.display = 'block';
-            
             document.getElementById('selected-day-title').textContent = `${dayNum} de ${monthNames[calMonth]} 2026`;
             
             const alertCont = document.getElementById('holiday-alert-container');
@@ -699,23 +580,37 @@
             const dayEvents = calendarEvents[dateKey] || [];
 
             if (dayEvents.length === 0) {
-                container.innerHTML = '<p style="font-size:13px; color:var(--text-light); text-align:center; padding:10px 0;">No hay evaluaciones ni tareas programadas para este día.</p>';
+                container.innerHTML = '<p style="font-size:13px; color:var(--text-light); text-align:center; padding:10px 0;">No hay evaluaciones ni tareas programadas.</p>';
             } else {
                 container.innerHTML = dayEvents.map(e => `
                     <div class="event-card-cal">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                             <span class="event-type-badge ${e.type.toLowerCase()}">${e.type}</span>
-                            ${isAdminMode ? `<button class="btn-reply-delete" onclick="removeEvent('${dateKey}', '${e.id}')">X Borrar</button>` : ''}
+                            ${currentUser ? `<button class="btn-reply-delete" onclick="removeEvent('${dateKey}', '${e.id}')">X Borrar</button>` : ''}
                         </div>
                         <div class="event-title-cal">${escapeHTML(e.title)}</div>
                         <div class="event-author-cal">📍 ${escapeHTML(e.course)} • 👤 ${escapeHTML(e.author)}</div>
                     </div>
                 `).join('');
             }
+
+            // Ocultar formulario si no está logueado
+            const addBox = document.getElementById('add-event-box');
+            const authWarn = document.getElementById('calendar-auth-warning');
+            
+            if (currentUser) {
+                addBox.style.display = 'block';
+                authWarn.style.display = 'none';
+                document.getElementById('event-author').value = currentUser.displayName || "Docente";
+            } else {
+                addBox.style.display = 'none';
+                authWarn.style.display = 'block';
+            }
         }
 
         function handleCreateCalendarEvent(e) {
             e.preventDefault();
+            if (!currentUser) return alert("Debes iniciar sesión con Google para agendar.");
             if (!selectedDateKey) return alert("Selecciona un día en el calendario primero.");
 
             const newEvt = {
@@ -723,36 +618,34 @@
                 title: document.getElementById('event-title').value.trim(),
                 type: document.getElementById('event-type').value,
                 course: document.getElementById('event-course').value,
-                author: document.getElementById('event-author').value.trim()
+                author: currentUser.displayName || document.getElementById('event-author').value.trim()
             };
 
             if (!calendarEvents[selectedDateKey]) calendarEvents[selectedDateKey] = [];
             calendarEvents[selectedDateKey].push(newEvt);
 
             saveToStorage();
-            document.getElementById('add-event-form').reset();
-            
-            // Re-render local para inmediatez visual
-            renderCalendarGrid();
-            renderDayDetails(selectedDateKey);
+            document.getElementById('event-title').value = '';
         }
 
         window.removeEvent = function(dateKey, evtId) {
+            if(!currentUser) return;
             if(confirm("¿Eliminar evento del calendario?")) {
                 calendarEvents[dateKey] = calendarEvents[dateKey].filter(e => e.id !== evtId);
                 saveToStorage();
             }
         };
 
-        // --- LÓGICA DE PUBLICACIONES (FORO) ---
+        // --- FORO LÓGICA PRINCIPAL ---
         function handleCreatePost(e) {
             e.preventDefault();
-            if (!document.getElementById('author-role').value) return alert('Selecciona tu Rol (Docente, Apoderado o Estudiante).');
+            const role = document.getElementById('author-role').value;
+            if (!role) return alert('Selecciona tu Rol (Docente, Apoderado o Estudiante).');
 
             const newPost = {
                 id: 'post_' + Date.now(),
                 author: document.getElementById('author').value.trim(),
-                role: document.getElementById('author-role').value,
+                role: role,
                 category: document.getElementById('category').value,
                 course: document.getElementById('course').value,
                 subject: document.getElementById('subject').value,
@@ -763,13 +656,18 @@
             };
 
             posts.unshift(newPost); saveToStorage();
-            document.getElementById('qa-form').reset();
-            document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active'));
-            document.getElementById('author-role').value = '';
+            
+            document.getElementById('title').value = '';
+            document.getElementById('message').value = '';
+            if(!currentUser) {
+                document.getElementById('author').value = '';
+                document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active'));
+                document.getElementById('author-role').value = '';
+            }
         }
 
-        window.removePost = function(id) { if (confirm('¿Eliminar publicación permanentemente?')) { posts = posts.filter(p => p.id !== id); saveToStorage(); } };
-        window.removeReply = function(postId, replyId) { if (confirm('¿Borrar comentario?')) { const p = posts.find(x => x.id === postId); if (p) { p.replies = p.replies.filter(r => r.id !== replyId); saveToStorage(); } } };
+        window.removePost = function(id) { if (currentUser && confirm('¿Eliminar publicación permanentemente?')) { posts = posts.filter(p => p.id !== id); saveToStorage(); } };
+        window.removeReply = function(postId, replyId) { if (currentUser && confirm('¿Borrar comentario?')) { const p = posts.find(x => x.id === postId); if (p) { p.replies = p.replies.filter(r => r.id !== replyId); saveToStorage(); } } };
 
         window.handleCreateReply = function(e, postId) {
             e.preventDefault(); const form = e.target; const p = posts.find(x => x.id === postId);
@@ -797,7 +695,7 @@
                 
                 const repHtml = post.replies.map(r => `
                     <div class="reply-item">
-                        <div class="reply-meta"><span class="reply-user">${escapeHTML(r.author)}</span><div><span class="reply-date">${r.date}</span> ${isAdminMode ? `<button class="btn-reply-delete" onclick="removeReply('${post.id}', '${r.id}')">Borrar</button>` : ''}</div></div>
+                        <div class="reply-meta"><span class="reply-user">${escapeHTML(r.author)}</span><div><span class="reply-date">${r.date}</span> ${currentUser ? `<button class="btn-reply-delete" onclick="removeReply('${post.id}', '${r.id}')">Borrar</button>` : ''}</div></div>
                         <p class="reply-body">${escapeHTML(r.message)}</p>
                     </div>
                 `).join('');
@@ -806,10 +704,10 @@
                 card.innerHTML = `
                     <div class="post-header"><div class="badge-wrapper"><span class="badge ${post.category === 'Comunicado' ? 'comunicado' : 'consulta'}">${post.category}</span><span class="badge ${rClass}">${escapeHTML(post.role || 'Docente')}</span>${courseLbl}${subjLbl}</div></div>
                     <h3 class="post-title">${escapeHTML(post.title)}</h3><p class="post-body">${escapeHTML(post.message)}</p>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${isAdminMode ? `<button class="btn-moderator-delete" onclick="removePost('${post.id}')">Eliminar Muro</button>` : ''}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${currentUser ? `<button class="btn-moderator-delete" onclick="removePost('${post.id}')">Eliminar Muro</button>` : ''}</div>
                     <div class="replies-container">
                         ${post.replies.length > 0 ? `<div class="replies-title">Respuestas (${post.replies.length})</div>` : ''}<div class="replies-list">${repHtml}</div>
-                        <form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form>
+                        <form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" ${currentUser ? `value="${escapeHTML(currentUser.displayName || '')}"` : ''} required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form>
                     </div>`;
                 container.appendChild(card);
             });

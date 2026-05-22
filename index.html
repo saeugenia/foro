@@ -10,12 +10,7 @@
         tailwind.config = {
             theme: {
                 extend: { 
-                    colors: { 
-                        primary: '#0f172a', 
-                        accent: '#4f46e5', 
-                        success: '#10b981',
-                        danger: '#ef4444'
-                    } 
+                    colors: { primary: '#0f172a', accent: '#4f46e5', success: '#10b981', danger: '#ef4444' } 
                 }
             }
         }
@@ -29,17 +24,15 @@
     
     <style> 
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; } 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="text-slate-800 pb-12">
 
     <header class="bg-white/90 backdrop-blur-md border-b sticky top-0 z-40 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="bg-accent text-white p-2 rounded-lg">
                     <i class="fa-solid fa-graduation-cap text-xl"></i>
@@ -51,7 +44,7 @@
             </div>
             <div>
                 <button id="btn-login" class="bg-white border hover:bg-slate-50 text-primary font-semibold py-2 px-5 rounded-full text-sm transition-all shadow-sm flex items-center gap-2">
-                    <i class="fa-brands fa-google text-red-500"></i> <span id="login-text">Entrar</span>
+                    <i class="fa-brands fa-google text-red-500"></i> Entrar
                 </button>
             </div>
         </div>
@@ -80,11 +73,11 @@
 
             <h2 class="text-lg font-bold text-primary mb-4 flex items-center gap-2"><i class="fa-solid fa-pen-to-square text-accent"></i> Crear Publicación</h2>
             <form id="post-form" class="space-y-4 relative z-0">
-                <input type="text" id="post-title" placeholder="Título de la publicación..." class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent outline-none transition-shadow bg-slate-50" required>
-                <textarea id="post-body" rows="3" placeholder="¿Qué deseas compartir con la comunidad?" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent outline-none transition-shadow bg-slate-50" required></textarea>
+                <input type="text" id="post-title" placeholder="Título de la publicación..." class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent outline-none bg-slate-50" required>
+                <textarea id="post-body" rows="3" placeholder="¿Qué deseas compartir con la comunidad?" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent outline-none bg-slate-50" required></textarea>
                 
                 <div class="p-4 border border-dashed border-slate-300 rounded-xl bg-slate-50">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2"><i class="fa-solid fa-paperclip text-slate-400"></i> Adjuntar Archivo (PDF, DOC, JPG...)</label>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2"><i class="fa-solid fa-paperclip text-slate-400"></i> Adjuntar Archivo (PDF, DOC, JPG, PNG)</label>
                     <input type="file" id="post-file" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-accent hover:file:bg-indigo-100 cursor-pointer">
                 </div>
 
@@ -97,10 +90,7 @@
         </section>
 
         <section>
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fa-regular fa-comments text-accent"></i> Muro Institucional</h2>
-            </div>
-            
+            <h2 class="text-xl font-bold text-primary flex items-center gap-2 mb-6"><i class="fa-regular fa-comments text-accent"></i> Muro Institucional</h2>
             <div id="posts-container" class="space-y-5">
                 <div class="text-center py-10 text-slate-500">
                     <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
@@ -111,13 +101,10 @@
     </main>
 
     <div id="modal-onboarding" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full animate-[fadeIn_0.3s_ease-out]">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-indigo-100 text-accent rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
-                    <i class="fa-solid fa-user-check"></i>
-                </div>
                 <h2 class="text-2xl font-bold text-primary">Completa tu Perfil</h2>
-                <p class="text-sm text-slate-500">Para continuar usando tu cuenta de Gmail, dinos quién eres.</p>
+                <p class="text-sm text-slate-500">Para continuar usando tu cuenta de Gmail, completa estos datos.</p>
             </div>
             
             <form id="onboarding-form" class="space-y-4">
@@ -133,35 +120,25 @@
                 <div id="extra-fields" class="hidden space-y-4">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">Tu Nombre Completo</label>
-                        <input type="text" id="user-name" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none" placeholder="Ej. Juan Pérez">
+                        <input type="text" id="user-name" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Tu Edad</label>
+                        <input type="number" id="user-age" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50" required>
                     </div>
                     
                     <div id="student-name-group" class="hidden">
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Nombre del Estudiante <span class="text-xs font-normal text-slate-500">(Al que representas)</span></label>
-                        <input type="text" id="student-name" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none" placeholder="Ej. Pedro Pérez">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Nombre del Estudiante</label>
+                        <input type="text" id="student-name" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50">
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1" id="course-label">Curso</label>
-                        <select id="user-course" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none">
-                            <option value="">Selecciona el curso...</option>
-                            <option value="1° Básico">1° Básico</option>
-                            <option value="2° Básico">2° Básico</option>
-                            <option value="3° Básico">3° Básico</option>
-                            <option value="4° Básico">4° Básico</option>
-                            <option value="5° Básico">5° Básico</option>
-                            <option value="6° Básico">6° Básico</option>
-                            <option value="7° Básico">7° Básico</option>
-                            <option value="8° Básico">8° Básico</option>
-                            <option value="1° Medio">1° Medio</option>
-                            <option value="2° Medio">2° Medio</option>
-                            <option value="3° Medio">3° Medio</option>
-                            <option value="4° Medio">4° Medio</option>
-                        </select>
+                        <input type="text" id="user-course" placeholder="Ej: 1° Básico" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50" required>
                     </div>
                 </div>
 
-                <button type="submit" id="btn-submit-onboarding" class="w-full bg-success hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition-colors mt-6 shadow-md hidden">
+                <button type="submit" id="btn-submit-onboarding" class="w-full bg-success hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition-colors mt-6 hidden">
                     Guardar y Entrar
                 </button>
             </form>
@@ -173,301 +150,248 @@
             <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa-solid fa-pen text-accent"></i> Editar Publicación</h2>
             <form id="edit-form" class="space-y-4">
                 <input type="hidden" id="edit-post-id">
-                <input type="text" id="edit-post-title" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-accent" required>
-                <textarea id="edit-post-body" rows="4" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-accent" required></textarea>
+                <input type="text" id="edit-post-title" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50" required>
+                <textarea id="edit-post-body" rows="4" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50" required></textarea>
                 <div class="flex justify-end gap-2 mt-4">
                     <button type="button" id="btn-cancel-edit" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-xl font-semibold transition">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-accent text-white rounded-xl font-bold hover:bg-indigo-700 transition shadow-md">Guardar Cambios</button>
+                    <button type="submit" class="px-4 py-2 bg-accent text-white rounded-xl font-bold hover:bg-indigo-700 transition">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script type="module">
-        // ⚠️ INSERTA TU CONFIGURACIÓN REAL AQUÍ
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
+        // TU CONFIGURACIÓN EXACTA
         const firebaseConfig = {
-            apiKey: "TU_API_KEY",
-            authDomain: "tu-proyecto.firebaseapp.com",
-            projectId: "tu-proyecto",
-            storageBucket: "tu-proyecto.appspot.com",
-            messagingSenderId: "TUS_DATOS",
-            appId: "TUS_DATOS"
+            apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4",
+            authDomain: "foro-conectaedu.firebaseapp.com",
+            projectId: "foro-conectaedu",
+            storageBucket: "foro-conectaedu.firebasestorage.app",
+            messagingSenderId: "183234856524",
+            appId: "1:183234856524:web:9cef8e98008740431196e9",
+            measurementId: "G-VWS4D8DM7B"
         };
 
-        // --- MODO FALLBACK (Para ver visualmente si no has puesto tus APIs) ---
-        let app, db, auth, storage, provider;
-        try {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-            storage = getStorage(app);
-            provider = new GoogleAuthProvider();
-        } catch(e) {
-            console.warn("⚠️ Firebase no configurado aún. Se activará el Modo de Prueba Local.");
-        }
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+        const provider = new GoogleAuthProvider();
 
-        // --- ESTADO GLOBAL ---
         let currentUser = null;
-        let userData = null; // Guardará el rol, nombre y curso de Firestore
-        let mockPosts = []; // Se usa como fallback si no hay Base de datos
+        let userData = null;
+        let postsArray = [];
 
-        // DOM Elements Principales
+        // DOM
         const btnLogin = document.getElementById('btn-login');
         const btnLogout = document.getElementById('btn-logout');
         const userPanel = document.getElementById('user-panel');
         const formOverlay = document.getElementById('form-overlay');
-        const postForm = document.getElementById('post-form');
         const postsContainer = document.getElementById('posts-container');
-        
-        // Elementos del Modal Onboarding
+        const postForm = document.getElementById('post-form');
         const modalOnboarding = document.getElementById('modal-onboarding');
-        const userTypeSelect = document.getElementById('user-type');
-        const extraFields = document.getElementById('extra-fields');
-        const studentNameGroup = document.getElementById('student-name-group');
-        const courseLabel = document.getElementById('course-label');
-        const onboardingForm = document.getElementById('onboarding-form');
 
-        /* ================= AUTENTICACIÓN ================= */
-        const login = async () => {
-            if(auth) {
-                try { await signInWithPopup(auth, provider); } 
-                catch (error) { Swal.fire('Error', error.message, 'error'); }
-            } else {
-                // Simulación en modo de prueba
-                handleUserAuth({ uid: 'user123', email: 'papa@gmail.com', displayName: 'Prueba', photoURL: '' });
-            }
-        };
+        // Autenticación
+        btnLogin.addEventListener('click', async () => {
+            try { await signInWithPopup(auth, provider); } 
+            catch (error) { Swal.fire('Error', error.message, 'error'); }
+        });
 
-        const logout = async () => {
-            if(auth) await signOut(auth);
-            else { currentUser = null; userData = null; renderUI(); renderPosts(); }
-        };
+        btnLogout.addEventListener('click', () => signOut(auth));
 
-        btnLogin.addEventListener('click', login);
-        btnLogout.addEventListener('click', logout);
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const email = user.email;
 
-        if(auth) {
-            onAuthStateChanged(auth, async (user) => {
-                if (user) handleUserAuth(user);
-                else { currentUser = null; userData = null; renderUI(); renderPosts(); }
-            });
-        }
-
-        async function handleUserAuth(user) {
-            currentUser = user;
-            const email = user.email;
-
-            // REGLA 1: Dominio de Funcionario
-            if (email.endsWith('@slepcolchagua.cl')) {
-                userData = { rol: 'Funcionario', nombre: user.displayName, email: email };
-                if(db) await setDoc(doc(db, "users", user.uid), userData, { merge: true });
-                renderUI();
-                renderPosts();
-            } 
-            // REGLA 2: Dominio Apoderado/Estudiante
-            else if (email.endsWith('@gmail.com')) {
-                if(db) {
+                // FUNCIONARIO (Admin)
+                if (email.endsWith('@slepcolchagua.cl')) {
+                    userData = { rol: 'Funcionario', nombre: user.displayName, email };
+                    await setDoc(doc(db, "users", user.uid), userData, { merge: true });
+                    renderUI();
+                } 
+                // APODERADO / ESTUDIANTE
+                else if (email.endsWith('@gmail.com')) {
                     const docSnap = await getDoc(doc(db, "users", user.uid));
                     if (docSnap.exists()) {
-                        userData = docSnap.data(); // Ya había completado el onboarding
-                        renderUI(); renderPosts();
+                        userData = docSnap.data();
+                        renderUI();
                     } else {
-                        modalOnboarding.classList.remove('hidden'); // Debe elegir quién es
+                        modalOnboarding.classList.remove('hidden');
                     }
-                } else {
-                    modalOnboarding.classList.remove('hidden'); // Modo Prueba
+                } 
+                else {
+                    signOut(auth);
+                    Swal.fire('Acceso Denegado', 'Solo correos institucionales o @gmail.com', 'error');
                 }
-            } 
-            else {
-                logout();
-                Swal.fire('Acceso Denegado', 'Debes usar un correo @slepcolchagua.cl o de @gmail.com', 'error');
-            }
-        }
-
-        /* ================= ONBOARDING DINÁMICO ================= */
-        userTypeSelect.addEventListener('change', (e) => {
-            const val = e.target.value;
-            if (val === '') {
-                extraFields.classList.add('hidden');
-                document.getElementById('btn-submit-onboarding').classList.add('hidden');
             } else {
-                extraFields.classList.remove('hidden');
-                document.getElementById('btn-submit-onboarding').classList.remove('hidden');
-                
-                // Muestra u oculta input del hijo dependiendo de si es Apoderado o no.
-                if (val === 'Apoderado') {
-                    studentNameGroup.classList.remove('hidden');
-                    document.getElementById('student-name').required = true;
-                    courseLabel.innerText = "Curso del Estudiante";
-                } else if (val === 'Estudiante') {
-                    studentNameGroup.classList.add('hidden');
-                    document.getElementById('student-name').required = false;
-                    courseLabel.innerText = "Tu Curso";
-                }
+                currentUser = null;
+                userData = null;
+                renderUI();
             }
         });
 
-        onboardingForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const rol = userTypeSelect.value;
-            const nombre = document.getElementById('user-name').value;
-            const curso = document.getElementById('user-course').value;
-            const estudiante = rol === 'Apoderado' ? document.getElementById('student-name').value : '';
+        // Lógica Onboarding
+        document.getElementById('user-type').addEventListener('change', (e) => {
+            const extraFields = document.getElementById('extra-fields');
+            const studentGroup = document.getElementById('student-name-group');
+            const btnSubmit = document.getElementById('btn-submit-onboarding');
+            
+            if (!e.target.value) {
+                extraFields.classList.add('hidden'); btnSubmit.classList.add('hidden'); return;
+            }
+            
+            extraFields.classList.remove('hidden');
+            btnSubmit.classList.remove('hidden');
 
-            userData = { rol, nombre, curso, estudiante, email: currentUser.email };
-
-            if(db) await setDoc(doc(db, "users", currentUser.uid), userData);
-
-            modalOnboarding.classList.add('hidden');
-            Swal.fire('¡Perfil completado!', 'Bienvenido a la plataforma.', 'success');
-            renderUI(); renderPosts();
+            if (e.target.value === 'Apoderado') {
+                studentGroup.classList.remove('hidden');
+                document.getElementById('student-name').required = true;
+                document.getElementById('course-label').innerText = 'Curso del Estudiante';
+            } else {
+                studentGroup.classList.add('hidden');
+                document.getElementById('student-name').required = false;
+                document.getElementById('course-label').innerText = 'Tu Curso';
+            }
         });
 
-        /* ================= INTERFAZ DINÁMICA ================= */
+        document.getElementById('onboarding-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const rol = document.getElementById('user-type').value;
+            userData = {
+                rol,
+                nombre: document.getElementById('user-name').value,
+                edad: document.getElementById('user-age').value,
+                curso: document.getElementById('user-course').value,
+                estudiante: rol === 'Apoderado' ? document.getElementById('student-name').value : '',
+                email: currentUser.email
+            };
+            
+            await setDoc(doc(db, "users", currentUser.uid), userData);
+            modalOnboarding.classList.add('hidden');
+            Swal.fire('¡Listo!', 'Bienvenido a Conecta Edu.', 'success');
+            renderUI();
+        });
+
+        // Render UI
         function renderUI() {
             if (currentUser && userData) {
                 btnLogin.classList.add('hidden');
                 userPanel.classList.remove('hidden');
-                formOverlay.classList.add('hidden'); // Desbloquea formulario
+                formOverlay.classList.add('hidden');
                 
                 document.getElementById('user-greeting').innerText = `Hola, ${userData.nombre}`;
                 document.getElementById('user-avatar').src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${userData.nombre}&background=4f46e5&color=fff`;
                 
-                let badgeColor = userData.rol === 'Funcionario' ? 'bg-indigo-100 text-indigo-700' : (userData.rol === 'Apoderado' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700');
-                let context = userData.rol === 'Apoderado' ? ` | Apoderado de: ${userData.estudiante} (${userData.curso})` : (userData.rol === 'Estudiante' ? ` | ${userData.curso}` : '');
-
                 const roleBadge = document.getElementById('user-role-badge');
+                let badgeColor = userData.rol === 'Funcionario' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700';
                 roleBadge.className = `inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeColor}`;
-                roleBadge.innerText = `${userData.rol} ${context}`;
+                roleBadge.innerText = userData.rol;
             } else {
                 btnLogin.classList.remove('hidden');
                 userPanel.classList.add('hidden');
-                formOverlay.classList.remove('hidden'); // Bloquea formulario
+                formOverlay.classList.remove('hidden');
             }
         }
 
-        /* ================= PUBLICACIÓN ================= */
+        // Publicar Post
         postForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser || !userData) return;
 
-            const title = document.getElementById('post-title').value;
-            const body = document.getElementById('post-body').value;
             const fileInput = document.getElementById('post-file');
             let fileUrl = null;
+            let fileName = null;
 
-            Swal.fire({ title: 'Subiendo...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({ title: 'Publicando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-            // Subida a Storage si se adjuntó un archivo
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
-                if(storage) {
-                    try {
-                        const storageRef = ref(storage, `documentos/${Date.now()}_${file.name}`);
-                        const snapshot = await uploadBytes(storageRef, file);
-                        fileUrl = await getDownloadURL(snapshot.ref);
-                    } catch (error) {
-                        return Swal.fire('Error', 'No se pudo subir el archivo.', 'error');
-                    }
-                } else {
-                    fileUrl = "#mock"; // Para local fallback
+                fileName = file.name;
+                const storageRef = ref(storage, `archivos/${Date.now()}_${file.name}`);
+                try {
+                    const snapshot = await uploadBytes(storageRef, file);
+                    fileUrl = await getDownloadURL(snapshot.ref);
+                } catch (error) {
+                    return Swal.fire('Error', 'Hubo un error subiendo el archivo. Revisa los permisos de Storage.', 'error');
                 }
             }
 
-            const newPost = {
-                title,
-                body,
-                authorId: currentUser.uid || 'user123',
+            await addDoc(collection(db, "posts"), {
+                title: document.getElementById('post-title').value,
+                body: document.getElementById('post-body').value,
+                authorId: currentUser.uid,
                 authorName: userData.nombre,
                 role: userData.rol,
                 date: new Date().toISOString(),
                 fileUrl,
-                fileName: fileInput.files.length > 0 ? fileInput.files[0].name : null
-            };
-
-            if(db) {
-                await addDoc(collection(db, "posts"), newPost);
-            } else {
-                newPost.id = Date.now().toString();
-                mockPosts.unshift(newPost);
-            }
+                fileName
+            });
 
             postForm.reset();
-            Swal.fire('¡Publicado!', 'Tu mensaje ya está en el muro.', 'success');
-            if(!db) renderPosts();
+            Swal.fire('¡Publicado!', 'El mensaje ha sido añadido al muro.', 'success');
         });
 
-        /* ================= ESCUCHAR Y RENDERIZAR MURO ================= */
-        if (db) {
-            const q = query(collection(db, "posts"), orderBy("date", "desc"));
-            onSnapshot(q, (snapshot) => {
-                mockPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderPosts();
-            });
-        } else {
-            setTimeout(renderPosts, 500); // Trigger mock render
-        }
+        // Cargar Posts en Tiempo Real
+        const q = query(collection(db, "posts"), orderBy("date", "desc"));
+        onSnapshot(q, (snapshot) => {
+            postsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderPosts();
+        });
 
         function renderPosts() {
             postsContainer.innerHTML = '';
-            if (mockPosts.length === 0) {
+            if (postsArray.length === 0) {
                 postsContainer.innerHTML = `<div class="text-center py-10 text-slate-500 bg-white rounded-2xl border">Sin publicaciones.</div>`;
                 return;
             }
 
-            mockPosts.forEach(post => {
-                const isAuthor = currentUser && post.authorId === (currentUser.uid || 'user123');
+            postsArray.forEach(post => {
+                const isAuthor = currentUser && post.authorId === currentUser.uid;
                 const isFuncionario = userData && userData.rol === 'Funcionario';
                 
-                // REGLAS ESTRICTAS DE BORRADO Y EDICIÓN:
-                const canDelete = isFuncionario; // Solo los funcionarios borran. Apoderados NO pueden.
-                const canEdit = isAuthor; // Pueden editar si son el dueño del post
+                const canDelete = isFuncionario; // Solo Funcionarios pueden borrar
+                const canEdit = isAuthor; // Solo el autor puede editar
 
-                let badgeColor = post.role === 'Funcionario' ? 'bg-indigo-100 text-indigo-700' : (post.role === 'Apoderado' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700');
-
-                let fileHtml = '';
-                if (post.fileUrl) {
-                    fileHtml = `
-                    <div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-3 shadow-sm">
-                        <div class="flex items-center gap-3 overflow-hidden">
-                            <div class="bg-red-100 text-red-500 p-2 rounded-lg"><i class="fa-solid fa-file-pdf"></i></div>
-                            <p class="text-sm font-semibold text-slate-700 truncate">${post.fileName || 'Archivo adjunto'}</p>
+                let fileHtml = post.fileUrl ? `
+                    <div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-file text-accent text-xl"></i>
+                            <span class="text-sm font-semibold truncate">${post.fileName}</span>
                         </div>
-                        <a href="${post.fileUrl}" target="_blank" class="bg-white border hover:bg-slate-50 text-accent font-bold py-1.5 px-4 rounded-lg text-sm transition shadow-sm whitespace-nowrap"><i class="fa-solid fa-download"></i> Bajar</a>
-                    </div>`;
-                }
+                        <a href="${post.fileUrl}" target="_blank" class="text-accent font-bold text-sm"><i class="fa-solid fa-download"></i> Bajar</a>
+                    </div>` : '';
 
                 let buttonsHtml = '';
                 if (canEdit || canDelete) {
                     buttonsHtml = `<div class="flex gap-2 mt-4 pt-4 border-t border-slate-100 justify-end">`;
-                    if (canEdit) buttonsHtml += `<button onclick="window.openEditModal('${post.id}')" class="text-indigo-600 hover:bg-indigo-50 px-3 py-1.5 rounded-lg text-sm font-bold transition"><i class="fa-solid fa-pen"></i> Editar</button>`;
-                    if (canDelete) buttonsHtml += `<button onclick="window.deletePost('${post.id}')" class="text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg text-sm font-bold transition"><i class="fa-solid fa-trash"></i> Borrar</button>`;
+                    if (canEdit) buttonsHtml += `<button onclick="window.openEdit('${post.id}')" class="text-indigo-600 font-bold text-sm px-3"><i class="fa-solid fa-pen"></i> Editar</button>`;
+                    if (canDelete) buttonsHtml += `<button onclick="window.deletePost('${post.id}')" class="text-red-500 font-bold text-sm px-3"><i class="fa-solid fa-trash"></i> Borrar</button>`;
                     buttonsHtml += `</div>`;
                 }
-
-                const dateObj = new Date(post.date);
-                const dateStr = isNaN(dateObj) ? post.date : dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
 
                 const postEl = document.createElement('div');
                 postEl.className = 'bg-white rounded-2xl shadow-sm border border-slate-200 p-6';
                 postEl.innerHTML = `
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold">
                             ${post.authorName.charAt(0).toUpperCase()}
                         </div>
                         <div>
                             <h4 class="font-bold text-primary leading-tight">${post.authorName}</h4>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${badgeColor}">${post.role}</span>
-                            <span class="text-xs text-slate-400 ml-2">${dateStr}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase bg-slate-100">${post.role}</span>
                         </div>
                     </div>
                     <h3 class="text-lg font-bold text-slate-800 mb-2">${post.title}</h3>
-                    <p class="text-slate-600 text-[15px] whitespace-pre-line leading-relaxed">${post.body}</p>
+                    <p class="text-slate-600 text-sm whitespace-pre-line">${post.body}</p>
                     ${fileHtml}
                     ${buttonsHtml}
                 `;
@@ -475,48 +399,33 @@
             });
         }
 
-        /* ================= EVENTOS DE EDICIÓN Y BORRADO ================= */
+        // Lógicas Globales (Ventana)
         window.deletePost = async (id) => {
-            const res = await Swal.fire({
-                title: '¿Eliminar publicación?', text: "Esta acción solo la puede realizar un Funcionario.",
-                icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'Borrar'
-            });
-
-            if (res.isConfirmed) {
-                if(db) await deleteDoc(doc(db, "posts", id));
-                else { mockPosts = mockPosts.filter(p => p.id !== id); renderPosts(); }
-                Swal.fire('Borrado', 'Publicación eliminada.', 'success');
-            }
+            const res = await Swal.fire({ title: '¿Borrar post?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Sí, borrar' });
+            if (res.isConfirmed) await deleteDoc(doc(db, "posts", id));
         };
 
-        const modalEdit = document.getElementById('modal-edit');
-        const editForm = document.getElementById('edit-form');
-
-        window.openEditModal = (id) => {
-            const post = mockPosts.find(p => p.id === id);
-            if(!post) return;
+        window.openEdit = (id) => {
+            const post = postsArray.find(p => p.id === id);
             document.getElementById('edit-post-id').value = post.id;
             document.getElementById('edit-post-title').value = post.title;
             document.getElementById('edit-post-body').value = post.body;
-            modalEdit.classList.remove('hidden');
+            document.getElementById('modal-edit').classList.remove('hidden');
         };
 
-        document.getElementById('btn-cancel-edit').addEventListener('click', () => modalEdit.classList.add('hidden'));
+        document.getElementById('btn-cancel-edit').addEventListener('click', () => {
+            document.getElementById('modal-edit').classList.add('hidden');
+        });
 
-        editForm.addEventListener('submit', async (e) => {
+        document.getElementById('edit-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('edit-post-id').value;
-            const newTitle = document.getElementById('edit-post-title').value;
-            const newBody = document.getElementById('edit-post-body').value;
-
-            if(db) await updateDoc(doc(db, "posts", id), { title: newTitle, body: newBody });
-            else {
-                const p = mockPosts.find(x => x.id === id);
-                p.title = newTitle; p.body = newBody; renderPosts();
-            }
-
-            modalEdit.classList.add('hidden');
-            Swal.fire('Actualizado', 'Tu publicación fue editada.', 'success');
+            await updateDoc(doc(db, "posts", id), {
+                title: document.getElementById('edit-post-title').value,
+                body: document.getElementById('edit-post-body').value
+            });
+            document.getElementById('modal-edit').classList.add('hidden');
+            Swal.fire('Editado', 'Publicación actualizada', 'success');
         });
     </script>
 </body>

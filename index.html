@@ -5,892 +5,519 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conecta Edu - Plataforma Institucional</title>
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 19.5C4 18.837 4.263 18.201 4.732 17.732C5.201 17.263 5.837 17 6.5 17H20' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M6.5 2H20V22H6.5C5.837 22 5.201 21.737 4.732 21.268C4.263 20.799 4 20.163 4 19.5V4.5C4 3.837 4.263 3.201 4.732 2.732C5.201 2.263 5.837 2 6.5 2Z' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { 
+                    colors: { 
+                        primary: '#0f172a', 
+                        accent: '#4f46e5', 
+                        success: '#10b981',
+                        danger: '#ef4444'
+                    } 
+                }
+            }
+        }
+    </script>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <style>
-        /* ==========================================================================
-           PALETA DE COLORES Y VARIABLES GLOBALES
-           ========================================================================== */
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-
-        :root {
-            --bg-body: #edf2f7; 
-            --bg-card: #ffffff; 
-            --bg-input: #f1f5f9;         
-            --primary-dark: #0f172a; 
-            --primary: #334155;          
-            --accent: #2563eb; 
-            --accent-hover: #1d4ed8;
-            --success: #059669; 
-            --danger: #dc2626;           
-            --text-muted: #64748b; 
-            --text-light: #94a3b8;
-            --border-soft: #e2e8f0; 
-            --border-focus: #bfdbfe;     
-            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --radius-lg: 16px; 
-            --radius-md: 10px;
-        }
-
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--primary); line-height: 1.6; padding-bottom: 20px; overflow-x: hidden; }
-
-        /* ==========================================================================
-           NOTIFICACIONES EMERGENTES (TOASTS)
-           ========================================================================== */
-        .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-        .toast { background-color: var(--primary-dark); color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; }
-        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
-        .toast.success { background-color: var(--success); }
-        .toast.danger { background-color: var(--danger); }
-        .toast.info { background-color: var(--accent); }
-
-        /* ==========================================================================
-           ENCABEZADO
-           ========================================================================== */
-        .main-header { 
-            background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(241,245,249,0.95) 100%);
-            backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-soft); padding: 16px 20px; position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
-        }
-        .header-container { max-width: 1340px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .brand-section { display: flex; align-items: center; gap: 12px; }
-        .logo-svg { width: 38px; height: 38px; } 
-        .brand-text { display: flex; flex-direction: column; }
-        .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.5px; line-height: 1.2; }
-        .subtitle { font-size: 12px; font-weight: 500; color: var(--accent); }
-
-        .header-actions { display: flex; align-items: center; gap: 10px; }
-        .btn-entrar { display: flex; align-items: center; gap: 6px; background-color: var(--bg-card); color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .btn-entrar:hover { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
-        .btn-calendar { background-color: #eff6ff; color: var(--accent); border-color: #bfdbfe; }
-        .btn-calendar:hover { background-color: var(--accent); color: white; border-color: var(--accent); }
-        .btn-mi-cuenta { background-color: #ecfdf5; color: var(--success); border-color: #a7f3d0; }
-        .btn-mi-cuenta:hover { background-color: var(--success); color: white; border-color: var(--success); }
-
-        /* LOGO DE LA ESCUELA EN LA BARRA SUPERIOR */
-        .school-logo-main {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            border: 2px solid var(--success);
-            object-fit: cover;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: none; /* OCULTO ESTRICTAMENTE POR DEFECTO */
-        }
-        .school-logo-main.show-logo {
-            display: block !important; /* MUESTRA EL LOGO CUANDO SE AÑADE LA CLASE DESDE JS */
-        }
-
-        .admin-float-tab { position: fixed; right: 0; top: 50%; transform: translateY(-50%); background-color: var(--primary-dark); color: white; padding: 14px 10px; border-radius: 12px 0 0 12px; cursor: pointer; z-index: 899; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 12px rgba(0,0,0,0.15); transition: all 0.2s ease; }
-        .admin-float-tab:hover { padding-right: 16px; background-color: var(--accent); }
-        .hidden { display: none !important; }
-
-        /* ==========================================================================
-           LAYOUT DE TRES COLUMNAS
-           ========================================================================== */
-        .layout-wrapper { display: flex; justify-content: center; gap: 24px; max-width: 1340px; margin: 0 auto; padding: 0 16px; }
-        .side-column { width: 250px; margin-top: 32px; display: none; flex-direction: column; gap: 20px; }
-        
-        .side-widget { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-top: 4px solid var(--accent); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-card); }
-        .side-widget h3 { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
-        .side-widget p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-        .side-widget ul { list-style: none; }
-        .side-widget ul li { margin-bottom: 8px; font-size: 13px; }
-        .side-widget ul li a { color: var(--accent); text-decoration: none; font-weight: 600; transition: color 0.2s; }
-        .side-widget ul li a:hover { color: var(--accent-hover); text-decoration: underline; }
-
-        @media (min-width: 1100px) { .side-column { display: flex; } }
-
-        /* ==========================================================================
-           FORMULARIOS Y CONTENEDOR CENTRAL
-           ========================================================================== */
-        .main-content { flex: 1; max-width: 800px; margin: 32px 0; padding: 0; }
-        @media (max-width: 1099px) { .main-content { margin: 32px auto; padding: 0 16px; } }
-
-        .form-section, .filters-section { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-top: 4px solid var(--primary-dark); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-card); }
-        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
-
-        .form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 12px; }
-        .form-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 12px; }
-        @media (min-width: 600px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
-
-        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-        .form-group label { font-size: 13px; font-weight: 600; color: var(--primary); }
-
-        input[type="text"], select, textarea, .input-reply { font-family: inherit; font-size: 14px; padding: 12px; border: 1px solid var(--border-soft); border-radius: var(--radius-md); background-color: var(--bg-input); color: var(--primary-dark); outline: none; transition: all 0.2s ease; width: 100%; }
-        input:focus, select:focus, textarea:focus, .input-reply:focus { border-color: var(--accent); background-color: var(--bg-card); box-shadow: 0 0 0 3px var(--border-focus); }
-
-        .select-wrapper { position: relative; }
-        .select-wrapper select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 10px auto; padding-right: 40px; }
-
-        /* ROLES */
-        .role-selector-container { display: flex; gap: 8px; flex-wrap: wrap; }
-        .role-chip-btn { flex: 1; min-width: 90px; font-family: inherit; background-color: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-soft); padding: 10px 12px; font-size: 13px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; }
-        .role-chip-btn[data-role="Docente"]:hover, .role-chip-btn[data-role="Docente"].active { background-color: #eff6ff; color: var(--accent); border-color: var(--accent); }
-        .role-chip-btn[data-role="Docente"].active { font-weight: 700; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1); }
-        .role-chip-btn[data-role="Apoderado"]:hover, .role-chip-btn[data-role="Apoderado"].active { background-color: #ecfdf5; color: var(--success); border-color: var(--success); }
-        .role-chip-btn[data-role="Apoderado"].active { font-weight: 700; box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1); }
-        .role-chip-btn[data-role="Estudiante"]:hover, .role-chip-btn[data-role="Estudiante"].active { background-color: #fffbeb; color: #d97706; border-color: #f59e0b; }
-        .role-chip-btn[data-role="Estudiante"].active { font-weight: 700; box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1); }
-
-        .btn-submit { display: flex; align-items: center; justify-content: center; width: 100%; background-color: var(--accent); color: white; border: none; padding: 14px; font-size: 15px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; margin-top: 8px; }
-        .btn-submit:hover { background-color: var(--accent-hover); }
-
-        /* ==========================================================================
-           TARJETAS Y MURO
-           ========================================================================== */
-        .search-box { position: relative; margin-bottom: 20px; }
-        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
-        .search-box input { padding: 14px 14px 14px 48px; border-radius: var(--radius-lg); font-size: 15px;}
-
-        .filter-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
-        .filter-btn { font-size: 13px; font-weight: 600; padding: 10px 20px; border: 1px solid var(--border-soft); background-color: var(--bg-card); color: var(--text-muted); border-radius: 24px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-        .filter-btn.active { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
-
-        .post-card { background-color: var(--bg-card); border: 1px solid var(--border-soft); border-left: 4px solid var(--accent); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-card); transition: transform 0.2s ease;}
-        .post-card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
-        .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;}
-        
-        .badge-wrapper { display: flex; gap: 6px; flex-wrap: wrap;}
-        .badge { font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;}
-        .badge.comunicado { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-        .badge.consulta { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
-        .badge.docente { background-color: #eff6ff; color: var(--accent); border: 1px solid #bfdbfe; }
-        .badge.apoderado { background-color: #ecfdf5; color: var(--success); border: 1px solid #a7f3d0; }
-        .badge.estudiante { background-color: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
-        .badge-course { background-color: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
-        .badge-subject { background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1; }
-
-        .post-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--primary-dark); }
-        .post-body { font-size: 15px; color: var(--primary); line-height: 1.7; white-space: pre-line; }
-        .post-date-bottom { font-size: 12px; color: var(--text-light); margin-top: 16px; display: block; }
-
-        .replies-container { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-soft); }
-        .replies-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 16px; }
-        .reply-item { background-color: var(--bg-input); padding: 14px; border-radius: var(--radius-md); margin-bottom: 12px; border-left: 3px solid var(--border-soft); }
-        .reply-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .reply-user { font-weight: 700; font-size: 14px; color: var(--primary-dark); }
-        .reply-date { font-size: 11px; color: var(--text-light); }
-        .reply-body { font-size: 14px; color: var(--primary); line-height: 1.5;}
-
-        .reply-form { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .reply-mini-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
-        @media (max-width: 500px) { .reply-mini-grid { grid-template-columns: 1fr; } }
-        
-        .btn-reply { align-self: flex-end; background-color: var(--primary-dark); color: white; border: none; padding: 10px 20px; font-size: 13px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; }
-        .btn-reply:hover { background-color: #000; }
-        .btn-moderator-delete { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; margin-top: 16px; display: inline-block; }
-        .btn-reply-delete { background: none; border: none; color: var(--danger); font-size: 12px; font-weight: 700; cursor: pointer; margin-left: 12px;}
-
-        /* ==========================================================================
-           BARRA LATERAL Y GOOGLE AUTH
-           ========================================================================= */
-        .admin-sidebar { position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100%; background-color: var(--bg-card); box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1); z-index: 1001; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
-        .admin-sidebar.open { right: 0; }
-        .overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-        .overlay-bg.show { opacity: 1; visibility: visible; }
-
-        .sidebar-header { padding: 24px; border-bottom: 1px solid var(--border-soft); display: flex; justify-content: space-between; align-items: center; }
-        .sidebar-header h2 { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
-        .sidebar-close { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-muted); line-height: 1; }
-
-        .sidebar-content { padding: 24px; flex: 1; overflow-y: auto; }
-        .sidebar-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;}
-        
-        .alert-domain { background-color: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 20px; display: flex; gap: 8px;}
-
-        .btn-google { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background-color: white; color: var(--primary-dark); border: 1px solid var(--border-soft); padding: 14px; font-size: 15px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .btn-google:hover { background-color: #f8fafc; border-color: #cbd5e1; }
-        .btn-danger { background: #ef4444 !important; color: white;}
-        .admin-status-box { background-color: #eff6ff; border: 1px solid #bfdbfe; padding: 16px; border-radius: var(--radius-md); color: #1e3a8a; font-size: 14px; margin-bottom: 24px; text-align: center; }
-
-        /* ==========================================================================
-           CALENDARIO ESCOLAR (MODAL)
-           ========================================================================== */
-        .calendar-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: var(--bg-card); width: 95%; max-width: 900px; max-height: 90vh; border-radius: var(--radius-lg); box-shadow: 0 20px 40px rgba(0,0,0,0.3); z-index: 1005; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
-        .calendar-modal.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-
-        .calendar-header { padding: 20px 24px; border-bottom: 1px solid var(--border-soft); display: flex; justify-content: space-between; align-items: center; background: var(--primary-dark); color: white; }
-        .calendar-header h2 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px;}
-        .calendar-close { background: none; border: none; font-size: 28px; color: white; cursor: pointer; transition: 0.2s;}
-        .calendar-close:hover { color: #fca5a5; }
-
-        .calendar-body { display: grid; grid-template-columns: 1fr 340px; flex: 1; overflow: hidden; }
-        @media (max-width: 800px) { .calendar-body { grid-template-columns: 1fr; overflow-y: auto; } }
-
-        .calendar-main { padding: 24px; border-right: 1px solid var(--border-soft); overflow-y: auto;}
-        
-        .calendar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .calendar-controls button { background: var(--bg-input); border: 1px solid var(--border-soft); padding: 8px 12px; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; color: var(--primary-dark);}
-        .calendar-controls button:hover { background: var(--border-focus); }
-        .calendar-controls select { width: auto; font-weight: 700; font-size: 16px; padding: 8px 36px 8px 16px;}
-
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .day-name { text-align: center; font-weight: 700; font-size: 12px; color: var(--text-muted); padding-bottom: 8px; }
-        
-        .calendar-day { aspect-ratio: 1; border: 1px solid var(--border-soft); border-radius: 8px; padding: 8px; cursor: pointer; transition: 0.2s; position: relative; display: flex; flex-direction: column; background: var(--bg-card); }
-        .calendar-day:hover { border-color: var(--accent); background: #f8fafc; }
-        .calendar-day.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--border-focus); background: #eff6ff;}
-        .calendar-day.holiday { background: #fef2f2; border-color: #fca5a5; }
-        .calendar-day.holiday:hover { background: #fee2e2; }
-        .calendar-day.empty { background: transparent; border: none; cursor: default; }
-        .calendar-day.today-marker { background-color: #fffbeb; border-color: #f59e0b; }
-
-        .day-number { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: var(--primary-dark); }
-        .holiday-name { font-size: 10px; color: #b91c1c; line-height: 1.1; font-weight: 700;}
-        
-        .event-dot-container { display: flex; gap: 4px; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
-        .event-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-        .event-dot.tarea { background: #f59e0b; }
-        .event-dot.prueba { background: #ef4444; }
-        .event-dot.presentación { background: #8b5cf6; }
-
-        .calendar-sidebar { padding: 24px; background: var(--bg-input); overflow-y: auto; }
-        .day-details-title { font-size: 16px; font-weight: 800; color: var(--primary-dark); margin-bottom: 16px; border-bottom: 2px solid var(--border-soft); padding-bottom: 8px;}
-        
-        .holiday-alert { background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; margin-bottom: 16px; display: flex; gap: 8px; align-items: center;}
-
-        .event-card-cal { background: white; padding: 14px; border-radius: 8px; border: 1px solid var(--border-soft); margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border-left: 4px solid var(--accent); }
-        .event-type-badge { font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; color: white; display: inline-block; margin-bottom: 8px; }
-        .event-type-badge.tarea { background: #f59e0b; }
-        .event-type-badge.prueba { background: #ef4444; }
-        .event-type-badge.presentación { background: #8b5cf6; }
-        .event-title-cal { font-size: 14px; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
-        .event-author-cal { font-size: 12px; color: var(--text-muted); font-weight: 500;}
-
-        .add-event-box { background: white; padding: 16px; border-radius: 12px; border: 1px dashed var(--accent); margin-top: 24px; }
-        .add-event-box h4 { font-size: 14px; margin-bottom: 16px; color: var(--primary-dark); font-weight: 700; }
-        .auth-warning { font-size: 12px; color: var(--danger); font-weight: 600; text-align: center; margin-top: 10px; }
-
-        /* FOOTER DE DESARROLLADOR */
-        .site-footer {
-            text-align: center;
-            padding: 30px 20px;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 40px;
-            max-width: 1340px;
-            margin-left: auto;
-            margin-right: auto;
-            border-top: 1px solid var(--border-soft);
-        }
-
-        @media (max-width: 600px) {
-            .form-section, .filters-section, .post-card { padding: 20px; }
-            .brand-text h1 { font-size: 18px; }
-            .btn-entrar span { display: none; }
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style> 
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; } 
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body>
+<body class="text-slate-800 pb-12">
 
-    <div id="toast-container" class="toast-container"></div>
-
-    <div class="overlay-bg" id="sidebar-overlay"></div>
-    <div class="overlay-bg" id="calendar-overlay-bg" style="z-index: 1004;"></div>
-    
-    <div id="admin-float-tab" class="admin-float-tab hidden">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </div>
-
-    <div class="calendar-modal" id="calendar-modal">
-        <div class="calendar-header">
-            <h2>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                Calendario Escolar
-            </h2>
-            <button class="calendar-close" id="calendar-close-btn">&times;</button>
-        </div>
-        <div class="calendar-body">
-            <div class="calendar-main">
-                <div class="calendar-controls">
-                    <button id="cal-prev-btn">&larr; Ant</button>
-                    <div class="select-wrapper">
-                        <select id="cal-month-select">
-                            <option value="0">Enero 2026</option><option value="1">Febrero 2026</option><option value="2">Marzo 2026</option>
-                            <option value="3">Abril 2026</option><option value="4">Mayo 2026</option><option value="5">Junio 2026</option>
-                            <option value="6">Julio 2026</option><option value="7">Agosto 2026</option><option value="8">Septiembre 2026</option>
-                            <option value="9">Octubre 2026</option><option value="10">Noviembre 2026</option><option value="11">Diciembre 2026</option>
-                        </select>
-                    </div>
-                    <button id="cal-next-btn">Sig &rarr;</button>
+    <header class="bg-white/90 backdrop-blur-md border-b sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-accent text-white p-2 rounded-lg">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
                 </div>
-                <div class="calendar-grid" id="calendar-grid"></div>
-            </div>
-            
-            <div class="calendar-sidebar">
-                <div id="day-events-panel" style="display: none;">
-                    <div class="day-details-title" id="selected-day-title">Selecciona un día</div>
-                    <div id="holiday-alert-container"></div>
-                    <div id="events-container"></div>
-
-                    <div class="add-event-box" id="add-event-box">
-                        <h4>Agendar Actividad</h4>
-                        <form id="add-event-form" style="display:flex; flex-direction:column; gap:10px;">
-                            <input type="text" id="event-title" placeholder="Ej. Prueba de Ciencias" required>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                                <div class="select-wrapper"><select id="event-type" required><option value="Tarea">Tarea</option><option value="Prueba">Prueba</option><option value="Presentación">Presentación</option></select></div>
-                                <div class="select-wrapper"><select id="event-course" required><option value="General">General</option><option value="1° Básico">1° Básico</option><option value="2° Básico">2° Básico</option><option value="3° Básico">3° Básico</option><option value="4° Básico">4° Básico</option><option value="5° Básico">5° Básico</option><option value="6° Básico">6° Básico</option><option value="7° Básico">7° Básico</option><option value="8° Básico">8° Básico</option></select></div>
-                            </div>
-                            <input type="text" id="event-author" placeholder="Tu Nombre" required readonly>
-                            <button type="submit" class="btn-submit" style="padding: 10px; font-size:14px; margin-top:4px;">Guardar en Agenda</button>
-                        </form>
-                    </div>
-                    <p id="calendar-auth-warning" class="auth-warning">Inicia sesión como docente para agendar actividades.</p>
-                </div>
-                
-                <div id="empty-day-state" style="text-align:center; padding-top: 40px; color: var(--text-light);">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <p style="font-size: 14px; font-weight: 500;">Haz clic en un día del calendario para ver o programar actividades institucionales.</p>
+                <div>
+                    <h1 class="font-bold text-xl text-primary leading-tight">Conecta Edu</h1>
+                    <span class="text-xs text-accent font-semibold tracking-wide uppercase">Comunidad Escolar</span>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <aside class="admin-sidebar" id="admin-sidebar">
-        <div class="sidebar-header">
-            <h2>Acceso al Sistema</h2>
-            <button class="sidebar-close" id="sidebar-close">&times;</button>
-        </div>
-        
-        <div class="sidebar-content" id="admin-login-view">
-            <div class="alert-domain">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                <span>Solo permitido para correos con el dominio <strong>@slepcolchagua.cl</strong></span>
-            </div>
-            <p class="sidebar-desc">Inicia sesión con tu correo institucional de Google para obtener permisos de moderación y agendar en el calendario escolar.</p>
-            
-            <button class="btn-google" id="btn-google-login">
-                <svg width="20" height="20" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                </svg>
-                Continuar con Google
-            </button>
-        </div>
-
-        <div class="sidebar-content hidden" id="admin-dashboard-view">
-            <div class="admin-status-box">
-                <p><strong>✅ Sesión Institucional Activa</strong></p>
-                <p id="logged-user-email" style="font-size: 12px; margin-top: 4px; color: var(--primary);"></p>
-            </div>
-            <p class="sidebar-desc">Tienes permisos activos para moderar el foro y registrar evaluaciones en el calendario.</p>
-            <button class="btn-submit btn-danger" id="btn-logout">Cerrar Sesión Segura</button>
-        </div>
-    </aside>
-
-    <header class="main-header">
-        <div class="header-container">
-            <div class="brand-section">
-                <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732C5.201 17.263 5.837 17 6.5 17H20" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6.5 2H20V22H6.5C5.837 22 5.201 21.737 4.732 21.268C4.263 20.799 4 20.163 4 19.5V4.5C4 3.837 4.263 3.201 4.732 2.732C5.201 2.263 5.837 2 6.5 2Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="brand-text"><h1>Conecta Edu</h1><span class="subtitle">Plataforma Oficial</span></div>
-            </div>
-            <div class="header-actions">
-                
-                <img id="main-school-logo" class="school-logo-main" src="logo2.jpg" alt="Logo Escuela">
-                
-                <button id="calendar-toggle-btn" class="btn-entrar btn-calendar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <span>Calendario</span>
-                </button>
-                <button id="admin-toggle-btn" class="btn-entrar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span id="btn-login-text">Acceder</span>
+            <div>
+                <button id="btn-login" class="bg-white border hover:bg-slate-50 text-primary font-semibold py-2 px-5 rounded-full text-sm transition-all shadow-sm flex items-center gap-2">
+                    <i class="fa-brands fa-google text-red-500"></i> <span id="login-text">Entrar</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <div class="layout-wrapper">
+    <main class="max-w-3xl mx-auto px-4 mt-8">
         
-        <aside class="side-column">
-            <div class="side-widget">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Institución</h3>
-                <p>Bienvenido a la red de Conecta Edu. Mantente al día con los comunicados oficiales de nuestro establecimiento.</p>
+        <div id="user-panel" class="hidden bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-2xl p-5 mb-8 flex justify-between items-center shadow-sm">
+            <div class="flex items-center gap-4">
+                <img id="user-avatar" src="" alt="Avatar" class="w-12 h-12 rounded-full border-2 border-white shadow-sm">
+                <div>
+                    <p class="text-base font-bold text-slate-800" id="user-greeting">Hola, Usuario</p>
+                    <span id="user-role-badge" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold border border-opacity-50">Rol</span>
+                </div>
             </div>
-            <div class="side-widget">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Enlaces Útiles</h3>
-                <ul>
-                    <li><a href="#">Mineduc Chile</a></li>
-                    <li><a href="#">Reglamento Interno</a></li>
-                    <li><a href="#">Protocolos Convivencia</a></li>
-                    <li><a href="#">Soporte Técnico</a></li>
-                </ul>
+            <button id="btn-logout" class="text-slate-500 hover:text-red-600 text-sm font-bold transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Salir
+            </button>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8 relative overflow-hidden">
+            <div id="form-overlay" class="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center">
+                <i class="fa-solid fa-lock text-3xl text-slate-400 mb-2"></i>
+                <p class="text-slate-600 font-semibold text-sm">Inicia sesión con Google para publicar</p>
             </div>
-        </aside>
 
-        <main class="main-content">
-            <section class="form-section">
-                <h2 class="section-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Crear Nueva Publicación</h2>
-                <form id="qa-form">
-                    <div class="form-grid">
-                        <div class="form-group"><label for="author">Tu Nombre</label><input type="text" id="author" placeholder="Ej. Prof. Alejandro Silva" required></div>
-                        <div class="form-group"><label>Rol Institucional</label>
-                            <div class="role-selector-container">
-                                <button type="button" class="role-chip-btn" data-role="Docente">Docente</button>
-                                <button type="button" class="role-chip-btn" data-role="Apoderado">Apoderado</button>
-                                <button type="button" class="role-chip-btn" data-role="Estudiante">Estudiante</button>
-                            </div>
-                            <input type="hidden" id="author-role" required>
-                        </div>
+            <h2 class="text-lg font-bold text-primary mb-4 flex items-center gap-2"><i class="fa-solid fa-pen-to-square text-accent"></i> Crear Publicación</h2>
+            <form id="post-form" class="space-y-4 relative z-0">
+                <input type="text" id="post-title" placeholder="Título de la publicación..." class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent outline-none transition-shadow bg-slate-50" required>
+                <textarea id="post-body" rows="3" placeholder="¿Qué deseas compartir con la comunidad?" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent outline-none transition-shadow bg-slate-50" required></textarea>
+                
+                <div class="p-4 border border-dashed border-slate-300 rounded-xl bg-slate-50">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2"><i class="fa-solid fa-paperclip text-slate-400"></i> Adjuntar Archivo (PDF, DOC, JPG...)</label>
+                    <input type="file" id="post-file" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-accent hover:file:bg-indigo-100 cursor-pointer">
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-accent hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl transition-colors shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Publicar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fa-regular fa-comments text-accent"></i> Muro Institucional</h2>
+            </div>
+            
+            <div id="posts-container" class="space-y-5">
+                <div class="text-center py-10 text-slate-500">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
+                    <p>Cargando muro...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-onboarding" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full animate-[fadeIn_0.3s_ease-out]">
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-indigo-100 text-accent rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-primary">Completa tu Perfil</h2>
+                <p class="text-sm text-slate-500">Para continuar usando tu cuenta de Gmail, dinos quién eres.</p>
+            </div>
+            
+            <form id="onboarding-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Tu rol en la comunidad</label>
+                    <select id="user-type" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none" required>
+                        <option value="">Selecciona una opción...</option>
+                        <option value="Apoderado">Soy Apoderado</option>
+                        <option value="Estudiante">Soy Estudiante</option>
+                    </select>
+                </div>
+
+                <div id="extra-fields" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Tu Nombre Completo</label>
+                        <input type="text" id="user-name" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none" placeholder="Ej. Juan Pérez">
                     </div>
-
-                    <div class="form-grid-3">
-                        <div class="form-group"><label for="category">Tipo</label><div class="select-wrapper"><select id="category" required><option value="Consulta">❓ Consulta</option><option value="Comunicado">📢 Comunicado</option></select></div></div>
-                        <div class="form-group"><label for="course">Curso Destino</label><div class="select-wrapper"><select id="course" required><option value="General">🏫 Toda la Institución</option><option value="1° Básico">🎒 1° Básico</option><option value="2° Básico">🎒 2° Básico</option><option value="3° Básico">🎒 3° Básico</option><option value="4° Básico">🎒 4° Básico</option><option value="5° Básico">🎒 5° Básico</option><option value="6° Básico">🎒 6° Básico</option><option value="7° Básico">🎒 7° Básico</option><option value="8° Básico">🎒 8° Básico</option></select></div></div>
-                        <div class="form-group"><label for="subject">Asignatura</label><div class="select-wrapper"><select id="subject" required><option value="General">General / Orientación</option><option value="Lenguaje y Comunicación / Lengua y Literatura">Lenguaje y Comunicación / Lengua y Literatura</option><option value="Matemática">Matemática</option><option value="Ciencias Naturales">Ciencias Naturales</option><option value="Biología">Biología</option><option value="Física">Física</option><option value="Química">Química</option><option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option><option value="Idioma Extranjero: Inglés">Idioma Extranjero: Inglés</option><option value="Educación Física y Salud">Educación Física y Salud</option><option value="Artes Visuales">Artes Visuales</option><option value="Música">Música</option><option value="Tecnología">Tecnología</option><option value="Filosofía">Filosofía</option><option value="Educación Ciudadana">Educación Ciudadana</option><option value="Ciencias para la Ciudadanía">Ciencias para la Ciudadanía</option><option value="Taller de Huerto">Taller de Huerto</option><option value="Taller de Instrumentos">Taller de Instrumentos</option><option value="Taller de Matemáticas">Taller de Matemáticas</option></select></div></div>
-                    </div>
-
-                    <div class="form-group"><label for="title">Asunto / Título</label><input type="text" id="title" placeholder="Ej. Citación a reunión / Duda sobre temario" required></div>
                     
-                    <div class="form-group">
-                        <label for="message">Detalle del Mensaje</label>
-                        <textarea id="message" rows="4" placeholder="Escribe el contenido de tu publicación aquí..." maxlength="400" required></textarea>
-                        <div id="char-counter" style="text-align: right; font-size: 12px; color: var(--text-light); margin-top: 4px; font-weight: 500;">0 / 400 caracteres</div>
+                    <div id="student-name-group" class="hidden">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Nombre del Estudiante <span class="text-xs font-normal text-slate-500">(Al que representas)</span></label>
+                        <input type="text" id="student-name" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none" placeholder="Ej. Pedro Pérez">
                     </div>
-                    
-                    <button type="submit" class="btn-submit" id="submit-btn">Publicar en el Foro</button>
-                </form>
-            </section>
 
-            <section class="filters-section">
-                <div class="search-box"><svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input type="text" id="search-input" placeholder="Buscar palabras clave en el foro..."></div>
-                <div class="filter-tabs"><button class="filter-btn active" data-filter="Todos">Todo</button><button class="filter-btn" data-filter="Comunicado">Comunicados</button><button class="filter-btn" data-filter="Consulta">Consultas</button></div>
-            </section>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" id="course-label">Curso</label>
+                        <select id="user-course" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-accent bg-slate-50 outline-none">
+                            <option value="">Selecciona el curso...</option>
+                            <option value="1° Básico">1° Básico</option>
+                            <option value="2° Básico">2° Básico</option>
+                            <option value="3° Básico">3° Básico</option>
+                            <option value="4° Básico">4° Básico</option>
+                            <option value="5° Básico">5° Básico</option>
+                            <option value="6° Básico">6° Básico</option>
+                            <option value="7° Básico">7° Básico</option>
+                            <option value="8° Básico">8° Básico</option>
+                            <option value="1° Medio">1° Medio</option>
+                            <option value="2° Medio">2° Medio</option>
+                            <option value="3° Medio">3° Medio</option>
+                            <option value="4° Medio">4° Medio</option>
+                        </select>
+                    </div>
+                </div>
 
-            <section id="posts-container"></section>
-        </main>
-
-        <aside class="side-column">
-            <div class="side-widget">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Normas del Foro</h3>
-                <p>Mantengamos un ambiente respetuoso. Los mensajes tienen un máximo de 400 caracteres para asegurar publicaciones concisas y claras.</p>
-            </div>
-            <div class="side-widget">
-                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Horario General</h3>
-                <p>Lunes a Viernes:<br>08:00 - 17:00 hrs.<br>Agenda abierta las 24 horas.</p>
-            </div>
-        </aside>
-
+                <button type="submit" id="btn-submit-onboarding" class="w-full bg-success hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition-colors mt-6 shadow-md hidden">
+                    Guardar y Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="modal-edit" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full">
+            <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa-solid fa-pen text-accent"></i> Editar Publicación</h2>
+            <form id="edit-form" class="space-y-4">
+                <input type="hidden" id="edit-post-id">
+                <input type="text" id="edit-post-title" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-accent" required>
+                <textarea id="edit-post-body" rows="4" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-accent" required></textarea>
+                <div class="flex justify-end gap-2 mt-4">
+                    <button type="button" id="btn-cancel-edit" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-xl font-semibold transition">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-accent text-white rounded-xl font-bold hover:bg-indigo-700 transition shadow-md">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <footer class="site-footer">
-        <p>Desarrollado por profesor Matías Poblete</p>
-    </footer>
-
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+        // ⚠️ INSERTA TU CONFIGURACIÓN REAL AQUÍ
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4",
-            authDomain: "foro-conectaedu.firebaseapp.com",
-            projectId: "foro-conectaedu",
-            storageBucket: "foro-conectaedu.firebasestorage.app",
-            messagingSenderId: "183234856524",
-            appId: "1:183234856524:web:9cef8e98008740431196e9"
+            apiKey: "TU_API_KEY",
+            authDomain: "tu-proyecto.firebaseapp.com",
+            projectId: "tu-proyecto",
+            storageBucket: "tu-proyecto.appspot.com",
+            messagingSenderId: "TUS_DATOS",
+            appId: "TUS_DATOS"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-        const forumDocRef = doc(db, "forum_data", "posts_collection");
-
-        const DOMINIO_INSTITUCIONAL = "@slepcolchagua.cl";
-
-        let posts = [];
-        let calendarEvents = {}; 
-        let currentFilter = 'Todos';
-        let searchQuery = '';
-        let currentUser = null; 
-
-        const todayDate = new Date();
-        let calMonth = todayDate.getMonth();
-        let calYear = todayDate.getFullYear();
-        let selectedDateKey = `${calYear}-${calMonth + 1}-${todayDate.getDate()}`;
-
-        const holidays2026 = { "2026-1-1": "Año Nuevo", "2026-4-3": "Viernes Santo", "2026-4-4": "Sábado Santo", "2026-5-1": "Día del Trabajador", "2026-5-21": "Glorias Navales", "2026-6-21": "Pueblos Indígenas", "2026-6-29": "San Pedro y San Pablo", "2026-7-16": "Virgen del Carmen", "2026-8-15": "Asunción de la Virgen", "2026-9-18": "Independencia Nacional", "2026-9-19": "Glorias del Ejército", "2026-10-12": "Encuentro Dos Mundos", "2026-10-31": "Iglesias Evangélicas", "2026-11-1": "Todos los Santos", "2026-12-8": "Inmaculada Concepción", "2026-12-25": "Navidad" };
-        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-        // ==========================================
-        // SISTEMA DE NOTIFICACIONES (TOAST)
-        // ==========================================
-        window.showToast = function(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-            
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = type === 'success' ? '✅' : (type === 'danger' ? '🗑️' : 'ℹ️');
-            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10); // Animar entrada
-            
-            setTimeout(() => { // Remover automáticamente
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+        // --- MODO FALLBACK (Para ver visualmente si no has puesto tus APIs) ---
+        let app, db, auth, storage, provider;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            storage = getStorage(app);
+            provider = new GoogleAuthProvider();
+        } catch(e) {
+            console.warn("⚠️ Firebase no configurado aún. Se activará el Modo de Prueba Local.");
         }
 
-        function init() {
-            onSnapshot(forumDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    posts = data.posts || [];
-                    calendarEvents = data.events || {};
-                }
-                renderPosts();
-                if (document.getElementById('calendar-modal').classList.contains('show')) {
-                    renderCalendarGrid();
-                    if (selectedDateKey) renderDayDetails(selectedDateKey);
-                }
-            });
+        // --- ESTADO GLOBAL ---
+        let currentUser = null;
+        let userData = null; // Guardará el rol, nombre y curso de Firestore
+        let mockPosts = []; // Se usa como fallback si no hay Base de datos
 
-            onAuthStateChanged(auth, (user) => {
-                const btnToggleText = document.getElementById('btn-login-text');
-                const btnToggleMain = document.getElementById('admin-toggle-btn');
-                const mainSchoolLogo = document.getElementById('main-school-logo'); 
-
-                if (user) {
-                    if (!user.email.endsWith(DOMINIO_INSTITUCIONAL)) {
-                        signOut(auth); 
-                        if (mainSchoolLogo) mainSchoolLogo.classList.remove('show-logo'); 
-                        return;
-                    }
-
-                    currentUser = user;
-                    
-                    // MOSTRAR LOGO DE LA ESCUELA CON CLASE CSS
-                    if (mainSchoolLogo) mainSchoolLogo.classList.add('show-logo');
-
-                    if (btnToggleText) btnToggleText.textContent = "Mi Cuenta";
-                    btnToggleMain.classList.add('btn-mi-cuenta');
-
-                    document.getElementById('admin-login-view').classList.add('hidden');
-                    document.getElementById('admin-dashboard-view').classList.remove('hidden');
-                    document.getElementById('logged-user-email').textContent = user.email;
-                    
-                    if(!document.getElementById('admin-sidebar').classList.contains('open')) {
-                        document.getElementById('admin-float-tab').classList.remove('hidden');
-                    }
-                    
-                    document.getElementById('author').value = user.displayName;
-                    document.getElementById('author-role').value = 'Docente';
-                    document.querySelectorAll('.role-chip-btn').forEach(c => {
-                        c.classList.remove('active');
-                        if(c.getAttribute('data-role') === 'Docente') c.classList.add('active');
-                    });
-                    
-                } else {
-                    currentUser = null;
-                    
-                    // OCULTAR LOGO DE LA ESCUELA
-                    if (mainSchoolLogo) mainSchoolLogo.classList.remove('show-logo');
-
-                    if (btnToggleText) btnToggleText.textContent = "Acceder";
-                    btnToggleMain.classList.remove('btn-mi-cuenta');
-
-                    document.getElementById('admin-login-view').classList.remove('hidden');
-                    document.getElementById('admin-dashboard-view').classList.add('hidden');
-                    document.getElementById('admin-float-tab').classList.add('hidden');
-                }
-                
-                renderPosts();
-                if (selectedDateKey && document.getElementById('calendar-modal').classList.contains('show')) {
-                    renderDayDetails(selectedDateKey);
-                }
-            });
-
-            setupEventListeners();
-        }
-
-        function saveToStorage() {
-            setDoc(forumDocRef, { posts: posts, events: calendarEvents })
-            .catch(e => { console.error("Error al guardar:", e); alert("⚠️ Error al sincronizar con Firebase."); });
-        }
-
-        function setupEventListeners() {
-            const messageTxt = document.getElementById('message');
-            const counterDiv = document.getElementById('char-counter');
-            if (messageTxt && counterDiv) {
-                messageTxt.addEventListener('input', () => {
-                    const currentLength = messageTxt.value.length;
-                    counterDiv.textContent = `${currentLength} / 400 caracteres`;
-                    if (currentLength >= 360) counterDiv.style.color = 'var(--danger)';
-                    else counterDiv.style.color = 'var(--text-light)';
-                });
-            }
-
-            document.getElementById('admin-toggle-btn').addEventListener('click', () => openAdmin(true));
-            document.getElementById('admin-float-tab').addEventListener('click', () => openAdmin(true));
-            document.getElementById('sidebar-close').addEventListener('click', () => openAdmin(false));
-            document.getElementById('sidebar-overlay').addEventListener('click', () => openAdmin(false));
-
-            document.getElementById('btn-google-login').addEventListener('click', () => {
-                signInWithPopup(auth, provider).then((result) => {
-                    const user = result.user;
-                    if (!user.email.endsWith(DOMINIO_INSTITUCIONAL)) {
-                        signOut(auth).then(() => {
-                            alert(`ACCESO DENEGADO.\n\nEl correo ${user.email} no está autorizado.\nPor favor, utiliza exclusivamente una cuenta @slepcolchagua.cl`);
-                        });
-                    } else {
-                        showToast(`¡Hola, ${user.displayName}! Sesión iniciada.`, 'info');
-                        openAdmin(false);
-                    }
-                }).catch(err => {
-                    console.error("Login Error:", err); 
-                    alert("Error de Inicio de Sesión: " + err.message);
-                });
-            });
-            
-            document.getElementById('btn-logout').addEventListener('click', () => {
-                signOut(auth).then(() => {
-                    showToast('Sesión cerrada correctamente.', 'info');
-                    openAdmin(false);
-                    document.getElementById('author').value = "";
-                });
-            });
-
-            document.getElementById('calendar-toggle-btn').addEventListener('click', () => {
-                document.getElementById('calendar-modal').classList.add('show');
-                document.getElementById('calendar-overlay-bg').classList.add('show');
-                document.getElementById('cal-month-select').value = calMonth; 
-                renderCalendarGrid();
-                renderDayDetails(selectedDateKey);
-            });
-            document.getElementById('calendar-close-btn').addEventListener('click', closeCalendar);
-            document.getElementById('calendar-overlay-bg').addEventListener('click', closeCalendar);
-            
-            document.getElementById('cal-prev-btn').addEventListener('click', () => { if(calMonth > 0) { calMonth--; document.getElementById('cal-month-select').value = calMonth; renderCalendarGrid(); }});
-            document.getElementById('cal-next-btn').addEventListener('click', () => { if(calMonth < 11) { calMonth++; document.getElementById('cal-month-select').value = calMonth; renderCalendarGrid(); }});
-            document.getElementById('cal-month-select').addEventListener('change', (e) => { calMonth = parseInt(e.target.value); renderCalendarGrid(); });
-            document.getElementById('add-event-form').addEventListener('submit', handleCreateCalendarEvent);
-
-            document.getElementById('qa-form').addEventListener('submit', handleCreatePost);
-            document.querySelectorAll('.role-chip-btn').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    document.getElementById('author-role').value = chip.getAttribute('data-role');
-                });
-            });
-
-            document.getElementById('search-input').addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase().trim(); renderPosts(); });
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.getAttribute('data-filter'); renderPosts();
-                });
-            });
-        }
-
-        function openAdmin(state) {
-            const sidebar = document.getElementById('admin-sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
-            const floater = document.getElementById('admin-float-tab');
-            
-            if(state) { sidebar.classList.add('open'); overlay.classList.add('show'); floater.classList.add('hidden'); }
-            else { sidebar.classList.remove('open'); overlay.classList.remove('show'); if (currentUser) floater.classList.remove('hidden'); }
-        }
+        // DOM Elements Principales
+        const btnLogin = document.getElementById('btn-login');
+        const btnLogout = document.getElementById('btn-logout');
+        const userPanel = document.getElementById('user-panel');
+        const formOverlay = document.getElementById('form-overlay');
+        const postForm = document.getElementById('post-form');
+        const postsContainer = document.getElementById('posts-container');
         
-        function closeCalendar() { document.getElementById('calendar-modal').classList.remove('show'); document.getElementById('calendar-overlay-bg').classList.remove('show'); }
+        // Elementos del Modal Onboarding
+        const modalOnboarding = document.getElementById('modal-onboarding');
+        const userTypeSelect = document.getElementById('user-type');
+        const extraFields = document.getElementById('extra-fields');
+        const studentNameGroup = document.getElementById('student-name-group');
+        const courseLabel = document.getElementById('course-label');
+        const onboardingForm = document.getElementById('onboarding-form');
 
-        // --- CALENDARIO ESCOLAR LÓGICA ---
-        function renderCalendarGrid() {
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
-            ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].forEach(d => {
-                const div = document.createElement('div'); div.className = 'day-name'; div.textContent = d; grid.appendChild(div);
+        /* ================= AUTENTICACIÓN ================= */
+        const login = async () => {
+            if(auth) {
+                try { await signInWithPopup(auth, provider); } 
+                catch (error) { Swal.fire('Error', error.message, 'error'); }
+            } else {
+                // Simulación en modo de prueba
+                handleUserAuth({ uid: 'user123', email: 'papa@gmail.com', displayName: 'Prueba', photoURL: '' });
+            }
+        };
+
+        const logout = async () => {
+            if(auth) await signOut(auth);
+            else { currentUser = null; userData = null; renderUI(); renderPosts(); }
+        };
+
+        btnLogin.addEventListener('click', login);
+        btnLogout.addEventListener('click', logout);
+
+        if(auth) {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) handleUserAuth(user);
+                else { currentUser = null; userData = null; renderUI(); renderPosts(); }
             });
+        }
 
-            const firstDay = new Date(calYear, calMonth, 1).getDay();
-            const emptyDays = firstDay === 0 ? 6 : firstDay - 1;
-            const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-            const stringToday = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`;
+        async function handleUserAuth(user) {
+            currentUser = user;
+            const email = user.email;
 
-            for (let i = 0; i < emptyDays; i++) {
-                const div = document.createElement('div'); div.className = 'calendar-day empty'; grid.appendChild(div);
-            }
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateKey = `${calYear}-${calMonth + 1}-${day}`;
-                const holiday = holidays2026[dateKey];
-                const dayEvents = calendarEvents[dateKey] || [];
-                const isToday = (dateKey === stringToday);
-
-                const div = document.createElement('div');
-                div.className = `calendar-day ${holiday ? 'holiday' : ''} ${selectedDateKey === dateKey ? 'active' : ''} ${isToday ? 'today-marker' : ''}`;
-                
-                let eventsHtml = '';
-                if(dayEvents.length > 0) {
-                    eventsHtml = `<div class="event-dot-container">`;
-                    dayEvents.forEach(e => { eventsHtml += `<div class="event-dot ${e.type.toLowerCase()}" title="${e.title}"></div>`; });
-                    eventsHtml += `</div>`;
+            // REGLA 1: Dominio de Funcionario
+            if (email.endsWith('@slepcolchagua.cl')) {
+                userData = { rol: 'Funcionario', nombre: user.displayName, email: email };
+                if(db) await setDoc(doc(db, "users", user.uid), userData, { merge: true });
+                renderUI();
+                renderPosts();
+            } 
+            // REGLA 2: Dominio Apoderado/Estudiante
+            else if (email.endsWith('@gmail.com')) {
+                if(db) {
+                    const docSnap = await getDoc(doc(db, "users", user.uid));
+                    if (docSnap.exists()) {
+                        userData = docSnap.data(); // Ya había completado el onboarding
+                        renderUI(); renderPosts();
+                    } else {
+                        modalOnboarding.classList.remove('hidden'); // Debe elegir quién es
+                    }
+                } else {
+                    modalOnboarding.classList.remove('hidden'); // Modo Prueba
                 }
-
-                div.innerHTML = `<div class="day-number">${day}</div>${holiday ? `<div class="holiday-name">${holiday}</div>` : ''}${eventsHtml}`;
-                div.onclick = () => { selectedDateKey = dateKey; renderCalendarGrid(); renderDayDetails(dateKey, day, holiday); };
-                grid.appendChild(div);
+            } 
+            else {
+                logout();
+                Swal.fire('Acceso Denegado', 'Debes usar un correo @slepcolchagua.cl o de @gmail.com', 'error');
             }
         }
 
-        function renderDayDetails(dateKey, dayNum, holidayStr) {
-            if(!dayNum) { dayNum = dateKey.split('-')[2]; holidayStr = holidays2026[dateKey]; }
-
-            document.getElementById('empty-day-state').style.display = 'none';
-            document.getElementById('day-events-panel').style.display = 'block';
-            document.getElementById('selected-day-title').textContent = `${dayNum} de ${monthNames[calMonth]} ${calYear}`;
-            
-            const alertCont = document.getElementById('holiday-alert-container');
-            alertCont.innerHTML = holidayStr ? `<div class="holiday-alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Feriado: ${holidayStr}</div>` : '';
-
-            const container = document.getElementById('events-container');
-            const dayEvents = calendarEvents[dateKey] || [];
-
-            if (dayEvents.length === 0) {
-                container.innerHTML = '<p style="font-size:13px; color:var(--text-light); text-align:center; padding:10px 0;">No hay evaluaciones ni tareas programadas.</p>';
+        /* ================= ONBOARDING DINÁMICO ================= */
+        userTypeSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val === '') {
+                extraFields.classList.add('hidden');
+                document.getElementById('btn-submit-onboarding').classList.add('hidden');
             } else {
-                container.innerHTML = dayEvents.map(e => `
-                    <div class="event-card-cal">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <span class="event-type-badge ${e.type.toLowerCase()}">${e.type}</span>
-                            ${currentUser ? `<button class="btn-reply-delete" onclick="removeEvent('${dateKey}', '${e.id}')">X Borrar</button>` : ''}
-                        </div>
-                        <div class="event-title-cal">${escapeHTML(e.title)}</div>
-                        <div class="event-author-cal">📍 ${escapeHTML(e.course)} • 👤 ${escapeHTML(e.author)}</div>
-                    </div>
-                `).join('');
+                extraFields.classList.remove('hidden');
+                document.getElementById('btn-submit-onboarding').classList.remove('hidden');
+                
+                // Muestra u oculta input del hijo dependiendo de si es Apoderado o no.
+                if (val === 'Apoderado') {
+                    studentNameGroup.classList.remove('hidden');
+                    document.getElementById('student-name').required = true;
+                    courseLabel.innerText = "Curso del Estudiante";
+                } else if (val === 'Estudiante') {
+                    studentNameGroup.classList.add('hidden');
+                    document.getElementById('student-name').required = false;
+                    courseLabel.innerText = "Tu Curso";
+                }
             }
+        });
 
-            const addBox = document.getElementById('add-event-box');
-            const authWarn = document.getElementById('calendar-auth-warning');
-            
-            if (currentUser) {
-                addBox.style.display = 'block';
-                authWarn.style.display = 'none';
-                document.getElementById('event-author').value = currentUser.displayName || "Docente Autorizado";
-            } else {
-                addBox.style.display = 'none';
-                authWarn.style.display = 'block';
-            }
-        }
-
-        function handleCreateCalendarEvent(e) {
+        onboardingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUser) return alert("Debes iniciar sesión para agendar.");
-            if (!selectedDateKey) return alert("Selecciona un día primero.");
+            const rol = userTypeSelect.value;
+            const nombre = document.getElementById('user-name').value;
+            const curso = document.getElementById('user-course').value;
+            const estudiante = rol === 'Apoderado' ? document.getElementById('student-name').value : '';
 
-            const newEvt = {
-                id: 'evt_' + Date.now(),
-                title: document.getElementById('event-title').value.trim(),
-                type: document.getElementById('event-type').value,
-                course: document.getElementById('event-course').value,
-                author: currentUser.displayName || document.getElementById('event-author').value.trim()
+            userData = { rol, nombre, curso, estudiante, email: currentUser.email };
+
+            if(db) await setDoc(doc(db, "users", currentUser.uid), userData);
+
+            modalOnboarding.classList.add('hidden');
+            Swal.fire('¡Perfil completado!', 'Bienvenido a la plataforma.', 'success');
+            renderUI(); renderPosts();
+        });
+
+        /* ================= INTERFAZ DINÁMICA ================= */
+        function renderUI() {
+            if (currentUser && userData) {
+                btnLogin.classList.add('hidden');
+                userPanel.classList.remove('hidden');
+                formOverlay.classList.add('hidden'); // Desbloquea formulario
+                
+                document.getElementById('user-greeting').innerText = `Hola, ${userData.nombre}`;
+                document.getElementById('user-avatar').src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${userData.nombre}&background=4f46e5&color=fff`;
+                
+                let badgeColor = userData.rol === 'Funcionario' ? 'bg-indigo-100 text-indigo-700' : (userData.rol === 'Apoderado' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700');
+                let context = userData.rol === 'Apoderado' ? ` | Apoderado de: ${userData.estudiante} (${userData.curso})` : (userData.rol === 'Estudiante' ? ` | ${userData.curso}` : '');
+
+                const roleBadge = document.getElementById('user-role-badge');
+                roleBadge.className = `inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeColor}`;
+                roleBadge.innerText = `${userData.rol} ${context}`;
+            } else {
+                btnLogin.classList.remove('hidden');
+                userPanel.classList.add('hidden');
+                formOverlay.classList.remove('hidden'); // Bloquea formulario
+            }
+        }
+
+        /* ================= PUBLICACIÓN ================= */
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser || !userData) return;
+
+            const title = document.getElementById('post-title').value;
+            const body = document.getElementById('post-body').value;
+            const fileInput = document.getElementById('post-file');
+            let fileUrl = null;
+
+            Swal.fire({ title: 'Subiendo...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            // Subida a Storage si se adjuntó un archivo
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                if(storage) {
+                    try {
+                        const storageRef = ref(storage, `documentos/${Date.now()}_${file.name}`);
+                        const snapshot = await uploadBytes(storageRef, file);
+                        fileUrl = await getDownloadURL(snapshot.ref);
+                    } catch (error) {
+                        return Swal.fire('Error', 'No se pudo subir el archivo.', 'error');
+                    }
+                } else {
+                    fileUrl = "#mock"; // Para local fallback
+                }
+            }
+
+            const newPost = {
+                title,
+                body,
+                authorId: currentUser.uid || 'user123',
+                authorName: userData.nombre,
+                role: userData.rol,
+                date: new Date().toISOString(),
+                fileUrl,
+                fileName: fileInput.files.length > 0 ? fileInput.files[0].name : null
             };
 
-            if (!calendarEvents[selectedDateKey]) calendarEvents[selectedDateKey] = [];
-            calendarEvents[selectedDateKey].push(newEvt);
-
-            saveToStorage();
-            showToast('Actividad agregada al calendario', 'success'); // Notificación de éxito
-
-            document.getElementById('event-title').value = '';
-            renderCalendarGrid(); renderDayDetails(selectedDateKey);
-        }
-
-        window.removeEvent = function(dateKey, evtId) { 
-            if(currentUser && confirm("¿Eliminar evento?")) { 
-                calendarEvents[dateKey] = calendarEvents[dateKey].filter(e => e.id !== evtId); 
-                saveToStorage(); 
-                showToast('Evento eliminado de la agenda', 'danger'); // Notificación al borrar
-            } 
-        };
-
-        // --- FORO LÓGICA PRINCIPAL ---
-        function handleCreatePost(e) {
-            e.preventDefault();
-            const role = document.getElementById('author-role').value;
-            if (!role) return alert('Selecciona tu Rol.');
-
-            const messageVal = document.getElementById('message').value.trim();
-            if(messageVal.length > 400) return alert('Límite de caracteres superado.');
-
-            const newPost = { id: 'post_' + Date.now(), author: document.getElementById('author').value.trim(), role: role, category: document.getElementById('category').value, course: document.getElementById('course').value, subject: document.getElementById('subject').value, title: document.getElementById('title').value.trim(), message: messageVal, date: new Date().toLocaleString('es-CL', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }), replies: [] };
-            posts.unshift(newPost); 
-            saveToStorage();
-            
-            showToast('¡Nueva publicación creada en el muro!', 'success'); // Notificación al publicar
-            
-            document.getElementById('title').value = ''; document.getElementById('message').value = '';
-            const counterDiv = document.getElementById('char-counter');
-            if (counterDiv) { counterDiv.textContent = '0 / 400 caracteres'; counterDiv.style.color = 'var(--text-light)'; }
-
-            if(!currentUser) { document.getElementById('author').value = ''; document.querySelectorAll('.role-chip-btn').forEach(c => c.classList.remove('active')); document.getElementById('author-role').value = ''; }
-        }
-
-        window.removePost = function(id) { 
-            if (currentUser && confirm('¿Eliminar publicación?')) { 
-                posts = posts.filter(p => p.id !== id); 
-                saveToStorage(); 
-                showToast('Publicación eliminada', 'danger'); // Notificación
-            } 
-        };
-        
-        window.removeReply = function(postId, replyId) { 
-            if (currentUser && confirm('¿Borrar comentario?')) { 
-                const p = posts.find(x => x.id === postId); 
-                if (p) { 
-                    p.replies = p.replies.filter(r => r.id !== replyId); 
-                    saveToStorage(); 
-                    showToast('Comentario eliminado', 'danger'); // Notificación
-                } 
-            } 
-        };
-
-        window.handleCreateReply = function(e, postId) {
-            e.preventDefault(); const form = e.target; const p = posts.find(x => x.id === postId);
-            if (p) { 
-                p.replies.push({ id: 'reply_' + Date.now(), author: form.querySelector('.reply-author-input').value.trim(), message: form.querySelector('.reply-textarea').value.trim(), date: new Date().toLocaleString('es-CL', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) }); 
-                saveToStorage(); 
-                showToast('Respuesta enviada', 'success'); // Notificación de respuesta
+            if(db) {
+                await addDoc(collection(db, "posts"), newPost);
+            } else {
+                newPost.id = Date.now().toString();
+                mockPosts.unshift(newPost);
             }
+
+            postForm.reset();
+            Swal.fire('¡Publicado!', 'Tu mensaje ya está en el muro.', 'success');
+            if(!db) renderPosts();
+        });
+
+        /* ================= ESCUCHAR Y RENDERIZAR MURO ================= */
+        if (db) {
+            const q = query(collection(db, "posts"), orderBy("date", "desc"));
+            onSnapshot(q, (snapshot) => {
+                mockPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderPosts();
+            });
+        } else {
+            setTimeout(renderPosts, 500); // Trigger mock render
         }
 
         function renderPosts() {
-            const container = document.getElementById('posts-container');
-            container.innerHTML = '';
-            const filtered = posts.filter(p => (currentFilter === 'Todos' || p.category === currentFilter) && (p.title.toLowerCase().includes(searchQuery) || p.message.toLowerCase().includes(searchQuery)));
-            if (filtered.length === 0) return container.innerHTML = `<p style="text-align:center; color:#94a3b8; padding: 40px 0;">No hay publicaciones.</p>`;
+            postsContainer.innerHTML = '';
+            if (mockPosts.length === 0) {
+                postsContainer.innerHTML = `<div class="text-center py-10 text-slate-500 bg-white rounded-2xl border">Sin publicaciones.</div>`;
+                return;
+            }
 
-            filtered.forEach(post => {
-                const rClass = post.role ? post.role.toLowerCase() : 'docente';
-                const courseLbl = post.course !== 'General' ? `<span class="badge badge-course">${escapeHTML(post.course)}</span>` : '';
-                const subjLbl = post.subject !== 'General' ? `<span class="badge badge-subject">${escapeHTML(post.subject)}</span>` : '';
+            mockPosts.forEach(post => {
+                const isAuthor = currentUser && post.authorId === (currentUser.uid || 'user123');
+                const isFuncionario = userData && userData.rol === 'Funcionario';
                 
-                const repHtml = post.replies.map(r => `<div class="reply-item"><div class="reply-meta"><span class="reply-user">${escapeHTML(r.author)}</span><div><span class="reply-date">${r.date}</span> ${currentUser ? `<button type="button" class="btn-reply-delete" onclick="removeReply('${post.id}', '${r.id}')">Borrar</button>` : ''}</div></div><p class="reply-body">${escapeHTML(r.message)}</p></div>`).join('');
+                // REGLAS ESTRICTAS DE BORRADO Y EDICIÓN:
+                const canDelete = isFuncionario; // Solo los funcionarios borran. Apoderados NO pueden.
+                const canEdit = isAuthor; // Pueden editar si son el dueño del post
 
-                const card = document.createElement('article'); card.className = `post-card`;
-                card.innerHTML = `<div class="post-header"><div class="badge-wrapper"><span class="badge ${post.category === 'Comunicado' ? 'comunicado' : 'consulta'}">${post.category}</span><span class="badge ${rClass}">${escapeHTML(post.role || 'Docente')}</span>${courseLbl}${subjLbl}</div></div><h3 class="post-title">${escapeHTML(post.title)}</h3><p class="post-body">${escapeHTML(post.message)}</p><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><span class="post-date-bottom">Escrito por <strong>${escapeHTML(post.author)}</strong> el ${post.date}</span></div> ${currentUser ? `<button type="button" class=\"btn-moderator-delete\" onclick=\"removePost('${post.id}')\">Eliminar</button>` : ''}</div><div class="replies-container">${post.replies.length > 0 ? `<div class="replies-title">Respuestas (${post.replies.length})</div>` : ''}<div class="replies-list">${repHtml}</div><form class="reply-form" onsubmit="handleCreateReply(event, '${post.id}')"><div class="reply-mini-grid"><input type="text" placeholder="Tu Nombre" class="input-reply reply-author-input" ${currentUser ? `value="${escapeHTML(currentUser.displayName || '')}"` : ''} required><input type="text" placeholder="Escribe tu respuesta..." class="input-reply reply-textarea" required></div><button type="submit" class="btn-reply">Responder</button></form></div>`;
-                container.appendChild(card);
+                let badgeColor = post.role === 'Funcionario' ? 'bg-indigo-100 text-indigo-700' : (post.role === 'Apoderado' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700');
+
+                let fileHtml = '';
+                if (post.fileUrl) {
+                    fileHtml = `
+                    <div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="bg-red-100 text-red-500 p-2 rounded-lg"><i class="fa-solid fa-file-pdf"></i></div>
+                            <p class="text-sm font-semibold text-slate-700 truncate">${post.fileName || 'Archivo adjunto'}</p>
+                        </div>
+                        <a href="${post.fileUrl}" target="_blank" class="bg-white border hover:bg-slate-50 text-accent font-bold py-1.5 px-4 rounded-lg text-sm transition shadow-sm whitespace-nowrap"><i class="fa-solid fa-download"></i> Bajar</a>
+                    </div>`;
+                }
+
+                let buttonsHtml = '';
+                if (canEdit || canDelete) {
+                    buttonsHtml = `<div class="flex gap-2 mt-4 pt-4 border-t border-slate-100 justify-end">`;
+                    if (canEdit) buttonsHtml += `<button onclick="window.openEditModal('${post.id}')" class="text-indigo-600 hover:bg-indigo-50 px-3 py-1.5 rounded-lg text-sm font-bold transition"><i class="fa-solid fa-pen"></i> Editar</button>`;
+                    if (canDelete) buttonsHtml += `<button onclick="window.deletePost('${post.id}')" class="text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg text-sm font-bold transition"><i class="fa-solid fa-trash"></i> Borrar</button>`;
+                    buttonsHtml += `</div>`;
+                }
+
+                const dateObj = new Date(post.date);
+                const dateStr = isNaN(dateObj) ? post.date : dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+                const postEl = document.createElement('div');
+                postEl.className = 'bg-white rounded-2xl shadow-sm border border-slate-200 p-6';
+                postEl.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-lg">
+                            ${post.authorName.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-primary leading-tight">${post.authorName}</h4>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${badgeColor}">${post.role}</span>
+                            <span class="text-xs text-slate-400 ml-2">${dateStr}</span>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">${post.title}</h3>
+                    <p class="text-slate-600 text-[15px] whitespace-pre-line leading-relaxed">${post.body}</p>
+                    ${fileHtml}
+                    ${buttonsHtml}
+                `;
+                postsContainer.appendChild(postEl);
             });
         }
 
-        function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)); }
-        
-        document.addEventListener('DOMContentLoaded', init);
+        /* ================= EVENTOS DE EDICIÓN Y BORRADO ================= */
+        window.deletePost = async (id) => {
+            const res = await Swal.fire({
+                title: '¿Eliminar publicación?', text: "Esta acción solo la puede realizar un Funcionario.",
+                icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'Borrar'
+            });
+
+            if (res.isConfirmed) {
+                if(db) await deleteDoc(doc(db, "posts", id));
+                else { mockPosts = mockPosts.filter(p => p.id !== id); renderPosts(); }
+                Swal.fire('Borrado', 'Publicación eliminada.', 'success');
+            }
+        };
+
+        const modalEdit = document.getElementById('modal-edit');
+        const editForm = document.getElementById('edit-form');
+
+        window.openEditModal = (id) => {
+            const post = mockPosts.find(p => p.id === id);
+            if(!post) return;
+            document.getElementById('edit-post-id').value = post.id;
+            document.getElementById('edit-post-title').value = post.title;
+            document.getElementById('edit-post-body').value = post.body;
+            modalEdit.classList.remove('hidden');
+        };
+
+        document.getElementById('btn-cancel-edit').addEventListener('click', () => modalEdit.classList.add('hidden'));
+
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-post-id').value;
+            const newTitle = document.getElementById('edit-post-title').value;
+            const newBody = document.getElementById('edit-post-body').value;
+
+            if(db) await updateDoc(doc(db, "posts", id), { title: newTitle, body: newBody });
+            else {
+                const p = mockPosts.find(x => x.id === id);
+                p.title = newTitle; p.body = newBody; renderPosts();
+            }
+
+            modalEdit.classList.add('hidden');
+            Swal.fire('Actualizado', 'Tu publicación fue editada.', 'success');
+        });
     </script>
 </body>
 </html>

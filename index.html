@@ -42,11 +42,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style> 
-        body { font-family: 'Lora', serif; background-color: var(--background, #f8fafc); color: var(--textMain, #1e293b); } 
-        h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
+        /* Fuentes modernas */
+        body { font-family: 'Inter', sans-serif; background-color: var(--background, #f8fafc); color: var(--textMain, #1e293b); } 
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f8fafc; }
@@ -67,6 +68,12 @@
         }
 
         .border-gold-soft { border-color: rgba(201,162,39,0.2) !important; }
+
+        /* Calendario */
+        .calendar-day { transition: all 0.2s; }
+        .calendar-day:hover { background-color: var(--surfaceAlt); cursor: pointer; }
+        .calendar-day.selected { background-color: var(--instBlue); color: white; font-weight: bold; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .calendar-day.today { border: 2px solid var(--instGold); border-radius: 8px; }
     </style>
 </head>
 <body class="pb-12 bg-background">
@@ -74,14 +81,15 @@
     <header class="bg-surface sticky top-0 z-40 shadow-sm transition-all duration-300 relative">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-4 cursor-pointer">
+                <img id="school-logo" src="logo2.jpg" alt="Escudo Institucional" class="w-12 h-12 object-contain hidden rounded-md shadow-sm">
                 <div id="school-icon" class="text-instBlue text-3xl">
                     <i class="fa-solid fa-building-columns"></i>
                 </div>
                 <div class="border-l border-border pl-4">
-                    <h1 class="font-bold text-xl leading-tight tracking-tight">
+                    <h1 class="font-extrabold text-xl leading-tight tracking-tight">
                         <span class="brand-text-gold">Cone</span><span class="brand-text-red">cta </span><span class="brand-text-blue">Edu</span>
                     </h1>
-                    <span class="text-[10px] text-textSoft font-bold tracking-widest uppercase">Portal Institucional Oficial</span>
+                    <span class="text-[10px] text-textSoft font-bold tracking-widest uppercase font-sans">Portal Institucional Oficial</span>
                 </div>
             </div>
             <div>
@@ -116,8 +124,8 @@
                         </div>
                     </div>
                 </div>
-                <button id="btn-logout" class="mt-5 sm:mt-0 w-full sm:w-auto bg-surfaceAlt border border-border hover:bg-red-50 hover:border-red-100 hover:text-instRed text-textMain text-sm font-semibold py-2.5 px-5 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-power-off text-textSoft transition-colors"></i> Cerrar Sesión
+                <button id="btn-logout" class="mt-5 sm:mt-0 w-full sm:w-auto bg-surfaceAlt border border-border hover:bg-red-50 hover:text-instRed text-textMain text-sm font-semibold py-2.5 px-5 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-power-off text-textSoft transition-colors hover:text-instRed"></i> Cerrar Sesión
                 </button>
             </div>
 
@@ -218,13 +226,57 @@
                 <div id="posts-container" class="space-y-6">
                     <div class="text-center py-20 bg-surface rounded-xl border border-border text-textSoft shadow-inst flex flex-col items-center overflow-hidden">
                         <i class="fa-solid fa-circle-notch fa-spin text-3xl text-border mb-4"></i>
-                        <p class="font-medium text-sm">Sincronizando registros oficiales...</p>
+                        <p class="font-medium text-sm mt-2">Sincronizando registros oficiales...</p>
                     </div>
                 </div>
             </section>
         </div>
 
         <div class="lg:col-span-4 space-y-6">
+            
+            <div class="bg-surface rounded-xl border border-border p-6 shadow-inst relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-[3px] flex">
+                    <div class="flex-1 bg-instGold"></div>
+                    <div class="w-1/4 bg-instRed"></div>
+                </div>
+                
+                <div class="flex items-center gap-3 mb-4 mt-2">
+                    <div class="text-instBlue text-2xl">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-textMain uppercase tracking-wide">Calendario Escolar</h3>
+                </div>
+
+                <div class="flex justify-between items-center mb-4">
+                    <button id="btn-prev-month" class="text-textSoft hover:text-instBlue transition-colors px-2"><i class="fa-solid fa-chevron-left"></i></button>
+                    <h4 id="calendar-month-year" class="font-bold text-instBlue text-sm capitalize">Mayo 2026</h4>
+                    <button id="btn-next-month" class="text-textSoft hover:text-instBlue transition-colors px-2"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+
+                <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                    <span class="text-[10px] font-bold text-instRed">Do</span>
+                    <span class="text-[10px] font-bold text-textSoft">Lu</span>
+                    <span class="text-[10px] font-bold text-textSoft">Ma</span>
+                    <span class="text-[10px] font-bold text-textSoft">Mi</span>
+                    <span class="text-[10px] font-bold text-textSoft">Ju</span>
+                    <span class="text-[10px] font-bold text-textSoft">Vi</span>
+                    <span class="text-[10px] font-bold text-textSoft">Sa</span>
+                </div>
+
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center text-sm font-medium text-textMain mb-4">
+                    </div>
+
+                <div class="border-t border-border pt-4 mt-2">
+                    <h5 id="selected-date-label" class="text-xs font-bold text-textSoft uppercase tracking-wider mb-3">Eventos del Día</h5>
+                    <div id="day-events-container" class="space-y-3 min-h-[50px]">
+                        </div>
+                    
+                    <button id="btn-add-event" onclick="window.openEventModal()" class="w-full mt-4 bg-surfaceAlt border border-border border-gold-soft hover:bg-surface hover:border-instGold text-instBlue font-semibold py-2.5 rounded-lg transition-all text-xs flex items-center justify-center gap-2 hidden shadow-sm">
+                        <i class="fa-solid fa-plus text-instGold"></i> Registrar Evento/Evaluación
+                    </button>
+                </div>
+            </div>
+
             <div class="bg-surface rounded-xl border border-border p-6 shadow-inst relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-[2px] bg-instGold"></div>
                 <div class="flex items-center gap-3 mb-4">
@@ -240,7 +292,7 @@
             </div>
 
             <div class="bg-surface rounded-xl border border-border p-6 shadow-inst">
-                <h3 class="text-xs font-bold text-textSoft uppercase tracking-wider mb-4 border-b border-border pb-3">Portales de Interés</h3>
+                <h3 class="text-xs font-bold text-textSoft uppercase tracking-wider mb-4 border-b border-border pb-3">Enlaces Oficiales</h3>
                 <div class="space-y-3">
                     <a href="https://www.mineduc.cl/" target="_blank" class="flex items-center p-3 rounded-lg bg-surfaceAlt hover:bg-surface border border-transparent border-gold-soft text-textMain hover:text-instBlue font-medium text-sm transition-all group">
                         <i class="fa-solid fa-building-columns w-8 text-textSoft group-hover:text-instGold transition-colors"></i>
@@ -254,6 +306,88 @@
             </div>
         </div>
     </main>
+
+    <div id="modal-event" class="fixed inset-0 bg-primary/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-surface rounded-xl shadow-2xl p-7 max-w-lg w-full transform scale-95 opacity-0 transition-all duration-300 border border-border">
+            <h2 class="text-lg font-bold text-instBlue mb-5 flex items-center gap-2 border-b border-border pb-4">
+                <i class="fa-solid fa-calendar-plus text-instGold"></i> Agendar Evento Institucional
+            </h2>
+            <form id="event-form" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5">Fecha</label>
+                        <input type="text" id="event-date-display" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-textSoft cursor-not-allowed" readonly>
+                        <input type="hidden" id="event-date-val">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5">Tipo de Registro</label>
+                        <select id="event-type" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none transition-all cursor-pointer">
+                            <option value="evento">🗓️ Evento General</option>
+                            <option value="evaluacion">📝 Evaluación Académica</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-textMain mb-1.5">Título del Evento / Evaluación</label>
+                    <input type="text" id="event-title" placeholder="Ej: Prueba Sumativa / Aniversario" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none" required>
+                </div>
+                
+                <div id="eval-fields-container" class="hidden space-y-4 border-t border-border mt-4 pt-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-textMain mb-1.5">Tipo de Evaluación</label>
+                            <select id="eval-type" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none cursor-pointer">
+                                <option value="Prueba Sumativa">Prueba Sumativa</option>
+                                <option value="Prueba Formativa">Prueba Formativa</option>
+                                <option value="Trabajo Práctico">Trabajo Práctico</option>
+                                <option value="Disertación">Disertación</option>
+                                <option value="Control de Lectura">Control de Lectura</option>
+                                <option value="Otro">Otro Tipo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-textMain mb-1.5">Asignatura</label>
+                            <select id="eval-subject" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none cursor-pointer">
+                                <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option><option value="Matemática">Matemática</option><option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option><option value="Ciencias Naturales">Ciencias Naturales</option><option value="Biología">Biología</option><option value="Física">Física</option><option value="Química">Química</option><option value="Inglés">Inglés</option><option value="Artes Visuales">Artes Visuales</option><option value="Música">Música</option><option value="Educación Física y Salud">Educación Física y Salud</option><option value="Tecnología">Tecnología</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-textMain mb-1.5">Bloque Horario</label>
+                            <select id="eval-block" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none cursor-pointer">
+                                <option value="Bloque 1">Bloque 1 (08:00 - 09:30)</option>
+                                <option value="Bloque 2">Bloque 2 (09:50 - 11:20)</option>
+                                <option value="Bloque 3">Bloque 3 (11:40 - 13:10)</option>
+                                <option value="Bloque 4">Bloque 4 (14:00 - 15:30)</option>
+                                <option value="Bloque 5">Bloque 5 (15:50 - 17:20)</option>
+                                <option value="Jornada Completa">Jornada Completa</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-textMain mb-1.5">Hora Exacta</label>
+                            <input type="time" id="event-time" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="general-time-container">
+                    <label class="block text-sm font-semibold text-textMain mb-1.5">Hora Exacta</label>
+                    <input type="time" id="general-event-time" class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-textMain mb-1.5">Breve Descripción / Temario</label>
+                    <textarea id="event-desc" rows="2" maxlength="150" placeholder="Detalles, temario o información relevante..." class="w-full p-3 border border-border rounded-lg bg-surface focus:border-instBlue outline-none resize-none"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-border">
+                    <button type="button" onclick="window.closeEventModal()" class="px-5 py-2.5 text-textMain bg-surfaceAlt hover:bg-border font-semibold rounded-lg transition-colors">Cancelar</button>
+                    <button type="submit" class="px-5 py-2.5 bg-instBlue text-white rounded-lg font-semibold hover:bg-instBlueSoft shadow-sm transition-colors">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div id="modal-rules" class="fixed inset-0 bg-primary/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div id="modal-rules-content" class="bg-surface rounded-xl shadow-2xl w-full max-w-lg transform scale-95 opacity-0 transition-all duration-300 flex flex-col border border-border">
@@ -281,7 +415,7 @@
                         </div>
                     </div>
                     <div class="flex gap-4 items-start">
-                        <i class="fa-solid fa-user-lock text-instBlue mt-1"></i> 
+                        <i class="fa-solid fa-shield-halved text-instBlue mt-1"></i> 
                         <div>
                             <strong class="text-textMain block mb-0.5">Protección de Datos</strong>
                             Queda prohibida la difusión de datos personales o material sensible de la comunidad.
@@ -307,24 +441,24 @@
             </div>
             <form id="onboarding-form" class="space-y-5">
                 <div>
-                    <label class="block text-sm font-semibold text-textMain mb-1.5">Rol en la Comunidad</label>
+                    <label class="block text-sm font-semibold text-textMain mb-1.5">Categoría en la Institución</label>
                     <select id="user-type" class="w-full p-3.5 border border-border rounded-lg bg-surfaceAlt text-textMain focus:border-instBlue focus:ring-1 focus:ring-instBlue outline-none transition-all" required>
                         <option value="">Seleccione su cargo/rol...</option>
                         <option value="Apoderado">Apoderado / Tutor Legal</option>
-                        <option value="Estudiante">Estudiante</option>
+                        <option value="Estudiante">Estudiante Regular</option>
                     </select>
                 </div>
                 <div id="extra-fields" class="hidden space-y-5">
                     <div>
-                        <label class="block text-sm font-semibold text-textMain mb-1.5">Nombre Completo</label>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5">Nombre Completo (Real)</label>
                         <input type="text" id="user-name" class="w-full p-3.5 border border-border rounded-lg bg-surface focus:border-instBlue outline-none" required>
                     </div>
                     <div id="student-name-group" class="hidden">
-                        <label class="block text-sm font-semibold text-textMain mb-1.5">Nombre del Alumno a cargo</label>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5">Nombre del Alumno Vinculado</label>
                         <input type="text" id="student-name" class="w-full p-3.5 border border-border rounded-lg bg-surface focus:border-instBlue outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-textMain mb-1.5" id="course-label">Curso correspondiente</label>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5" id="course-label">Curso Asignado</label>
                         <input type="text" id="user-course" placeholder="Ej: 1° Básico A" class="w-full p-3.5 border border-border rounded-lg bg-surface focus:border-instBlue outline-none" required>
                     </div>
                 </div>
@@ -337,39 +471,39 @@
 
     <div id="modal-edit" class="fixed inset-0 bg-primary/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-surface rounded-xl shadow-2xl p-7 max-w-xl w-full transform scale-95 opacity-0 transition-all duration-300 border border-border">
-            <h2 class="text-xl font-bold text-slate-800 mb-5 flex items-center gap-2 border-b border-slate-100 pb-3">
-                <i class="fa-solid fa-pen-to-square text-instGold"></i> Edición de Comunicado Oficial
+            <h2 class="text-lg font-bold text-instBlue mb-5 flex items-center gap-2 border-b border-border pb-4">
+                <i class="fa-solid fa-pen-to-square text-instGold"></i> Modificar Documento
             </h2>
-            <form id="edit-form" class="space-y-4">
+            <form id="edit-form" class="space-y-5">
                 <input type="hidden" id="edit-post-id">
                 <div>
-                    <label class="block text-sm font-semibold text-textMain mb-1">Asunto</label>
+                    <label class="block text-sm font-semibold text-textMain mb-1.5">Asunto</label>
                     <input type="text" id="edit-post-title" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt focus:border-instBlue outline-none" required>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-textMain mb-1">Curso</label>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5">Curso</label>
                         <select id="edit-post-course" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt focus:border-instBlue outline-none">
-                            <option value="General / Toda la Institución">🏢 Toda la Comunidad Educativa</option>
+                            <option value="General / Toda la Institución">General / Institución</option>
                             <option value="1° Básico">1° Básico</option><option value="2° Básico">2° Básico</option><option value="3° Básico">3° Básico</option><option value="4° Básico">4° Básico</option><option value="5° Básico">5° Básico</option><option value="6° Básico">6° Básico</option><option value="7° Básico">7° Básico</option><option value="8° Básico">8° Básico</option>
                             <option value="1° Medio">1° Medio</option><option value="2° Medio">2° Medio</option><option value="3° Medio">3° Medio</option><option value="4° Medio">4° Medio</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-textMain mb-1">Asignatura</label>
+                        <label class="block text-sm font-semibold text-textMain mb-1.5">Asignatura</label>
                         <select id="edit-post-subject" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt focus:border-instBlue outline-none">
-                            <option value="Ninguna / General">🌍 Comunicado General</option>
+                            <option value="Ninguna / General">Ninguna / General</option>
                             <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option><option value="Matemática">Matemática</option><option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option><option value="Ciencias Naturales">Ciencias Naturales</option><option value="Biología">Biología</option><option value="Física">Física</option><option value="Química">Química</option><option value="Inglés">Inglés</option><option value="Artes Visuales">Artes Visuales</option><option value="Música">Música</option><option value="Educación Física y Salud">Educación Física y Salud</option><option value="Tecnología">Tecnología</option><option value="Orientación">Orientación</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">Contenido (Máx. 400)</label>
+                    <label class="block text-sm font-semibold text-textMain mb-1.5">Cuerpo del texto</label>
                     <textarea id="edit-post-body" rows="4" maxlength="400" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt focus:border-instBlue outline-none resize-none" required></textarea>
                 </div>
                 <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-border">
-                    <button type="button" onclick="document.getElementById('modal-edit').classList.add('hidden')" class="px-6 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 font-semibold rounded-xl transition-colors">Cancelar</button>
-                    <button type="submit" class="px-6 py-2.5 bg-instBlue text-white rounded-xl font-bold hover:bg-instBlueSoft shadow-sm transition-colors">Guardar Cambios</button>
+                    <button type="button" onclick="document.getElementById('modal-edit').classList.add('hidden')" class="px-5 py-2.5 text-textMain bg-surfaceAlt hover:bg-border font-semibold rounded-lg transition-colors">Cancelar</button>
+                    <button type="submit" class="px-5 py-2.5 bg-instBlue text-white rounded-lg font-semibold hover:bg-instBlueSoft shadow-sm transition-colors">Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -399,24 +533,55 @@
         let currentUser = null;
         let userData = null;
         let postsArray = [];
+        let calendarEventsArray = [];
 
-        // DOM
+        // Feriados Chile 2026
+        const holidays2026 = {
+            "2026-01-01": "Año Nuevo", "2026-04-03": "Viernes Santo", "2026-04-04": "Sábado Santo", "2026-05-01": "Día del Trabajo",
+            "2026-05-21": "Día de las Glorias Navales", "2026-06-21": "Día Nac. Pueblos Indígenas", "2026-06-29": "San Pedro y San Pablo",
+            "2026-07-16": "Día de la Virgen del Carmen", "2026-08-15": "Asunción de la Virgen", "2026-09-18": "Independencia Nacional",
+            "2026-09-19": "Glorias del Ejército", "2026-10-12": "Encuentro Dos Mundos", "2026-10-31": "Iglesias Evangélicas",
+            "2026-11-01": "Día de Todos los Santos", "2026-12-08": "Inmaculada Concepción", "2026-12-25": "Navidad"
+        };
+
+        const today = new Date();
+        let currentMonth = today.getMonth();
+        let currentYear = today.getFullYear();
+        let selectedDateString = formatToDateString(today);
+
+        function formatToDateString(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        // DOM Elementos
         const btnLogin = document.getElementById('btn-login');
         const btnLogout = document.getElementById('btn-logout');
         const postBody = document.getElementById('post-body');
         const charCounter = document.getElementById('char-counter');
         const filterCourse = document.getElementById('filter-course');
         const filterSubject = document.getElementById('filter-subject');
-        
+
+        // Modal Eventos (Lógica display)
+        document.getElementById('event-type').addEventListener('change', (e) => {
+            const isEval = e.target.value === 'evaluacion';
+            document.getElementById('eval-fields-container').classList.toggle('hidden', !isEval);
+            document.getElementById('general-time-container').classList.toggle('hidden', isEval);
+            document.getElementById('event-time').required = isEval;
+            document.getElementById('general-event-time').required = !isEval;
+        });
+
         postBody.addEventListener('input', () => {
             const currentLen = postBody.value.length;
             charCounter.innerText = `${currentLen} / 400 caracteres`;
             charCounter.className = currentLen >= 400 
-                ? "text-xs font-bold bg-instRed text-white px-2 py-0.5 rounded-md" 
-                : "text-xs text-textSoft font-medium bg-surfaceAlt px-2 py-0.5 rounded-md";
+                ? "text-[11px] font-bold text-instRed" 
+                : "text-[11px] text-textSoft font-medium";
         });
 
-        btnLogin.addEventListener('click', () => signInWithPopup(auth, provider).catch(e => Swal.fire('Error', e.message, 'error')));
+        btnLogin.addEventListener('click', () => signInWithPopup(auth, provider).catch(e => Swal.fire('Error de sistema', e.message, 'error')));
         btnLogout.addEventListener('click', () => signOut(auth));
 
         onAuthStateChanged(auth, async (user) => {
@@ -434,7 +599,7 @@
                         modalOnboarding.classList.remove('hidden'); 
                         setTimeout(()=>modalOnboarding.firstElementChild.classList.remove('scale-95','opacity-0'),50); 
                     }
-                } else { signOut(auth); Swal.fire('Acceso Denegado', 'Debe utilizar su cuenta institucional.', 'error'); }
+                } else { signOut(auth); Swal.fire('Acceso Restringido', 'Credenciales no autorizadas.', 'error'); }
             } else { currentUser = null; userData = null; renderUI(); }
         });
 
@@ -462,33 +627,189 @@
                 document.getElementById('form-overlay').classList.add('hidden');
                 document.getElementById('user-greeting').innerText = userData.nombre;
                 
-                const badge = document.getElementById('user-role-badge');
+                const badge = document.getElementById('user-role-container');
                 if(userData.rol === 'Funcionario') {
-                    badge.innerHTML = `<i class="fa-solid fa-shield-check text-success"></i> ${userData.rol} Institucional`;
-                    badge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-green-50 text-green-700 border border-green-200";
+                    badge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-instGold/30 text-[10px] font-bold bg-instBlue text-white uppercase tracking-widest"><i class="fa-solid fa-shield-check text-instGold"></i> Cuenta Oficial</span>`;
+                    document.getElementById('btn-add-event').classList.remove('hidden');
                 } else {
-                    badge.innerHTML = `<i class="fa-solid fa-user text-blue-500"></i> ${userData.rol}`;
-                    badge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200";
+                    badge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-border text-[10px] font-bold bg-surfaceAlt text-textSoft uppercase tracking-widest"><i class="fa-solid fa-user"></i> ${userData.rol}</span>`;
+                    document.getElementById('btn-add-event').classList.add('hidden');
                 }
                 
-                document.getElementById('user-avatar').src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${userData.nombre}&background=2563eb&color=fff`;
+                document.getElementById('user-avatar').src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${userData.nombre}&background=101935&color=fff`;
+                document.getElementById('school-logo').classList.remove('hidden');
+                document.getElementById('school-icon').classList.add('hidden');
             } else {
                 btnLogin.classList.remove('hidden');
                 document.getElementById('user-panel').classList.add('hidden');
                 document.getElementById('form-overlay').classList.remove('hidden');
+                document.getElementById('school-logo').classList.add('hidden');
+                document.getElementById('school-icon').classList.remove('hidden');
+                document.getElementById('btn-add-event').classList.add('hidden');
             }
             filterAndRenderPosts();
         }
 
+        // ================= LÓGICA DEL CALENDARIO =================
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        function renderCalendar() {
+            document.getElementById('calendar-month-year').innerText = `${monthNames[currentMonth]} ${currentYear}`;
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) { grid.innerHTML += `<div></div>`; }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateStr = formatToDateString(new Date(currentYear, currentMonth, i));
+                let isTodayClass = dateStr === formatToDateString(today) ? 'today' : '';
+                let isSelectedClass = dateStr === selectedDateString ? 'selected' : '';
+                let isHoliday = holidays2026[dateStr] ? '<div class="w-1.5 h-1.5 bg-instRed rounded-full mx-auto mt-0.5 shadow-sm"></div>' : '';
+                
+                const dayEvents = calendarEventsArray.filter(e => e.date === dateStr);
+                let hasEvent = dayEvents.length > 0 ? '<div class="w-1.5 h-1.5 bg-instGold rounded-full mx-auto mt-0.5 shadow-sm"></div>' : '';
+
+                const dayOfWeek = new Date(currentYear, currentMonth, i).getDay();
+                let textColor = (dayOfWeek === 0 || isHoliday) ? 'text-instRed font-bold' : 'text-textMain';
+
+                grid.innerHTML += `
+                    <div class="calendar-day flex flex-col justify-center items-center h-8 w-8 mx-auto rounded-full ${isTodayClass} ${isSelectedClass}" onclick="window.selectDate('${dateStr}')">
+                        <span class="${textColor} leading-none" style="font-size: 13px;">${i}</span>
+                        <div class="flex gap-0.5">${isHoliday}${hasEvent}</div>
+                    </div>
+                `;
+            }
+            renderDayEvents();
+        }
+
+        window.selectDate = (dateStr) => { selectedDateString = dateStr; renderCalendar(); };
+
+        function renderDayEvents() {
+            const container = document.getElementById('day-events-container');
+            container.innerHTML = '';
+            
+            const [y, m, d] = selectedDateString.split('-');
+            document.getElementById('selected-date-label').innerText = `Agendado - ${d} de ${monthNames[parseInt(m)-1]} ${y}`;
+
+            let hasContent = false;
+
+            if (holidays2026[selectedDateString]) {
+                container.innerHTML += `
+                    <div class="bg-red-50 border border-red-100 p-3 rounded-lg flex items-start gap-3">
+                        <i class="fa-solid fa-flag text-instRed mt-0.5"></i>
+                        <div><p class="text-xs font-bold text-instRed uppercase tracking-wider">Feriado Nacional</p><p class="text-sm text-textMain font-bold">${holidays2026[selectedDateString]}</p></div>
+                    </div>
+                `;
+                hasContent = true;
+            }
+
+            const dayEvents = calendarEventsArray.filter(e => e.date === selectedDateString);
+            dayEvents.forEach(ev => {
+                const isEval = ev.isEvaluation;
+                const evalBadges = isEval ? `
+                    <div class="flex flex-wrap gap-1.5 mt-2.5 mb-2.5">
+                        <span class="text-[9px] font-bold bg-instBlue text-white px-2 py-0.5 rounded border border-instGold/30 uppercase tracking-wider shadow-sm">${ev.evalType}</span>
+                        <span class="text-[9px] font-bold bg-surface border border-border text-textMain px-2 py-0.5 rounded shadow-sm">${ev.subject}</span>
+                        <span class="text-[9px] font-bold bg-surface border border-border text-textSoft px-2 py-0.5 rounded shadow-sm"><i class="fa-regular fa-clock"></i> ${ev.block}</span>
+                    </div>
+                ` : '';
+
+                const deleteBtn = (userData && userData.rol === 'Funcionario') ? `
+                    <button onclick="window.deleteEvent('${ev.id}')" class="text-textSoft hover:text-instRed transition-colors ml-3 bg-white border border-border rounded p-1 shadow-sm" title="Eliminar Registro">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
+                ` : '';
+
+                container.innerHTML += `
+                    <div class="bg-surfaceAlt border border-gold-soft p-4 rounded-lg relative group transition-all hover:shadow-sm">
+                        <div class="flex justify-between items-start mb-1.5">
+                            <h6 class="text-sm font-bold text-instBlue flex-1 pr-2 leading-tight">${ev.title}</h6>
+                            <div class="flex items-center">
+                                <span class="text-[10px] font-bold bg-surface px-1.5 py-0.5 rounded border border-border text-instBlue flex items-center gap-1 shadow-sm"><i class="fa-regular fa-clock text-instGold"></i> ${ev.time}</span>
+                                ${deleteBtn}
+                            </div>
+                        </div>
+                        ${evalBadges}
+                        ${ev.description ? `<p class="text-xs text-textSoft leading-relaxed mt-1 mb-2.5">${ev.description}</p>` : ''}
+                        <p class="text-[9px] text-textSoft font-bold uppercase tracking-wider mt-2 border-t border-border/70 pt-2">Por: ${ev.authorName}</p>
+                    </div>
+                `;
+                hasContent = true;
+            });
+
+            if (!hasContent) { container.innerHTML = `<p class="text-xs text-textSoft text-center py-4 bg-surfaceAlt rounded-lg border border-border border-dashed">Día sin eventos programados.</p>`; }
+        }
+
+        document.getElementById('btn-prev-month').addEventListener('click', () => { currentMonth--; if(currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar(); });
+        document.getElementById('btn-next-month').addEventListener('click', () => { currentMonth++; if(currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar(); });
+
+        window.openEventModal = () => {
+            if (!userData || userData.rol !== 'Funcionario') return;
+            const [y, m, d] = selectedDateString.split('-');
+            document.getElementById('event-date-display').value = `${d} de ${monthNames[parseInt(m)-1]} ${y}`;
+            document.getElementById('event-date-val').value = selectedDateString;
+            
+            document.getElementById('event-form').reset();
+            document.getElementById('event-type').value = 'evento';
+            document.getElementById('eval-fields-container').classList.add('hidden');
+            document.getElementById('general-time-container').classList.remove('hidden');
+            document.getElementById('event-time').required = false;
+            document.getElementById('general-event-time').required = true;
+            
+            const modal = document.getElementById('modal-event');
+            modal.classList.remove('hidden'); setTimeout(() => modal.firstElementChild.classList.remove('scale-95', 'opacity-0'), 50);
+        };
+
+        window.closeEventModal = () => {
+            const modal = document.getElementById('modal-event');
+            modal.firstElementChild.classList.add('scale-95', 'opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300);
+        };
+
+        window.deleteEvent = async (id) => {
+            if (!userData || userData.rol !== 'Funcionario') return Swal.fire('Acceso Denegado', 'No cuenta con privilegios.', 'error');
+            const r = await Swal.fire({ title: '¿Retirar Registro?', text: 'Esta acción borrará el evento del calendario escolar permanentemente.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#b91c1c', cancelButtonText: 'Cancelar', confirmButtonText: 'Sí, retirar evento' });
+            if (r.isConfirmed) { await deleteDoc(doc(db, "events", id)); Swal.fire('Retirado', 'Evento eliminado con éxito.', 'success'); }
+        };
+
+        document.getElementById('event-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser || userData.rol !== 'Funcionario') return;
+            
+            const isEval = document.getElementById('event-type').value === 'evaluacion';
+            const finalTime = isEval ? document.getElementById('event-time').value : document.getElementById('general-event-time').value;
+            
+            await addDoc(collection(db, "events"), {
+                date: document.getElementById('event-date-val').value,
+                title: document.getElementById('event-title').value,
+                time: finalTime,
+                description: document.getElementById('event-desc').value,
+                isEvaluation: isEval,
+                evalType: isEval ? document.getElementById('eval-type').value : null,
+                subject: isEval ? document.getElementById('eval-subject').value : null,
+                block: isEval ? document.getElementById('eval-block').value : null,
+                authorId: currentUser.uid,
+                authorName: userData.nombre
+            });
+            window.closeEventModal();
+            Swal.fire('Guardado', 'El registro institucional ha sido exitoso.', 'success');
+        });
+
+        onSnapshot(query(collection(db, "events")), (snapshot) => {
+            calendarEventsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderCalendar();
+        });
+
+        // ================= LÓGICA DE POSTS Y MURO =================
         document.getElementById('post-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser || !userData) return;
-            
             const fileInput = document.getElementById('post-file');
-            let fileUrl = null;
-            let fileName = null;
+            let fileUrl = null, fileName = null;
 
-            Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({ title: 'Publicando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
@@ -504,39 +825,25 @@
                 title: document.getElementById('post-title').value,
                 course: document.getElementById('post-course').value,
                 subject: document.getElementById('post-subject').value,
-                body: postBody.value,
-                authorId: currentUser.uid, 
-                authorName: userData.nombre, 
-                role: userData.rol, 
-                date: new Date().toISOString(),
-                fileUrl, fileName, replies: [] 
+                body: postBody.value, authorId: currentUser.uid, authorName: userData.nombre, role: userData.rol, 
+                date: new Date().toISOString(), fileUrl, fileName, replies: [] 
             });
 
             document.getElementById('post-form').reset();
             charCounter.innerText = "0 / 400 caracteres";
-            charCounter.className = "text-xs text-textSoft font-medium bg-surfaceAlt px-2 py-0.5 rounded-md";
-            Swal.fire('¡Emitido!', 'El comunicado ya está en el muro oficial.', 'success');
+            charCounter.className = "text-[11px] text-textSoft font-medium";
+            Swal.fire('¡Registro Exitoso!', 'El documento ha sido publicado.', 'success');
         });
 
         window.handleReply = async (e, postId) => {
             e.preventDefault();
-            if (!currentUser || !userData) return Swal.fire('Error', 'Debe autenticarse primero.', 'warning');
-            
+            if (!currentUser || !userData) return Swal.fire('Validación Requerida', 'Debe acceder para participar.', 'warning');
             const input = document.getElementById(`reply-input-${postId}`);
             const text = input.value.trim();
             if(!text) return;
-
-            const newReply = {
-                id: Date.now().toString(),
-                authorName: userData.nombre,
-                role: userData.rol,
-                text: text,
-                date: new Date().toISOString()
-            };
-
-            input.value = 'Enviando...';
+            const newReply = { id: Date.now().toString(), authorName: userData.nombre, role: userData.rol, text: text, date: new Date().toISOString() };
+            input.value = 'Procesando...';
             input.disabled = true;
-
             await updateDoc(doc(db, "posts", postId), { replies: arrayUnion(newReply) });
         };
 
@@ -551,7 +858,6 @@
         function filterAndRenderPosts() {
             const selectedCourse = filterCourse.value;
             const selectedSubject = filterSubject.value;
-
             const filteredPosts = postsArray.filter(post => {
                 const matchCourse = (selectedCourse === 'todos') || (post.course === selectedCourse);
                 const matchSubject = (selectedSubject === 'todas') || (post.subject === selectedSubject);
@@ -562,45 +868,34 @@
             container.innerHTML = '';
             
             if(filteredPosts.length === 0) {
-                return container.innerHTML = `<div class="text-center py-20 bg-surface rounded-xl border border-border text-slate-400 shadow-sm flex flex-col items-center"><i class="fa-solid fa-face-dashed text-4xl mb-4"></i><p class="font-semibold text-base">No hay comunicados registrados para esta selección.</p></div>`;
+                return container.innerHTML = `<div class="text-center py-20 bg-surface rounded-xl border border-border text-textSoft shadow-inst flex flex-col items-center"><i class="fa-solid fa-folder-open text-3xl text-border mb-3"></i><p class="font-medium text-sm">No existen registros para los filtros seleccionados.</p></div>`;
             }
 
             filteredPosts.forEach(post => {
                 const isAuthor = currentUser && post.authorId === currentUser.uid;
                 const isAdmin = userData && userData.rol === 'Funcionario'; 
+                const isOfficial = post.role === 'Funcionario';
                 
-                let courseBadgeHtml = '';
-                if (post.course && post.course !== 'General / Toda la Institución') {
-                    courseBadgeHtml = `<span class="bg-surfaceAlt text-textSoft text-xs font-semibold px-3 py-1.5 rounded-lg border border-border flex items-center gap-1.5"><i class="fa-solid fa-users text-[11px]"></i> ${post.course}</span>`;
-                }
-
-                let subjectBadgeHtml = '';
-                if (post.subject && post.subject !== 'Ninguna / General') {
-                    subjectBadgeHtml = `<span class="bg-surfaceAlt text-textSoft text-xs font-semibold px-3 py-1.5 rounded-lg border border-border flex items-center gap-1.5"><i class="fa-solid fa-book text-[11px]"></i> ${post.subject}</span>`;
-                }
+                let courseBadgeHtml = (post.course && post.course !== 'General / Toda la Institución') ? `<span class="bg-surfaceAlt text-textSoft text-[10px] font-bold px-2 py-1 rounded border border-border flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-users text-[9px]"></i> ${post.course}</span>` : '';
+                let subjectBadgeHtml = (post.subject && post.subject !== 'Ninguna / General') ? `<span class="bg-surfaceAlt text-textSoft text-[10px] font-bold px-2 py-1 rounded border border-border flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-book text-[9px]"></i> ${post.subject}</span>` : '';
                 
-                let isOfficial = post.role === 'Funcionario';
                 let roleBadge = isOfficial 
-                    ? `<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-100 text-instBlue uppercase tracking-wide flex items-center gap-1"><i class="fa-solid fa-shield-check"></i> Oficial</span>`
-                    : `<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-slate-100 text-slate-500 uppercase tracking-wide">${post.role}</span>`;
+                    ? `<span class="text-[9px] font-bold px-2 py-1 rounded border border-instGold/30 bg-instBlue text-white uppercase tracking-widest flex items-center gap-1 shadow-sm"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>`
+                    : `<span class="text-[9px] font-bold px-2 py-1 rounded border border-border bg-surfaceAlt text-textSoft uppercase tracking-widest">${post.role}</span>`;
 
                 let repliesHtml = '';
                 if (post.replies && post.replies.length > 0) {
-                    repliesHtml += `<div class="mt-6 space-y-3.5 pl-5 border-l-2 border-border">`;
+                    repliesHtml += `<div class="mt-4 space-y-3 pl-4 border-l-2 border-gold-soft">`;
                     post.replies.forEach(reply => {
                         const rDate = new Date(reply.date).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', hour:'2-digit', minute:'2-digit' });
                         let replyRoleBadge = reply.role === 'Funcionario' 
-                            ? `<span class="text-[9px] font-bold bg-blue-100 text-instBlue px-1.5 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-shield-check"></i> Oficial</span>`
-                            : `<span class="text-[9px] font-bold bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded">${reply.role}</span>`;
+                            ? `<span class="text-[9px] font-bold bg-instBlue text-white border border-instGold/30 px-1.5 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>`
+                            : `<span class="text-[9px] font-bold bg-border text-textSoft px-1.5 py-0.5 rounded">${reply.role}</span>`;
                         
                         repliesHtml += `
-                            <div class="bg-surface p-4 rounded-xl border border-border transition-all hover:bg-slate-50">
-                                <div class="flex items-center gap-3 mb-1.5">
-                                    <strong class="text-sm text-textMain">${reply.authorName}</strong>
-                                    ${replyRoleBadge}
-                                    <span class="text-[10px] text-textSoft font-medium ml-auto">${rDate}</span>
-                                </div>
-                                <p class="text-sm text-textMain leading-relaxed whitespace-pre-line break-words">${reply.text}</p>
+                            <div class="bg-surfaceAlt p-3.5 rounded-lg border border-border">
+                                <div class="flex items-center gap-2 mb-1.5"><strong class="text-xs text-textMain">${reply.authorName}</strong>${replyRoleBadge}<span class="text-[10px] text-textSoft font-medium ml-auto">${rDate}</span></div>
+                                <p class="text-sm text-textMain leading-relaxed">${reply.text}</p>
                             </div>
                         `;
                     });
@@ -608,91 +903,63 @@
                 }
 
                 let replyFormHtml = `
-                    <form onsubmit="window.handleReply(event, '${post.id}')" class="mt-5 flex gap-2.5">
-                        <input type="text" id="reply-input-${post.id}" placeholder="Escriba un comentario o respuesta..." class="flex-1 p-3 text-sm border border-border rounded-xl bg-surface focus:ring-1 focus:ring-accent outline-none" required>
-                        <button type="submit" class="bg-instBlue hover:bg-black text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                    <form onsubmit="window.handleReply(event, '${post.id}')" class="mt-4 flex gap-2">
+                        <input type="text" id="reply-input-${post.id}" placeholder="Escriba una respuesta institucional..." class="flex-1 p-3 text-sm border border-border rounded-lg bg-surface focus:border-instBlue focus:ring-1 focus:ring-instBlue outline-none transition-all" required>
+                        <button type="submit" class="bg-instBlue hover:bg-instBlueSoft text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm"><i class="fa-solid fa-share"></i></button>
                     </form>
                 `;
 
                 let buttonsHtml = '';
                 if (isAuthor || isAdmin) {
-                    buttonsHtml = `<div class="flex gap-4 justify-end items-center mt-3 sm:mt-0">`;
-                    buttonsHtml += `<button onclick="window.openEdit('${post.id}')" class="text-slate-500 hover:text-instBlue text-sm font-semibold transition flex items-center gap-1.5"><i class="fa-solid fa-pen text-xs"></i> Editar</button>`;
-                    buttonsHtml += `<button onclick="window.deletePost('${post.id}')" class="text-slate-500 hover:text-danger text-sm font-semibold transition flex items-center gap-1.5"><i class="fa-solid fa-trash text-xs"></i> Borrar</button>`;
-                    buttonsHtml += `</div>`;
+                    buttonsHtml = `<div class="flex gap-4 justify-end items-center mt-3 sm:mt-0">
+                        <button onclick="window.openEdit('${post.id}')" class="text-textSoft hover:text-instBlue text-xs font-semibold transition flex items-center gap-1.5"><i class="fa-solid fa-pen"></i> Editar</button>
+                        <button onclick="window.deletePost('${post.id}')" class="text-textSoft hover:text-instRed text-xs font-semibold transition flex items-center gap-1.5"><i class="fa-solid fa-trash"></i> Retirar</button>
+                    </div>`;
                 }
 
                 const dFormatted = post.date ? new Date(post.date).toLocaleDateString('es-CL', { day: '2-digit', month: 'long', year: 'numeric', hour:'2-digit', minute:'2-digit' }) : '';
-                
                 let fileHtml = post.fileUrl ? `
-                    <div class="mt-4 p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between group">
-                        <div class="flex items-center gap-3 overflow-hidden">
-                            <div class="bg-surface p-2.5 rounded-lg shadow-sm text-instBlue border border-border"><i class="fa-solid fa-file-lines text-lg"></i></div>
-                            <span class="text-sm font-semibold text-slate-700 truncate w-40 sm:w-auto">${post.fileName}</span>
-                        </div>
-                        <a href="${post.fileUrl}" target="_blank" class="text-instBlue text-sm font-bold px-4 py-2 bg-surface border border-border rounded-lg shadow-sm hover:border-instBlue transition-all flex items-center gap-2 whitespace-nowrap">
-                            <i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Descargar</span>
-                        </a>
+                    <div class="mt-4 p-3 bg-surfaceAlt border border-border rounded-lg flex flex-row items-center justify-between group">
+                        <div class="flex items-center gap-3 overflow-hidden"><div class="bg-surface p-1.5 rounded border border-border text-instBlue shadow-sm"><i class="fa-solid fa-file-lines text-base"></i></div><span class="text-sm font-semibold text-textMain truncate w-40 sm:w-auto">${post.fileName}</span></div>
+                        <a href="${post.fileUrl}" target="_blank" class="text-instBlue text-xs font-semibold px-4 py-2 bg-surface border border-border rounded-md shadow-sm hover:border-instBlue hover:bg-surfaceAlt transition-all flex items-center gap-2 whitespace-nowrap"><i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Descargar</span></a>
                     </div>` : '';
 
                 const postEl = document.createElement('div');
-                postEl.className = 'bg-surface rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:shadow-md transition-shadow animate-fade-in relative overflow-hidden';
-                if(isOfficial) postEl.classList.add('border-l-4', 'border-l-instBlue'); 
+                postEl.className = 'bg-surface rounded-xl border p-6 shadow-inst hover:shadow-inst-hover transition-all duration-300 animate-fade-in relative overflow-hidden';
+                if(isOfficial) postEl.classList.add('border-l-4', 'border-l-instBlue');
+                else postEl.classList.add('border-border');
                 
                 postEl.innerHTML = `
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-6">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
                         <div class="flex items-center gap-3">
-                            <img src="${`https://ui-avatars.com/api/?name=${post.authorName}&background=f1f5f9&color=1e293b`}" class="w-12 h-12 rounded-full border border-border shadow-sm">
+                            <div class="w-10 h-10 rounded-full ${isOfficial ? 'bg-instBlue text-instGold' : 'bg-surfaceAlt border border-border text-textSoft'} flex items-center justify-center font-bold text-sm shadow-sm">${post.authorName.charAt(0).toUpperCase()}</div>
                             <div>
-                                <h4 class="font-bold text-slate-900 text-base flex items-center flex-wrap gap-2 leading-none mb-1.5">
-                                    ${post.authorName} 
-                                    ${roleBadge}
-                                </h4>
-                                <span class="text-xs font-medium text-textSoft flex items-center gap-1.5"><i class="fa-regular fa-clock"></i> Emitido el ${dFormatted}</span>
+                                <h4 class="font-bold text-textMain text-sm flex items-center flex-wrap gap-2 leading-none mb-1.5">${post.authorName} ${roleBadge}</h4>
+                                <span class="text-[10px] font-medium text-textSoft flex items-center gap-1.5">Emitido el ${dFormatted}</span>
                             </div>
                         </div>
                     </div>
-                    
-                    <h3 class="text-lg font-bold text-instBlue mb-3.5 leading-tight flex flex-col sm:flex-row sm:items-center gap-3">
-                        <span>${post.title}</span>
-                        <div class="inline-flex flex-wrap gap-2">${courseBadgeHtml} ${subjectBadgeHtml}</div>
-                    </h3>
-                    
-                    <p class="text-textMain text-base whitespace-pre-line mb-4 break-words leading-relaxed">${post.body}</p>
-                    ${fileHtml}
-                    
-                    <hr class="my-6 border-slate-200">
-                    
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-3">
-                        <span class="text-sm font-bold text-slate-600 flex items-center gap-2.5"><i class="fa-solid fa-comments text-slate-400"></i> ${post.replies ? post.replies.length : 0} Comentarios registrados</span>
-                        ${buttonsHtml}
-                    </div>
-                    
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        ${repliesHtml}
-                        ${replyFormHtml}
-                    </div>
+                    <h3 class="text-lg font-bold text-instBlue mb-3 leading-tight flex flex-col sm:flex-row sm:items-center gap-2.5"><span>${post.title}</span><div class="inline-flex flex-wrap gap-2">${courseBadgeHtml} ${subjectBadgeHtml}</div></h3>
+                    <p class="text-textMain text-sm whitespace-pre-line mb-4 break-words leading-relaxed">${post.body}</p>
+                    ${fileHtml}<hr class="my-5 border-border">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-2"><span class="text-xs font-semibold text-textSoft flex items-center gap-2"><i class="fa-regular fa-comment"></i> ${post.replies ? post.replies.length : 0} Registros en hilo</span>${buttonsHtml}</div>
+                    ${repliesHtml}${replyFormHtml}
                 `;
                 container.appendChild(postEl);
             });
         }
 
         window.openRulesModal = () => {
-            const m = document.getElementById('modal-rules');
-            const c = document.getElementById('modal-rules-content');
-            m.classList.remove('hidden');
-            setTimeout(() => c.classList.remove('scale-95', 'opacity-0'), 50);
+            const m = document.getElementById('modal-rules'), c = document.getElementById('modal-rules-content');
+            m.classList.remove('hidden'); setTimeout(() => c.classList.remove('scale-95', 'opacity-0'), 50);
         };
-        
         window.closeRulesModal = () => {
-            const m = document.getElementById('modal-rules');
-            const c = document.getElementById('modal-rules-content');
-            c.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => m.classList.add('hidden'), 300);
+            const m = document.getElementById('modal-rules'), c = document.getElementById('modal-rules-content');
+            c.classList.add('scale-95', 'opacity-0'); setTimeout(() => m.classList.add('hidden'), 300);
         };
         
         window.deletePost = async (id) => {
-            const r = await Swal.fire({ title: '¿Borrar comunicado?', text: 'Esta acción borrará el registro oficial permanentemente.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc2626', cancelButtonText: 'Cancelar', confirmButtonText: 'Sí, borrar registro' });
+            const r = await Swal.fire({ title: '¿Retirar Documento?', text: 'Esta acción borrará el registro oficial.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#b91c1c', cancelButtonText: 'Cancelar', confirmButtonText: 'Confirmar retiro' });
             if (r.isConfirmed) await deleteDoc(doc(db, "posts", id));
         };
 
@@ -703,10 +970,8 @@
             document.getElementById('edit-post-course').value = p.course || 'General / Toda la Institución';
             document.getElementById('edit-post-subject').value = p.subject || 'Ninguna / General';
             document.getElementById('edit-post-body').value = p.body;
-            
             const modal = document.getElementById('modal-edit');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.firstElementChild.classList.remove('scale-95', 'opacity-0'), 50);
+            modal.classList.remove('hidden'); setTimeout(() => modal.firstElementChild.classList.remove('scale-95', 'opacity-0'), 50);
         };
 
         document.getElementById('edit-form').addEventListener('submit', async (e) => {
@@ -719,7 +984,7 @@
                 body: document.getElementById('edit-post-body').value
             });
             document.getElementById('modal-edit').classList.add('hidden');
-            Swal.fire('Guardado', 'Los cambios se reflejarán inmediatamente.', 'success');
+            Swal.fire('Actualizado', 'Los cambios han sido guardados.', 'success');
         });
     </script>
 </body>

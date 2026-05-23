@@ -1,21 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="bg-[#f8fafc]">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#101935">
     <title>Conecta Edu - Portal Institucional</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -23,655 +14,746 @@
                     colors: { 
                         instBlue: '#101935', instBlueSoft: '#1a274d',
                         instGold: '#c9a227', instGoldSoft: '#e5d28a', instRed: '#b91c1c',
-                        surface: '#ffffff', surfaceAlt: '#f8fafc',
+                        surface: '#ffffff', surfaceAlt: '#f1f5f9',
                         border: '#e2e8f0', textMain: '#0f172a', textSoft: '#64748b'
                     },
-                    boxShadow: { 'inst': '0 2px 8px rgba(16, 25, 53, 0.04)', 'inst-hover': '0 8px 24px rgba(16, 25, 53, 0.08)' }
+                    boxShadow: { 
+                        'soft': '0 2px 10px rgba(16, 25, 53, 0.04)', 
+                        'float': '0 12px 32px rgba(16, 25, 53, 0.08)' 
+                    }
                 }
             }
         }
     </script>
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <style> 
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: var(--textMain); -webkit-font-smoothing: antialiased; } 
+        /* Reset y Tipografía Premium */
+        body { font-family: 'Inter', sans-serif; color: var(--textMain); -webkit-font-smoothing: antialiased; padding-bottom: 80px; } 
+        @media (min-width: 768px) { body { padding-bottom: 0; } }
         h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; }
+        
+        /* Scrollbar invisible en móviles, sutil en desktop */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Focus state accesible y premium */
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #101935 !important; box-shadow: 0 0 0 3px rgba(201,162,39,0.15) !important; background-color: #ffffff !important; }
-        input:disabled, button:disabled, select:disabled, textarea:disabled { opacity: 0.6; cursor: not-allowed !important; pointer-events: none; }
-
-        .calendar-day { transition: all 0.2s ease; cursor: pointer; }
-        .calendar-day:hover { background-color: #e2e8f0; }
-        .calendar-day.selected { background-color: #101935; color: white; font-weight: bold; border-radius: 8px; }
-        .calendar-day.today { border: 2px solid #c9a227; border-radius: 8px; }
+        /* Utilidades de Diseño */
+        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); }
+        .text-brand { background: linear-gradient(90deg, #c9a227 0%, #b91c1c 45%, #101935 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Banner Offline */
-        #offline-banner { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(-100%); }
-        #offline-banner.show { transform: translateY(0); }
+        /* Inputs amigables y accesibles */
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #101935 !important; box-shadow: 0 0 0 3px rgba(16,25,53,0.1) !important; background-color: #ffffff !important; }
+        input:disabled, button:disabled { opacity: 0.6; cursor: not-allowed !important; pointer-events: none; }
 
-        /* Skeleton Loaders */
-        .skeleton { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px; }
+        /* Chips Filters */
+        .filter-chip { transition: all 0.2s ease; white-space: nowrap; }
+        .filter-chip.active { background-color: #101935; color: white; border-color: #101935; font-weight: 600; }
+
+        /* Calendario UX Corregido */
+        .calendar-day { transition: all 0.15s ease; cursor: pointer; }
+        .calendar-day:active { transform: scale(0.9); }
+        .calendar-day:hover { background-color: #f1f5f9; }
+        .calendar-day.selected { background-color: #101935; color: white; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 10px rgba(16,25,53,0.2); }
+        .calendar-day.selected span { color: #ffffff !important; } /* Fuerza que el número sea blanco */
+        .calendar-day.today { border: 2px solid #c9a227; background-color: rgba(201, 162, 39, 0.15); border-radius: 8px; } /* Transparencia para dejar ver el número */
+
+        /* Animaciones base */
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.97) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .animate-post { animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        /* Skeleton Moderno */
+        .skeleton { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Mobile Bottom Sheet Modal */
+        .modal-content { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); transform: translateY(100%); }
+        .modal-active .modal-content { transform: translateY(0); }
+        @media (min-width: 640px) {
+            .modal-content { transform: scale(0.95) !important; opacity: 0; }
+            .modal-active .modal-content { transform: scale(1) !important; opacity: 1; }
+        }
     </style>
 </head>
-<body class="pb-12 relative">
+<body class="relative">
 
-    <div id="offline-banner" class="fixed top-0 left-0 w-full bg-instRed text-white text-center py-1.5 text-xs font-bold z-[100] flex justify-center items-center gap-2 shadow-md">
-        <i class="fa-solid fa-wifi-slash"></i> Sin conexión. Mostrando versión en caché.
+    <div id="offline-banner" class="fixed top-0 left-0 w-full bg-instRed text-white text-center py-1.5 text-[11px] font-bold z-[100] flex justify-center items-center gap-2 transform -translate-y-full transition-transform">
+        <i class="fa-solid fa-cloud-bolt"></i> Trabajando sin conexión. Cambios se guardarán localmente.
     </div>
 
-    <header class="bg-surface sticky top-0 z-40 shadow-sm border-b border-border transition-all">
-        <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img id="school-logo" src="logo2.jpg" alt="Logo Institucional" class="w-10 h-10 object-contain hidden rounded shadow-sm">
-                <div id="school-icon" class="text-instBlue text-2xl"><i class="fa-solid fa-building-columns"></i></div>
-                <div class="border-l border-border pl-3">
-                    <h1 class="font-extrabold text-xl leading-none tracking-tight">
-                        <span style="color:#c9a227;">Cone</span><span style="color:#b91c1c;">cta </span><span style="color:#101935;">Edu</span>
-                    </h1>
-                    <span class="text-[9px] text-textSoft font-bold tracking-widest uppercase font-sans">Portal Institucional</span>
+    <header class="glass-header sticky top-0 z-40 shadow-sm border-b border-border">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img id="school-logo" src="logo2.jpg" alt="Logo" class="w-9 h-9 object-contain hidden rounded shadow-sm">
+                <div id="school-icon" class="text-instBlue text-2xl"><i class="fa-solid fa-school"></i></div>
+                <div class="border-l border-border pl-3 flex flex-col justify-center">
+                    <h1 class="font-extrabold text-xl leading-none text-brand">Conecta Edu</h1>
+                    <span class="text-[9px] text-textSoft font-bold tracking-widest uppercase">Portal Oficial</span>
                 </div>
             </div>
-            <button id="btn-login" class="bg-surface border border-border hover:bg-surfaceAlt text-instBlue font-semibold py-2 px-4 rounded-lg text-sm transition-all shadow-sm flex items-center gap-2">
-                <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Identificarse</span>
-            </button>
+            
+            <div class="flex items-center gap-3">
+                <div id="header-user-info" class="hidden items-center gap-2 mr-2">
+                    <div class="text-right hidden sm:block">
+                        <p id="header-user-name" class="text-xs font-bold text-textMain leading-none"></p>
+                        <p id="header-user-role" class="text-[9px] text-textSoft font-semibold uppercase"></p>
+                    </div>
+                    <img id="header-avatar" src="" class="w-8 h-8 rounded-full border border-border cursor-pointer hover:shadow-md transition-shadow" onclick="document.getElementById('btn-logout').click()">
+                </div>
+                
+                <button id="btn-login" class="bg-instBlue hover:bg-instBlueSoft text-white font-semibold py-2 px-5 rounded-lg text-xs transition-all shadow-soft flex items-center gap-2">
+                    <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Identificarse</span><span class="sm:hidden">Entrar</span>
+                </button>
+            </div>
         </div>
         <div class="absolute bottom-0 left-0 w-full h-[2px] bg-instBlue flex"><div class="w-1/4 h-full bg-instGold"></div><div class="w-8 h-full bg-instRed"></div></div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-border flex justify-around items-center z-40 pb-safe pt-1 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+        <button onclick="switchTab('feed')" id="tab-feed" class="flex flex-col items-center p-2 w-16 text-instBlue transition-colors">
+            <i class="fa-solid fa-house text-lg mb-1"></i><span class="text-[9px] font-bold">Muro</span>
+        </button>
+        <button onclick="switchTab('calendar')" id="tab-calendar" class="flex flex-col items-center p-2 w-16 text-textSoft hover:text-instBlue transition-colors">
+            <i class="fa-solid fa-calendar-day text-lg mb-1"></i><span class="text-[9px] font-bold">Agenda</span>
+        </button>
+        <button onclick="window.openRulesModal()" class="flex flex-col items-center p-2 w-16 text-textSoft hover:text-instBlue transition-colors">
+            <i class="fa-solid fa-shield-heart text-lg mb-1"></i><span class="text-[9px] font-bold">Normas</span>
+        </button>
+        <button id="btn-logout-mobile" class="hidden flex flex-col items-center p-2 w-16 text-textSoft hover:text-instRed transition-colors">
+            <i class="fa-solid fa-power-off text-lg mb-1"></i><span class="text-[9px] font-bold">Salir</span>
+        </button>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 md:grid-cols-12 gap-6 relative">
         
-        <div class="lg:col-span-8 space-y-6">
+        <div id="view-feed" class="md:col-span-8 space-y-5 pb-8">
             
-            <div id="user-panel" data-tilt data-tilt-max="2" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1" class="hidden bg-surface rounded-xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-inst border border-border relative overflow-hidden transition-all">
-                <div class="flex items-center gap-4 z-10">
-                    <div class="relative">
-                        <img id="user-avatar" src="" alt="Avatar" class="w-14 h-14 rounded-full border border-border shadow-sm object-cover">
-                        <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 rounded-full border-2 border-surface flex items-center justify-center"><i class="fa-solid fa-check text-[8px] text-white"></i></div>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-textSoft font-bold uppercase tracking-wider mb-0.5">Identidad Validada</p>
-                        <p class="text-lg font-bold text-textMain leading-none" id="user-greeting">Usuario</p>
-                        <div class="mt-1.5" id="user-role-container"></div>
-                    </div>
+            <div id="quick-post-trigger" class="hidden bg-surface rounded-xl shadow-soft border border-border p-3 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors" onclick="window.openPostModal()">
+                <img id="quick-avatar" src="" class="w-10 h-10 rounded-full border border-border">
+                <div class="bg-surfaceAlt border border-border rounded-full py-2.5 px-4 text-textSoft text-sm flex-1 font-medium">
+                    Redactar comunicado oficial...
                 </div>
-                <button id="btn-logout" class="mt-4 sm:mt-0 w-full sm:w-auto bg-surfaceAlt border border-border hover:bg-red-50 hover:text-instRed hover:border-red-200 text-textMain text-sm font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 z-10">
-                    <i class="fa-solid fa-power-off"></i> Cerrar Sesión
-                </button>
+                <div class="w-10 h-10 rounded-full bg-instBlue/5 text-instBlue flex items-center justify-center"><i class="fa-solid fa-images"></i></div>
             </div>
 
-            <section class="bg-surface rounded-xl shadow-inst border border-border p-6 relative">
-                <div id="form-overlay" class="absolute inset-0 bg-surface/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center rounded-xl border border-border transition-opacity">
-                    <i class="fa-solid fa-lock text-3xl text-instBlue/50 mb-3"></i>
-                    <h3 class="text-textMain font-bold">Acceso Restringido</h3>
-                    <p class="text-textSoft text-xs mt-1">Identifíquese para publicar comunicados.</p>
-                </div>
+            <div id="login-prompt" class="bg-surface rounded-xl shadow-soft border border-border p-6 text-center">
+                <div class="w-12 h-12 bg-surfaceAlt text-textSoft rounded-full flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-lock text-xl"></i></div>
+                <h3 class="text-textMain font-bold text-sm">Bienvenido a Conecta Edu</h3>
+                <p class="text-textSoft text-xs mt-1 mb-4">Inicie sesión para acceder a la información institucional.</p>
+                <button onclick="document.getElementById('btn-login').click()" class="bg-surfaceAlt border border-border text-textMain text-xs font-bold py-2 px-4 rounded-lg">Identificarse ahora</button>
+            </div>
 
-                <h2 class="text-base font-bold text-instBlue mb-4 flex items-center gap-2 border-b border-border pb-3">
-                    <i class="fa-solid fa-bullhorn text-instGold"></i> Emitir Comunicado Oficial
-                </h2>
-                
-                <form id="post-form" class="space-y-4">
-                    <div>
-                        <input type="text" id="post-title" placeholder="Asunto / Título del Anuncio" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm font-medium transition-all" required>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <select id="post-course" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm cursor-pointer" required>
-                            <option value="General / Toda la Institución">🏢 General / Institución</option>
-                            <option value="1° Básico">1° Básico</option><option value="8° Básico">8° Básico</option><option value="4° Medio">4° Medio</option>
-                            </select>
-                        <select id="post-subject" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm cursor-pointer" required>
-                            <option value="Ninguna / General">🌍 Ninguna / General</option>
-                            <option value="Lenguaje y Comunicación">Lenguaje</option><option value="Matemática">Matemática</option>
-                        </select>
-                    </div>
-                    <div>
-                        <textarea id="post-body" rows="3" maxlength="400" placeholder="Redacte el comunicado (Máx. 400 caracteres)..." class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm resize-none" required></textarea>
-                        <div class="text-right mt-1"><span id="char-counter" class="text-[10px] text-textSoft font-semibold">0 / 400</span></div>
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                        <div class="w-full sm:w-auto p-2.5 border border-border rounded-lg bg-surfaceAlt hover:bg-surface transition-colors relative cursor-pointer flex items-center justify-center gap-3">
-                            <i class="fa-solid fa-paperclip text-textSoft"></i>
-                            <span class="text-xs font-semibold text-textMain" id="file-name-display">Adjuntar Documento</span>
-                            <input type="file" id="post-file" accept=".pdf,.doc,.docx,.jpg,.png" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                        </div>
-                        <button type="submit" id="btn-submit-post" class="w-full sm:w-auto bg-instBlue hover:bg-instBlueSoft text-white font-semibold py-2.5 px-6 rounded-lg transition-all shadow-sm text-sm flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-paper-plane text-instGold"></i> Publicar
-                        </button>
-                    </div>
-                </form>
-            </section>
-
-            <div class="bg-surface rounded-xl border border-border shadow-inst p-3.5 flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <span class="text-xs font-bold text-textSoft uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-filter text-border"></i> Filtros</span>
-                <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                    <select id="filter-course" class="p-2 text-xs font-semibold border border-border rounded-lg bg-surfaceAlt cursor-pointer"><option value="todos">Todos los Cursos</option><option value="General / Toda la Institución">Institución</option><option value="1° Básico">1° Básico</option><option value="4° Medio">4° Medio</option></select>
-                    <select id="filter-subject" class="p-2 text-xs font-semibold border border-border rounded-lg bg-surfaceAlt cursor-pointer"><option value="todas">Todas las Áreas</option><option value="Ninguna / General">Generales</option><option value="Matemática">Matemática</option></select>
+            <div id="user-panel" class="hidden bg-surface rounded-xl border border-border p-4 shadow-soft flex items-center gap-3 mb-4">
+                <img id="user-avatar" src="" class="w-12 h-12 rounded-full border border-border">
+                <div class="flex-1">
+                    <h3 class="text-sm font-bold text-textMain leading-tight">Hola, <span id="user-greeting"></span></h3>
+                    <div id="user-role-container" class="mt-1"></div>
                 </div>
             </div>
 
-            <section id="posts-container" class="space-y-5 min-h-[200px]">
-                <div class="bg-surface rounded-xl border border-border p-6 shadow-inst">
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="filters-container">
+                    <input type="hidden" id="filter-course" value="todos">
+                    <button class="filter-chip active px-4 py-1.5 rounded-full border border-border bg-instBlue text-white text-xs font-medium shrink-0" data-filter="course" data-val="todos">Todos</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="General / Toda la Institución">General</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="Prekínder">Prekínder</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="Kínder">Kínder</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="1° Básico">1° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="2° Básico">2° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="3° Básico">3° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="4° Básico">4° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="5° Básico">5° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="6° Básico">6° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="7° Básico">7° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="8° Básico">8° Básico</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="1° Medio">1° Medio</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="2° Medio">2° Medio</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="3° Medio">3° Medio</button>
+                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="4° Medio">4° Medio</button>
+                </div>
+                <div>
+                    <select id="filter-subject" class="w-full md:w-64 p-2 border border-border rounded-lg bg-surface text-xs text-textSoft outline-none cursor-pointer shadow-sm">
+                        <option value="todas">Todas las Asignaturas</option>
+                        <option value="Ninguna / General">Ninguna / General</option>
+                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
+                        <option value="Matemática">Matemática</option>
+                        <option value="Ciencias Naturales">Ciencias Naturales</option>
+                        <option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option>
+                        <option value="Inglés">Inglés</option>
+                        <option value="Educación Física y Salud">Educación Física y Salud</option>
+                        <option value="Artes Visuales">Artes Visuales</option>
+                        <option value="Música">Música</option>
+                        <option value="Tecnología">Tecnología</option>
+                        <option value="Religión">Religión</option>
+                        <option value="Orientación">Orientación</option>
+                    </select>
+                </div>
+            </div>
+
+            <section id="posts-container" class="space-y-4 min-h-[50vh]">
+                <div class="bg-surface rounded-xl border border-border p-5 shadow-soft">
                     <div class="flex gap-3 mb-4"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1 space-y-2"><div class="skeleton h-3 w-1/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
                     <div class="skeleton h-4 w-3/4 mb-3"></div><div class="skeleton h-16 w-full mb-3"></div>
                 </div>
             </section>
-            
-            <div class="text-center pt-2 pb-6">
-                <button id="btn-load-more" class="hidden bg-surface border border-border text-textSoft hover:text-instBlue font-semibold py-2 px-6 rounded-full text-sm shadow-sm transition-colors">
-                    Cargar más registros
-                </button>
-            </div>
         </div>
 
-        <div class="lg:col-span-4 space-y-6">
-            
-            <div class="bg-surface rounded-xl border border-border p-5 shadow-inst relative overflow-hidden">
+        <div id="view-calendar" class="hidden md:block md:col-span-4 space-y-5 pb-8">
+            <div class="bg-surface rounded-xl border border-border p-5 shadow-soft relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-[3px] flex"><div class="flex-1 bg-instGold"></div><div class="w-1/4 bg-instRed"></div></div>
-                <div class="flex items-center gap-2 mb-4 mt-1">
-                    <i class="fa-regular fa-calendar-days text-instBlue text-xl"></i>
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-textMain">Calendario Oficial</h3>
+                <div class="flex items-center justify-between mb-4 mt-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-instBlue/5 text-instBlue flex items-center justify-center"><i class="fa-regular fa-calendar-days"></i></div>
+                        <h3 class="text-sm font-bold text-textMain tracking-tight">Agenda Escolar</h3>
+                    </div>
+                    <button id="btn-add-event" onclick="window.openEventModal()" class="hidden w-8 h-8 rounded-full bg-surfaceAlt hover:bg-border text-instBlue flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
                 </div>
-                <div class="flex justify-between items-center mb-3">
-                    <button id="btn-prev-month" class="text-textSoft hover:text-instBlue px-2 py-1"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+
+                <div class="flex justify-between items-center mb-3 bg-surfaceAlt rounded-lg p-1">
+                    <button id="btn-prev-month" class="w-8 h-8 flex items-center justify-center text-textSoft hover:text-instBlue rounded-md"><i class="fa-solid fa-chevron-left text-xs"></i></button>
                     <h4 id="calendar-month-year" class="font-bold text-instBlue text-xs uppercase tracking-wide">Cargando...</h4>
-                    <button id="btn-next-month" class="text-textSoft hover:text-instBlue px-2 py-1"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                    <button id="btn-next-month" class="w-8 h-8 flex items-center justify-center text-textSoft hover:text-instBlue rounded-md"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                 </div>
+
                 <div class="grid grid-cols-7 gap-1 text-center mb-1">
                     <span class="text-[9px] font-bold text-instRed">Do</span><span class="text-[9px] font-bold text-textSoft">Lu</span><span class="text-[9px] font-bold text-textSoft">Ma</span><span class="text-[9px] font-bold text-textSoft">Mi</span><span class="text-[9px] font-bold text-textSoft">Ju</span><span class="text-[9px] font-bold text-textSoft">Vi</span><span class="text-[9px] font-bold text-textSoft">Sa</span>
                 </div>
+                
                 <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-medium mb-3"></div>
+                
                 <div class="border-t border-border pt-3">
-                    <h5 id="selected-date-label" class="text-[10px] font-bold text-textSoft uppercase tracking-wider mb-2">Eventos</h5>
+                    <h5 id="selected-date-label" class="text-[10px] font-bold text-textSoft uppercase tracking-wider mb-2">Eventos del Día</h5>
                     <div id="day-events-container" class="space-y-2 min-h-[40px]"></div>
-                    <button id="btn-add-event" onclick="window.openEventModal()" class="w-full mt-3 bg-surfaceAlt border border-border hover:bg-border text-instBlue font-semibold py-2 rounded-lg transition-colors text-[11px] flex items-center justify-center gap-1.5 hidden">
-                        <i class="fa-solid fa-plus text-instGold"></i> Agendar
-                    </button>
                 </div>
             </div>
 
-            <div class="bg-surface rounded-xl border border-border p-5 shadow-inst">
-                <button onclick="window.openRulesModal()" class="w-full flex items-center justify-between text-instBlue hover:text-instBlueSoft transition-colors">
-                    <span class="text-sm font-bold flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-instGold"></i> Convivencia Escolar</span>
-                    <i class="fa-solid fa-arrow-right text-xs opacity-50"></i>
+            <div class="hidden md:grid grid-cols-2 gap-3">
+                <button onclick="window.openRulesModal()" class="bg-surface rounded-xl border border-border p-3 shadow-soft flex flex-col items-center justify-center gap-2 hover:bg-surfaceAlt transition-colors">
+                    <i class="fa-solid fa-scale-balanced text-instGold text-xl"></i>
+                    <span class="text-[10px] font-bold text-textMain uppercase">Normas</span>
                 </button>
-            </div>
-            <div class="bg-surface rounded-xl border border-border p-5 shadow-inst">
-                <h3 class="text-[10px] font-bold text-textSoft uppercase tracking-widest mb-3 border-b border-border pb-2">Portales de Interés</h3>
-                <div class="space-y-2">
-                    <a href="https://www.mineduc.cl/" target="_blank" class="flex items-center p-2.5 rounded-lg bg-surfaceAlt hover:bg-border text-textMain text-xs font-semibold transition-colors group">
-                        <i class="fa-solid fa-building-columns w-6 text-textSoft group-hover:text-instBlue"></i> Ministerio de Educación
-                    </a>
-                </div>
+                <a href="https://www.mineduc.cl/" target="_blank" class="bg-surface rounded-xl border border-border p-3 shadow-soft flex flex-col items-center justify-center gap-2 hover:bg-surfaceAlt transition-colors">
+                    <i class="fa-solid fa-building-columns text-instBlue text-xl"></i>
+                    <span class="text-[10px] font-bold text-textMain uppercase">Mineduc</span>
+                </a>
             </div>
         </div>
     </main>
 
     <template id="tpl-post">
-        <div class="post-card bg-surface rounded-xl border p-5 shadow-inst hover:shadow-inst-hover transition-all duration-300 relative overflow-hidden mb-5">
-            <div class="flex items-center gap-3 mb-3">
-                <div class="post-avatar w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-sm"></div>
-                <div>
-                    <h4 class="post-author font-bold text-sm flex items-center gap-1.5 leading-none mb-1"></h4>
-                    <span class="post-date text-[10px] font-medium text-textSoft flex items-center gap-1"></span>
+        <article class="post-card bg-surface rounded-xl border border-border p-4 sm:p-5 shadow-soft hover:shadow-float animate-post relative overflow-hidden">
+            <div class="absolute left-0 top-0 w-1 h-full post-accent-bar hidden"></div>
+            
+            <header class="flex justify-between items-start mb-3 gap-2">
+                <div class="flex items-center gap-2.5">
+                    <div class="post-avatar w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-sm shrink-0"></div>
+                    <div class="flex flex-col justify-center">
+                        <div class="flex items-center flex-wrap gap-1.5 leading-none mb-1">
+                            <h4 class="post-author font-bold text-sm text-textMain"></h4>
+                            <span class="post-role-badge"></span>
+                        </div>
+                        <span class="post-date text-[10px] font-medium text-textSoft"></span>
+                    </div>
+                </div>
+                <div class="post-actions flex gap-2 hidden">
+                    <button class="btn-delete text-textSoft hover:text-instRed p-1.5 rounded transition-colors"><i class="fa-solid fa-trash text-xs"></i></button>
+                </div>
+            </header>
+            
+            <div class="pl-0 sm:pl-[50px]">
+                <h3 class="post-title font-bold text-base text-instBlue mb-1.5 leading-tight"></h3>
+                <div class="post-badges flex flex-wrap gap-1.5 mb-2"></div>
+                <p class="post-body text-sm whitespace-pre-line mb-3 text-textMain leading-relaxed break-words"></p>
+                <div class="post-file-container"></div>
+                
+                <div class="mt-3 pt-3 border-t border-border/50">
+                    <button class="post-toggle-replies text-xs font-semibold text-textSoft flex items-center gap-1.5 hover:text-instBlue transition-colors">
+                        <i class="fa-regular fa-comment"></i> <span class="reply-count-text">Comentar</span>
+                    </button>
+                    
+                    <div class="post-replies-section hidden mt-3">
+                        <div class="post-replies-list space-y-2 mb-3"></div>
+                        <form class="post-reply-form flex gap-2">
+                            <input type="text" class="reply-input flex-1 p-2.5 text-xs border border-border rounded-lg bg-surfaceAlt focus:bg-white" required placeholder="Escribir comentario...">
+                            <button type="submit" class="bg-instBlue text-white px-3.5 rounded-lg text-xs font-bold hover:bg-instBlueSoft transition-colors shadow-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <h3 class="post-title font-bold text-base text-instBlue mb-2 leading-tight flex flex-col sm:flex-row sm:items-center gap-2"></h3>
-            <div class="post-badges flex flex-wrap gap-1.5 mb-2"></div>
-            <p class="post-body text-sm whitespace-pre-line mb-3 text-textMain"></p>
-            <div class="post-file-container"></div>
-            <div class="flex justify-between items-center mt-4 pt-3 border-t border-border">
-                <span class="post-replies-count text-xs font-semibold text-textSoft flex items-center gap-1.5"><i class="fa-regular fa-comment"></i></span>
-                <div class="post-actions flex gap-3"></div>
-            </div>
-            <div class="post-replies-container mt-3 space-y-2 pl-3 border-l-2 border-gold-soft hidden"></div>
-            <form class="post-reply-form mt-3 flex gap-2 hidden">
-                <input type="text" class="reply-input flex-1 p-2 text-xs border border-border rounded-lg bg-surfaceAlt" required placeholder="Escriba un comentario...">
-                <button type="submit" class="bg-instBlue text-white px-3 rounded-lg text-xs font-bold hover:bg-instBlueSoft transition-colors"><i class="fa-solid fa-share"></i></button>
-            </form>
-        </div>
+        </article>
     </template>
 
     <template id="tpl-event">
-        <div class="bg-surfaceAlt border border-gold-soft p-3 rounded-lg relative group transition-all text-left">
+        <div class="bg-surfaceAlt border border-border p-2.5 rounded-lg relative group transition-all text-left mb-2 shadow-sm">
             <div class="flex justify-between items-start mb-1">
-                <h6 class="ev-title text-xs font-bold text-instBlue flex-1 leading-tight"></h6>
-                <div class="flex items-center gap-1">
-                    <span class="ev-time text-[9px] font-bold bg-surface px-1 py-0.5 rounded border border-border text-instBlue flex items-center"><i class="fa-regular fa-clock mr-1 text-instGold"></i></span>
-                    <button class="ev-delete hidden text-textSoft hover:text-instRed transition-colors px-1"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
+                <h6 class="ev-title text-xs font-bold text-instBlue flex-1 leading-tight pr-2"></h6>
+                <div class="flex items-center gap-1 shrink-0">
+                    <span class="ev-time text-[9px] font-bold bg-surface px-1.5 py-0.5 rounded border border-border text-textSoft flex items-center"><i class="fa-regular fa-clock mr-1"></i></span>
+                    <button class="ev-delete hidden text-textSoft hover:text-instRed transition-colors p-0.5"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
                 </div>
             </div>
-            <div class="ev-badges flex flex-wrap gap-1 mb-1 hidden"></div>
-            <p class="ev-desc text-[10px] text-textSoft leading-snug mb-1 hidden"></p>
-            <p class="ev-author text-[8px] text-textSoft font-bold uppercase pt-1 border-t border-border/50"></p>
+            <div class="ev-badges flex flex-wrap gap-1 mb-1.5 hidden"></div>
+            <p class="ev-desc text-[10px] text-textSoft leading-snug hidden"></p>
         </div>
     </template>
 
-    <div id="modal-rules" class="fixed inset-0 bg-primary/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div id="modal-rules-content" class="bg-surface rounded-xl shadow-2xl w-full max-w-sm p-6 transform scale-95 opacity-0 transition-all border border-border">
-            <h2 class="text-base font-bold text-instBlue mb-4"><i class="fa-solid fa-shield-check text-success"></i> Normativa Institucional</h2>
-            <div class="text-xs text-textSoft space-y-3 mb-5"><p>1. Respeto mutuo y lenguaje formal.</p><p>2. Uso exclusivo para fines académicos.</p><p>3. Prohibido compartir datos privados.</p></div>
-            <div class="text-right"><button onclick="window.closeRulesModal()" class="bg-instBlue text-white px-4 py-2 rounded-lg text-xs font-bold">Comprendo y Acepto</button></div>
-        </div>
-    </div>
-    
-    <div id="modal-event" class="fixed inset-0 bg-primary/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-surface rounded-xl shadow-2xl p-6 w-full max-w-sm transform scale-95 opacity-0 transition-all border border-border">
-            <h2 class="text-sm font-bold text-instBlue mb-4 border-b border-border pb-2"><i class="fa-solid fa-calendar-plus text-instGold"></i> Agendar Registro Oficial</h2>
-            <form id="event-form" class="space-y-3 text-sm">
-                <input type="hidden" id="event-date-val">
-                <input type="text" id="event-title" placeholder="Título (Ej: Evaluación)" class="w-full p-2 border border-border rounded-lg bg-surfaceAlt" required>
-                <input type="time" id="event-time" class="w-full p-2 border border-border rounded-lg bg-surfaceAlt" required>
-                <div class="flex justify-end gap-2 mt-4 pt-3 border-t border-border">
-                    <button type="button" onclick="window.closeEventModal()" class="px-3 py-1.5 text-xs text-textSoft bg-surfaceAlt rounded-lg">Cancelar</button>
-                    <button type="submit" id="btn-submit-event" class="px-3 py-1.5 bg-instBlue text-white rounded-lg text-xs font-bold">Guardar</button>
+    <div id="modal-container" class="fixed inset-0 bg-[#101935]/60 backdrop-blur-[2px] hidden z-50 flex items-end sm:items-center justify-center transition-opacity opacity-0" onclick="closeAllModals(event)">
+        
+        <div id="modal-create-post" class="modal-content w-full sm:max-w-lg bg-surface sm:rounded-2xl rounded-t-2xl p-5 shadow-2xl relative" onclick="event.stopPropagation()">
+            <div class="w-12 h-1.5 bg-border rounded-full mx-auto mb-4 sm:hidden"></div>
+            <div class="flex justify-between items-center mb-4 border-b border-border pb-2">
+                <h2 class="font-bold text-instBlue text-base"><i class="fa-solid fa-pen-to-square text-instGold mr-1"></i> Nuevo Comunicado</h2>
+                <button class="text-textSoft hover:text-textMain p-1" onclick="closeAllModals(true)"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="post-form-modal" class="space-y-4">
+                <input type="text" id="m-post-title" placeholder="Asunto oficial" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-sm font-medium" required>
+                <div class="grid grid-cols-2 gap-3">
+                    <select id="m-post-course" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-xs cursor-pointer" required>
+                        <option value="General / Toda la Institución">General / Todos los Cursos</option>
+                        <option value="Prekínder">Prekínder</option>
+                        <option value="Kínder">Kínder</option>
+                        <option value="1° Básico">1° Básico</option>
+                        <option value="2° Básico">2° Básico</option>
+                        <option value="3° Básico">3° Básico</option>
+                        <option value="4° Básico">4° Básico</option>
+                        <option value="5° Básico">5° Básico</option>
+                        <option value="6° Básico">6° Básico</option>
+                        <option value="7° Básico">7° Básico</option>
+                        <option value="8° Básico">8° Básico</option>
+                        <option value="1° Medio">1° Medio</option>
+                        <option value="2° Medio">2° Medio</option>
+                        <option value="3° Medio">3° Medio</option>
+                        <option value="4° Medio">4° Medio</option>
+                    </select>
+                    <select id="m-post-subject" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-xs cursor-pointer" required>
+                        <option value="Ninguna / General">Sin Asignatura</option>
+                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
+                        <option value="Matemática">Matemática</option>
+                        <option value="Ciencias Naturales">Ciencias Naturales</option>
+                        <option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option>
+                        <option value="Inglés">Inglés</option>
+                        <option value="Educación Física y Salud">Educación Física y Salud</option>
+                        <option value="Artes Visuales">Artes Visuales</option>
+                        <option value="Música">Música</option>
+                        <option value="Tecnología">Tecnología</option>
+                        <option value="Religión">Religión</option>
+                        <option value="Orientación">Orientación</option>
+                    </select>
+                </div>
+                <div>
+                    <textarea id="m-post-body" rows="4" maxlength="400" placeholder="Redacte el mensaje aquí..." class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-sm resize-none" required></textarea>
+                </div>
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <label class="flex items-center gap-2 px-3 py-2 bg-surfaceAlt border border-border rounded-lg cursor-pointer hover:bg-border transition-colors w-full sm:w-auto overflow-hidden">
+                        <i class="fa-solid fa-paperclip text-textSoft"></i>
+                        <span id="m-file-name" class="text-xs font-semibold text-textMain truncate">Adjuntar PDF/IMG</span>
+                        <input type="file" id="m-post-file" accept=".pdf,.doc,.docx,.jpg,.png" class="hidden">
+                    </label>
+                    <button type="submit" id="btn-m-submit" class="bg-instBlue hover:bg-instBlueSoft text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-sm text-sm shrink-0">
+                        Publicar
+                    </button>
                 </div>
             </form>
+        </div>
+
+        <div id="modal-event" class="modal-content w-full sm:max-w-md bg-surface sm:rounded-2xl rounded-t-2xl p-5 shadow-2xl relative hidden" onclick="event.stopPropagation()">
+            <div class="w-12 h-1.5 bg-border rounded-full mx-auto mb-4 sm:hidden"></div>
+            <h2 class="text-base font-bold text-instBlue mb-4 border-b border-border pb-2"><i class="fa-solid fa-calendar-plus text-instGold mr-1"></i> Agendar Actividad</h2>
+            <form id="event-form" class="space-y-3">
+                <input type="hidden" id="event-date-val">
+                <p id="event-date-display" class="text-xs font-semibold text-instGold mb-2"></p>
+                <select id="event-type" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-sm outline-none cursor-pointer">
+                    <option value="evento">🗓️ Evento Institucional</option>
+                    <option value="evaluacion">📝 Evaluación/Prueba</option>
+                </select>
+                <input type="text" id="event-title" placeholder="Título corto (Ej: Reunión)" class="w-full p-2.5 border border-border rounded-lg bg-surface text-sm" required>
+                
+                <div id="eval-fields-container" class="hidden grid grid-cols-2 gap-2 border-t border-border pt-2 mt-2">
+                    <select id="eval-type" class="w-full p-2 border border-border rounded-lg bg-surface text-xs">
+                        <option value="Prueba Sumativa">Prueba Sumativa</option>
+                        <option value="Prueba Formativa">Prueba Formativa</option>
+                        <option value="Trabajo Práctico">Trabajo Práctico</option>
+                        <option value="Disertación">Disertación</option>
+                    </select>
+                    <select id="eval-subject" class="w-full p-2 border border-border rounded-lg bg-surface text-xs">
+                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
+                        <option value="Matemática">Matemática</option>
+                        <option value="Ciencias Naturales">Ciencias Naturales</option>
+                        <option value="Historia">Historia, Geografía y Cs.</option>
+                        <option value="Inglés">Inglés</option>
+                        <option value="Educación Física">Educación Física y Salud</option>
+                        <option value="Artes Visuales">Artes Visuales</option>
+                        <option value="Música">Música</option>
+                        <option value="Tecnología">Tecnología</option>
+                        <option value="Religión">Religión</option>
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="eval-block" class="hidden w-full p-2 border border-border rounded-lg bg-surface text-xs">
+                        <option value="Bloque 1">Bloque 1</option>
+                        <option value="Bloque 2">Bloque 2</option>
+                        <option value="Bloque 3">Bloque 3</option>
+                        <option value="Bloque 4">Bloque 4</option>
+                    </select>
+                    <input type="time" id="general-event-time" class="w-full p-2 border border-border rounded-lg bg-surface text-xs" required>
+                </div>
+                <textarea id="event-desc" rows="2" maxlength="100" placeholder="Detalles extra (opcional)..." class="w-full p-2 border border-border rounded-lg bg-surface text-xs resize-none"></textarea>
+                
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAllModals(true)" class="px-4 py-2 text-xs text-textSoft bg-surfaceAlt rounded-lg font-semibold">Cancelar</button>
+                    <button type="submit" id="btn-submit-event" class="px-4 py-2 bg-instBlue text-white rounded-lg text-xs font-bold shadow-sm">Guardar</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="modal-onboarding" class="modal-content w-full sm:max-w-sm bg-surface rounded-2xl p-6 shadow-2xl relative hidden" onclick="event.stopPropagation()">
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 bg-surfaceAlt text-instBlue border border-border rounded-full flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-id-card text-xl"></i></div>
+                <h2 class="text-lg font-bold text-textMain">Validación Institucional</h2>
+                <p class="text-xs text-textSoft mt-1">Configure su cuenta de acceso oficial.</p>
+            </div>
+            <form id="onboarding-form" class="space-y-3 text-sm">
+                <select id="user-type" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt font-medium" required>
+                    <option value="">Seleccione su rol...</option><option value="Apoderado">Apoderado</option><option value="Estudiante">Estudiante</option>
+                </select>
+                <div id="extra-fields" class="hidden space-y-3">
+                    <input type="text" id="user-name" placeholder="Su Nombre y Apellido" class="w-full p-2.5 border border-border rounded-lg bg-surface focus:bg-white" required>
+                    <div id="student-name-group" class="hidden"><input type="text" id="student-name" placeholder="Nombre del Alumno" class="w-full p-2.5 border border-border rounded-lg bg-surface"></div>
+                    <input type="text" id="user-course" placeholder="Curso (Ej: 1° Básico A)" class="w-full p-2.5 border border-border rounded-lg bg-surface" required>
+                </div>
+                <button type="submit" id="btn-submit-onboarding" class="w-full bg-instBlue text-white font-bold py-3 rounded-lg mt-4 hidden shadow-sm">Ingresar al Portal</button>
+            </form>
+        </div>
+
+        <div id="modal-rules" class="modal-content w-full sm:max-w-md bg-surface sm:rounded-2xl rounded-t-2xl p-6 shadow-2xl relative hidden" onclick="event.stopPropagation()">
+            <div class="w-12 h-1.5 bg-border rounded-full mx-auto mb-4 sm:hidden"></div>
+            <h2 class="text-base font-bold text-instBlue mb-4"><i class="fa-solid fa-scale-balanced text-instGold"></i> Convivencia Escolar</h2>
+            <div class="text-xs text-textSoft space-y-3 mb-6 bg-surfaceAlt p-4 rounded-lg border border-border">
+                <p><strong class="text-textMain">1. Respeto mutuo:</strong> La comunicación debe ser formal y respetuosa.</p>
+                <p><strong class="text-textMain">2. Uso académico:</strong> Prohibido el comercio, spam o política.</p>
+                <p><strong class="text-textMain">3. Privacidad:</strong> No compartir datos sensibles de menores de edad.</p>
+            </div>
+            <button onclick="closeAllModals(true)" class="w-full bg-instBlue text-white font-bold py-2.5 rounded-lg shadow-sm">Entendido</button>
         </div>
     </div>
 
     <script type="module">
-        // ==========================
-        // 1. CONFIG & FIREBASE
-        // ==========================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, startAfter, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
         const firebaseConfig = { apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4", authDomain: "foro-conectaedu.firebaseapp.com", projectId: "foro-conectaedu", storageBucket: "foro-conectaedu.firebasestorage.app", messagingSenderId: "183234856524", appId: "1:183234856524:web:9cef8e98008740431196e9" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app); const storage = getStorage(app); const provider = new GoogleAuthProvider();
         
-        // ==========================
-        // 2. CONSTANTES & ESTADO
-        // ==========================
-        const CONFIG = { MAX_FILE_SIZE: 5 * 1024 * 1024, ALLOWED_MIME: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png'], POSTS_PER_PAGE: 15, COOLDOWN_MS: 15000 };
-        const STATE = { currentUser: null, userData: null, posts: [], events: [], lastVisibleDoc: null, hasMorePosts: true, lastPostTime: 0, selectedDate: '' };
+        const STATE = { user: null, userData: null, posts: [], events: [], lastPostTs: 0, activeTab: 'feed' };
+        const CFG = { POST_LMT: 30, FILE_MAX: 5242880, COOLDOWN: 15000 };
 
-        // ==========================
-        // 3. HELPERS REUTILIZABLES
-        // ==========================
-        const showSuccess = (msg) => Toastify({text: `<i class="fa-solid fa-circle-check"></i> ${msg}`, escapeMarkup: false, duration: 3000, gravity: "top", position: "right", style: {background: "#0f766e", borderRadius: "8px", fontSize: "13px", fontWeight: "bold", boxShadow: "0 4px 12px rgba(0,0,0,0.1)"}}).showToast();
-        const showError = (msg) => Toastify({text: `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`, escapeMarkup: false, duration: 4000, gravity: "top", position: "right", style: {background: "#b91c1c", borderRadius: "8px", fontSize: "13px", fontWeight: "bold", boxShadow: "0 4px 12px rgba(0,0,0,0.1)"}}).showToast();
-        const sanitize = (str) => { const div = document.createElement('div'); div.textContent = str || ''; return div.innerHTML; };
-        const formatDate = (isoString) => new Date(isoString).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric', hour:'2-digit', minute:'2-digit' });
-        
-        // UX Handlers
+        const toast = (msg, type='success') => {
+            const bg = type === 'success' ? '#0f766e' : (type === 'error' ? '#b91c1c' : '#101935');
+            const icon = type === 'success' ? 'check' : (type === 'error' ? 'exclamation' : 'info');
+            Toastify({text: `<i class="fa-solid fa-circle-${icon}"></i> ${msg}`, escapeMarkup: false, duration: 3000, gravity: "top", position: "center", style: {background: bg, borderRadius: "10px", fontSize: "12px", fontWeight: "bold", padding: "10px 20px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)"}}).showToast();
+        };
+        const sanitize = str => { const div = document.createElement('div'); div.textContent = str || ''; return div.innerHTML; };
+        const timeAgo = (iso) => {
+            const date = new Date(iso), sec = Math.floor((new Date() - date) / 1000);
+            if(sec < 60) return 'Hace un momento';
+            if(sec < 3600) return `Hace ${Math.floor(sec/60)} m`;
+            if(sec < 86400) return `Hace ${Math.floor(sec/3600)} h`;
+            if(sec < 172800) return `Ayer a las ${date.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'})}`;
+            return date.toLocaleDateString('es-CL', { day:'2-digit', month:'short' });
+        };
+
         window.addEventListener('offline', () => document.getElementById('offline-banner').classList.add('show'));
-        window.addEventListener('online', () => { document.getElementById('offline-banner').classList.remove('show'); showSuccess("Conexión restablecida"); });
-        AOS.init({ once: true, offset: 50, duration: 400 });
+        window.addEventListener('online', () => { document.getElementById('offline-banner').classList.remove('show'); toast('Conexión recuperada'); });
 
-        // Inputs
-        document.getElementById('post-file').addEventListener('change', (e) => {
-            const label = document.getElementById('file-name-display');
-            if(e.target.files.length > 0) { label.innerText = sanitize(e.target.files[0].name); label.classList.add('text-instBlue'); } 
-            else { label.innerText = "Adjuntar Documento"; label.classList.remove('text-instBlue'); }
-        });
+        window.switchTab = (tab) => {
+            STATE.activeTab = tab;
+            document.getElementById('view-feed').className = tab === 'feed' ? 'md:col-span-8 space-y-5 pb-8 block' : 'hidden md:block md:col-span-8 space-y-5 pb-8';
+            document.getElementById('view-calendar').className = tab === 'calendar' ? 'md:col-span-4 space-y-5 pb-8 block' : 'hidden md:block md:col-span-4 space-y-5 pb-8';
+            document.getElementById('tab-feed').classList.toggle('text-instBlue', tab === 'feed'); document.getElementById('tab-feed').classList.toggle('text-textSoft', tab !== 'feed');
+            document.getElementById('tab-calendar').classList.toggle('text-instBlue', tab === 'calendar'); document.getElementById('tab-calendar').classList.toggle('text-textSoft', tab !== 'calendar');
+        };
 
-        // ==========================
-        // 4. AUTHENTICATION
-        // ==========================
+        const container = document.getElementById('modal-container');
+        window.openModal = (id) => {
+            Array.from(container.children).forEach(c => c.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden'); container.classList.remove('hidden');
+            setTimeout(() => { container.classList.remove('opacity-0'); container.classList.add('modal-active'); }, 10);
+            document.body.style.overflow = 'hidden';
+        };
+        window.closeAllModals = (force = false) => {
+            if(!force && !document.getElementById('modal-onboarding').classList.contains('hidden')) return;
+            container.classList.remove('modal-active'); container.classList.add('opacity-0');
+            setTimeout(() => { container.classList.add('hidden'); document.body.style.overflow = ''; }, 300);
+        };
+        
+        window.openPostModal = () => { if(STATE.userData) openModal('modal-create-post'); else toast('Inicie sesión primero', 'info'); };
+        window.openEventModal = () => { if(STATE.userData?.rol === 'Funcionario') { document.getElementById('event-date-val').value = selDate; document.getElementById('event-date-display').innerText = `Fecha seleccionada: ${selDate.split('-').reverse().join('/')}`; openModal('modal-event'); }};
+        window.openRulesModal = () => openModal('modal-rules');
+
         setPersistence(auth, browserSessionPersistence);
-        document.getElementById('btn-login').addEventListener('click', async () => {
-            try { await signInWithPopup(auth, provider); } catch(err) { showError(err.message); }
-        });
-        document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+        document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithPopup(auth, provider); } catch(e) { toast(e.message, 'error'); }});
+        const handleLogout = () => signOut(auth);
+        document.getElementById('btn-logout').addEventListener('click', handleLogout); document.getElementById('btn-logout-mobile').addEventListener('click', handleLogout);
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                STATE.currentUser = user;
+                STATE.user = user;
                 try {
                     if (user.email.endsWith('@slepcolchagua.cl')) {
                         STATE.userData = { rol: 'Funcionario', nombre: user.displayName, email: user.email };
-                        await setDoc(doc(db, "users", user.uid), STATE.userData, { merge: true });
+                        await setDoc(doc(db, "users", user.uid), STATE.userData, { merge: true }); updateHeaderUI();
                     } else if (user.email.endsWith('@gmail.com')) {
                         const snap = await getDoc(doc(db, "users", user.uid));
-                        if (snap.exists()) STATE.userData = snap.data();
-                        else return showError("Cuenta Gmail requiere validación de apoderado. Contacte a soporte."); // Simplificado para demo
-                    } else {
-                        signOut(auth); throw new Error("Dominio no autorizado.");
-                    }
-                    renderHeader(); toggleFormAccess();
-                } catch(err) { showError(err.message); }
-            } else {
-                STATE.currentUser = null; STATE.userData = null; renderHeader(); toggleFormAccess();
-            }
+                        if (snap.exists()) { STATE.userData = snap.data(); updateHeaderUI(); } else { openModal('modal-onboarding'); }
+                    } else { signOut(auth); toast('Dominio inválido', 'error'); }
+                } catch(e) { toast('Error de lectura auth', 'error'); }
+            } else { STATE.user = null; STATE.userData = null; updateHeaderUI(); }
         });
 
-        const renderHeader = () => {
-            const panel = document.getElementById('user-panel'), btnLogin = document.getElementById('btn-login'), ovr = document.getElementById('form-overlay');
-            if (STATE.userData) {
-                btnLogin.classList.add('hidden'); panel.classList.remove('hidden'); ovr.classList.add('hidden');
+        document.getElementById('user-type').addEventListener('change', e => {
+            const isApod = e.target.value === 'Apoderado';
+            document.getElementById('extra-fields').classList.toggle('hidden', !e.target.value);
+            document.getElementById('btn-submit-onboarding').classList.toggle('hidden', !e.target.value);
+            document.getElementById('student-name-group').classList.toggle('hidden', !isApod);
+            document.getElementById('student-name').required = isApod;
+        });
+        document.getElementById('onboarding-form').addEventListener('submit', async e => {
+            e.preventDefault(); const btn = document.getElementById('btn-submit-onboarding'); btn.disabled=true; btn.innerText="Guardando...";
+            const rol = document.getElementById('user-type').value;
+            STATE.userData = { rol, nombre: document.getElementById('user-name').value.trim(), curso: document.getElementById('user-course').value.trim(), estudiante: rol==='Apoderado'?document.getElementById('student-name').value:'', email:STATE.user.email };
+            await setDoc(doc(db, "users", STATE.user.uid), STATE.userData); closeAllModals(true); updateHeaderUI();
+        });
+
+        const updateHeaderUI = () => {
+            const isLogged = !!STATE.userData; const isStaff = STATE.userData?.rol === 'Funcionario';
+            document.getElementById('btn-login').classList.toggle('hidden', isLogged);
+            const hdInfo = document.getElementById('header-user-info'); hdInfo.classList.toggle('hidden', !isLogged); hdInfo.classList.toggle('flex', isLogged);
+            document.getElementById('quick-post-trigger').classList.toggle('hidden', !isLogged);
+            document.getElementById('login-prompt').classList.toggle('hidden', isLogged);
+            document.getElementById('btn-logout-mobile').classList.toggle('hidden', !isLogged);
+            
+            if(isLogged) {
+                const ava = STATE.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(STATE.userData.nombre)}&background=101935&color=fff`;
+                document.getElementById('header-user-name').innerText = STATE.userData.nombre.split(' ')[0];
+                document.getElementById('header-user-role').innerText = STATE.userData.rol;
+                document.getElementById('header-avatar').src = ava; document.getElementById('quick-avatar').src = ava;
+                document.getElementById('user-panel').classList.remove('hidden');
                 document.getElementById('user-greeting').innerText = STATE.userData.nombre;
-                const isOficial = STATE.userData.rol === 'Funcionario';
-                document.getElementById('user-role-container').innerHTML = isOficial ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-instBlue text-white text-[9px] font-bold uppercase"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>` : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surfaceAlt border border-border text-textSoft text-[9px] font-bold uppercase"><i class="fa-solid fa-user"></i> ${sanitize(STATE.userData.rol)}</span>`;
-                document.getElementById('user-avatar').src = STATE.currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(STATE.userData.nombre)}&background=101935&color=fff`;
+                document.getElementById('user-avatar').src = ava;
+                document.getElementById('user-role-container').innerHTML = isStaff 
+                    ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-instBlue text-white text-[9px] font-bold uppercase tracking-wider"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>` 
+                    : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surfaceAlt border border-border text-textSoft text-[9px] font-bold uppercase"><i class="fa-solid fa-user"></i> ${sanitize(STATE.userData.rol)}</span>`;
+                document.getElementById('btn-add-event').classList.toggle('hidden', !isStaff);
                 document.getElementById('school-logo').classList.remove('hidden'); document.getElementById('school-icon').classList.add('hidden');
-                document.getElementById('btn-add-event').classList.toggle('hidden', !isOficial);
-                
-                // Init vanilla tilt solo si el panel es visible
-                VanillaTilt.init(document.querySelector("#user-panel"), { max: 2, speed: 400 });
             } else {
-                btnLogin.classList.remove('hidden'); panel.classList.add('hidden'); ovr.classList.remove('hidden');
+                document.getElementById('user-panel').classList.add('hidden');
                 document.getElementById('school-logo').classList.add('hidden'); document.getElementById('school-icon').classList.remove('hidden');
                 document.getElementById('btn-add-event').classList.add('hidden');
             }
-            renderPosts(); // Re-render para aplicar botones admin
-        };
-        const toggleFormAccess = () => {
-            const form = document.getElementById('post-form');
-            const inputs = form.querySelectorAll('input, select, textarea, button');
-            inputs.forEach(i => i.disabled = !STATE.userData);
+            renderPosts();
         };
 
-        // ==========================
-        // 5. POSTS & RENDER (Usando Templates)
-        // ==========================
-        document.getElementById('post-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!STATE.userData) return;
-            
-            const now = Date.now();
-            if (now - STATE.lastPostTime < CONFIG.COOLDOWN_MS) return showError("Por favor, espere antes de publicar de nuevo.");
-            
-            const btn = document.getElementById('btn-submit-post');
-            const fileInp = document.getElementById('post-file');
-            let fileUrl = null, fileName = null;
+        document.getElementById('m-post-file').addEventListener('change', e => {
+            const lbl = document.getElementById('m-file-name');
+            if(e.target.files.length) { lbl.innerText = sanitize(e.target.files[0].name); lbl.classList.add('text-instBlue'); } 
+            else { lbl.innerText = "Adjuntar PDF/IMG"; lbl.classList.remove('text-instBlue'); }
+        });
 
-            btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Procesando`;
+        document.getElementById('post-form-modal').addEventListener('submit', async e => {
+            e.preventDefault(); if(!STATE.userData) return;
+            const now = Date.now(); if(now - STATE.lastPostTs < CFG.COOLDOWN) return toast('Debe esperar para publicar', 'info');
+            const btn = document.getElementById('btn-m-submit'); btn.disabled=true; btn.innerText="Subiendo...";
+            const fileInp = document.getElementById('m-post-file'); let fileUrl = null, fileName = null;
 
-            if (fileInp.files.length > 0) {
-                const file = fileInp.files[0];
-                if (file.size > CONFIG.MAX_FILE_SIZE) { btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane text-instGold"></i> Publicar'; return showError("El archivo supera los 5MB."); }
-                if (!CONFIG.ALLOWED_MIME.includes(file.type)) { btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane text-instGold"></i> Publicar'; return showError("Formato de archivo no seguro."); }
-                
-                try {
-                    fileName = file.name;
-                    const snap = await uploadBytes(ref(storage, `archivos/${Date.now()}_${file.name}`), file);
-                    fileUrl = await getDownloadURL(snap.ref);
-                } catch(err) { btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane text-instGold"></i> Publicar'; return showError("Fallo al subir archivo al servidor."); }
+            if(fileInp.files.length) {
+                const f = fileInp.files[0];
+                if(f.size > CFG.FILE_MAX) { btn.disabled=false; btn.innerText='Publicar'; return toast('Archivo excede 5MB', 'error'); }
+                try { fileName = f.name; const snap = await uploadBytes(ref(storage, `archivos/${Date.now()}_${f.name}`), f); fileUrl = await getDownloadURL(snap.ref); } 
+                catch(err) { btn.disabled=false; btn.innerText='Publicar'; return toast('Fallo al subir adjunto', 'error'); }
             }
 
             try {
                 await addDoc(collection(db, "posts"), {
-                    title: document.getElementById('post-title').value.trim(),
-                    course: document.getElementById('post-course').value,
-                    subject: document.getElementById('post-subject').value,
-                    body: document.getElementById('post-body').value.trim(),
-                    authorId: STATE.currentUser.uid, authorName: STATE.userData.nombre, role: STATE.userData.rol, 
-                    date: new Date().toISOString(), fileUrl, fileName, replies: [] 
+                    title: document.getElementById('m-post-title').value.trim(), course: document.getElementById('m-post-course').value,
+                    subject: document.getElementById('m-post-subject').value, body: document.getElementById('m-post-body').value.trim(),
+                    authorId: STATE.user.uid, authorName: STATE.userData.nombre, role: STATE.userData.rol, date: new Date().toISOString(), fileUrl, fileName, replies: [] 
                 });
-                STATE.lastPostTime = now;
-                document.getElementById('post-form').reset();
-                document.getElementById('char-counter').innerText = "0 / 400";
-                document.getElementById('file-name-display').innerText = "Adjuntar Documento";
-                showSuccess("Comunicado emitido correctamente.");
-            } catch(err) { showError(err.message); }
-            finally { btn.disabled=false; btn.innerHTML = `<i class="fa-solid fa-paper-plane text-instGold"></i> Publicar`; }
+                STATE.lastPostTs = now; document.getElementById('post-form-modal').reset(); document.getElementById('m-file-name').innerText = "Adjuntar PDF/IMG";
+                closeAllModals(true); toast('Comunicado publicado', 'success');
+            } catch(err) { toast('Error de red', 'error'); } finally { btn.disabled=false; btn.innerText="Publicar"; }
         });
 
-        // Listener con Límite de carga
-        let postUnsubscribe = null;
-        const loadPosts = () => {
-            if(postUnsubscribe) postUnsubscribe();
-            const q = query(collection(db, "posts"), orderBy("date", "desc"), limit(CONFIG.POSTS_PER_PAGE));
-            postUnsubscribe = onSnapshot(q, (snapshot) => {
-                STATE.posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                STATE.lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
-                renderPosts();
-            }, err => showError("Error leyendo datos: " + err.message));
-        };
-        loadPosts();
-
-        // Cargar Más
-        document.getElementById('btn-load-more').addEventListener('click', async (e) => {
-            if(!STATE.lastVisibleDoc) return;
-            const btn = e.target; btn.disabled = true; btn.innerText = "Cargando...";
-            try {
-                const q = query(collection(db, "posts"), orderBy("date", "desc"), startAfter(STATE.lastVisibleDoc), limit(CONFIG.POSTS_PER_PAGE));
-                const snap = await getDoc(q); // Petición única para paginación
-                if(snap.empty) { STATE.hasMorePosts = false; btn.classList.add('hidden'); return; }
-                const newPosts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                STATE.posts = [...STATE.posts, ...newPosts];
-                STATE.lastVisibleDoc = snap.docs[snap.docs.length - 1];
-                renderPosts();
-            } catch(err) { showError("Error paginando."); }
-            finally { btn.disabled = false; btn.innerText = "Cargar más registros"; }
+        onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(CFG.POST_LMT)), (snap) => {
+            STATE.posts = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderPosts();
         });
 
-        // Render Seguro usando <template>
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-chip').forEach(b => { b.classList.remove('active', 'bg-instBlue', 'text-white'); b.classList.add('bg-surface', 'text-textSoft'); });
+                const target = e.target; target.classList.remove('bg-surface', 'text-textSoft'); target.classList.add('active', 'bg-instBlue', 'text-white');
+                document.getElementById('filter-course').value = target.dataset.val; renderPosts();
+            });
+        });
+        
+        document.getElementById('filter-subject').addEventListener('change', () => renderPosts());
+
         const renderPosts = () => {
-            const container = document.getElementById('posts-container');
-            const tpl = document.getElementById('tpl-post');
-            
-            const fC = document.getElementById('filter-course').value;
-            const fS = document.getElementById('filter-subject').value;
+            const cont = document.getElementById('posts-container'); const tpl = document.getElementById('tpl-post');
+            const fC = document.getElementById('filter-course').value; const fS = document.getElementById('filter-subject').value;
             const filtered = STATE.posts.filter(p => (fC === 'todos' || p.course === fC) && (fS === 'todas' || p.subject === fS));
+            cont.innerHTML = '';
+            
+            if(!filtered.length) { cont.innerHTML = `<div class="text-center py-12 bg-surface rounded-xl border border-border shadow-soft"><i class="fa-solid fa-inbox text-3xl text-border mb-2"></i><p class="text-sm font-medium text-textSoft">Bandeja vacía</p></div>`; return; }
 
-            container.innerHTML = ''; // Limpiar
-            document.getElementById('btn-load-more').classList.toggle('hidden', filtered.length === 0 || !STATE.hasMorePosts);
-
-            if(filtered.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 bg-surface rounded-xl border border-border text-textSoft shadow-inst" data-aos="fade-up"><i class="fa-solid fa-envelope-open text-3xl mb-3 opacity-40"></i><p class="font-medium text-sm">No existen registros para esta vista.</p></div>`;
-                return;
-            }
-
-            filtered.forEach((post, index) => {
-                const isAuthor = STATE.currentUser && post.authorId === STATE.currentUser.uid;
-                const isAdmin = STATE.userData?.rol === 'Funcionario'; 
-                const isOfficial = post.role === 'Funcionario';
-
+            filtered.forEach(p => {
                 const node = tpl.content.cloneNode(true);
+                const isAuth = STATE.user && p.authorId === STATE.user.uid; const isAdm = STATE.userData?.rol === 'Funcionario'; const isOfi = p.role === 'Funcionario';
                 const root = node.querySelector('.post-card');
+                if(isOfi) { root.classList.add('border-l-transparent'); node.querySelector('.post-accent-bar').classList.remove('hidden'); node.querySelector('.post-accent-bar').classList.add('bg-instBlue'); }
+
+                node.querySelector('.post-avatar').textContent = p.authorName.charAt(0);
+                node.querySelector('.post-avatar').className += isOfi ? ' bg-instBlue text-instGold' : ' bg-surfaceAlt border border-border text-textSoft';
+                node.querySelector('.post-author').textContent = p.authorName;
+                node.querySelector('.post-role-badge').innerHTML = isOfi ? `<span class="text-[8px] font-bold px-1.5 py-0.5 rounded bg-instBlue text-white uppercase"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>` : `<span class="text-[8px] font-bold px-1.5 py-0.5 rounded border border-border bg-surfaceAlt text-textSoft uppercase">${sanitize(p.role)}</span>`;
+                node.querySelector('.post-date').innerHTML = `<i class="fa-regular fa-clock"></i> ${timeAgo(p.date)}`;
+                node.querySelector('.post-title').textContent = p.title;
                 
-                // Estilos de rol y contenedor
-                if(isOfficial) { root.classList.add('border-l-4', 'border-l-instBlue', 'border-t-border', 'border-r-border', 'border-b-border'); }
-                else { root.classList.add('border-border'); }
-                if(index < 5) root.setAttribute('data-aos', 'fade-up');
+                const bgCont = node.querySelector('.post-badges');
+                if(p.course && p.course !== 'General / Toda la Institución') { const s=document.createElement('span'); s.className="bg-surfaceAlt text-textSoft text-[9px] font-semibold px-1.5 py-0.5 rounded border border-border"; s.textContent=p.course; bgCont.appendChild(s); }
+                if(p.subject && p.subject !== 'Ninguna / General') { const s=document.createElement('span'); s.className="bg-surfaceAlt text-textSoft text-[9px] font-semibold px-1.5 py-0.5 rounded border border-border"; s.textContent=p.subject; bgCont.appendChild(s); }
+                node.querySelector('.post-body').textContent = p.body;
 
-                // Autor
-                const av = node.querySelector('.post-avatar');
-                av.textContent = post.authorName.charAt(0).toUpperCase();
-                av.className += isOfficial ? ' bg-instBlue text-instGold' : ' bg-surfaceAlt border border-border text-textSoft';
-                
-                const authEl = node.querySelector('.post-author');
-                authEl.textContent = post.authorName;
-                const roleSpan = document.createElement('span');
-                roleSpan.className = isOfficial ? 'text-[9px] font-bold px-1.5 py-0.5 rounded border border-instGold/30 bg-instBlue text-white uppercase ml-2' : 'text-[9px] font-bold px-1.5 py-0.5 rounded border border-border bg-surfaceAlt text-textSoft uppercase ml-2';
-                roleSpan.innerHTML = isOfficial ? `<i class="fa-solid fa-shield-check text-instGold"></i> Oficial` : sanitize(post.role);
-                authEl.appendChild(roleSpan);
-
-                node.querySelector('.post-date').innerHTML = `<i class="fa-regular fa-clock"></i> ${formatDate(post.date)}`;
-
-                // Título y badges
-                node.querySelector('.post-title').textContent = post.title;
-                const badgeCont = node.querySelector('.post-badges');
-                if (post.course && post.course !== 'General / Toda la Institución') {
-                    const b1 = document.createElement('span'); b1.className = "bg-surfaceAlt text-textSoft text-[10px] font-semibold px-2 py-0.5 rounded border border-border flex items-center gap-1"; b1.innerHTML = `<i class="fa-solid fa-users text-[9px]"></i> ${sanitize(post.course)}`; badgeCont.appendChild(b1);
-                }
-                if (post.subject && post.subject !== 'Ninguna / General') {
-                    const b2 = document.createElement('span'); b2.className = "bg-surfaceAlt text-textSoft text-[10px] font-semibold px-2 py-0.5 rounded border border-border flex items-center gap-1"; b2.innerHTML = `<i class="fa-solid fa-book text-[9px]"></i> ${sanitize(post.subject)}`; badgeCont.appendChild(b2);
+                if(p.fileUrl) {
+                    const fDiv = document.createElement('div'); fDiv.className = "mt-2 p-2.5 bg-surfaceAlt border border-border rounded-lg flex items-center justify-between";
+                    fDiv.innerHTML = `<div class="flex items-center gap-2 overflow-hidden"><i class="fa-solid fa-file-pdf text-instRed text-lg"></i><span class="text-xs font-medium truncate">${sanitize(p.fileName)}</span></div><a href="${p.fileUrl}" target="_blank" class="text-instBlue text-[10px] font-bold px-3 py-1.5 bg-surface border border-border rounded shadow-sm"><i class="fa-solid fa-download"></i> Bajar</a>`;
+                    node.querySelector('.post-file-container').appendChild(fDiv);
                 }
 
-                // Cuerpo
-                node.querySelector('.post-body').textContent = post.body;
+                const rCount = p.replies?.length || 0; const tglBtn = node.querySelector('.post-toggle-replies');
+                node.querySelector('.reply-count-text').textContent = rCount === 0 ? "Responder" : `Ver ${rCount} comentario${rCount>1?'s':''}`;
+                tglBtn.onclick = () => { root.querySelector('.post-replies-section').classList.toggle('hidden'); };
 
-                // Archivo
-                if (post.fileUrl) {
-                    const fileDiv = document.createElement('div');
-                    fileDiv.className = "mt-2 p-3 bg-surfaceAlt border border-border rounded-lg flex justify-between items-center";
-                    fileDiv.innerHTML = `<div class="flex items-center gap-3 overflow-hidden"><i class="fa-solid fa-file-lines text-instBlue text-lg"></i><span class="text-xs font-semibold text-textMain truncate">${sanitize(post.fileName)}</span></div><a href="${post.fileUrl}" target="_blank" rel="noopener" class="text-instBlue text-[10px] font-bold px-3 py-1.5 bg-surface border border-border rounded shadow-sm hover:border-instBlue transition-all"><i class="fa-solid fa-download"></i> Bajar</a>`;
-                    node.querySelector('.post-file-container').appendChild(fileDiv);
-                }
-
-                // Respuestas Contador
-                node.querySelector('.post-replies-count').innerHTML = `<i class="fa-regular fa-comment"></i> ${post.replies?.length || 0} Registros`;
-
-                // Botones Admin
-                if (isAuthor || isAdmin) {
-                    const actCont = node.querySelector('.post-actions');
-                    const btnEdit = document.createElement('button'); btnEdit.className="text-textSoft hover:text-instBlue text-xs font-semibold transition flex gap-1"; btnEdit.innerHTML=`<i class="fa-solid fa-pen"></i>`; btnEdit.onclick = () => window.openEdit(post.id);
-                    const btnDel = document.createElement('button'); btnDel.className="text-textSoft hover:text-danger text-xs font-semibold transition flex gap-1"; btnDel.innerHTML=`<i class="fa-solid fa-trash"></i>`; btnDel.onclick = () => window.deletePost(post.id);
-                    actCont.append(btnEdit, btnDel);
-                }
-
-                // Render Respuestas
-                if (post.replies?.length > 0) {
-                    const repCont = node.querySelector('.post-replies-container');
-                    repCont.classList.remove('hidden');
-                    post.replies.forEach(r => {
-                        const rDiv = document.createElement('div'); rDiv.className = "bg-surfaceAlt p-3 rounded-lg border border-border";
-                        const isROficial = r.role === 'Funcionario';
-                        const rBdg = isROficial ? `<span class="text-[8px] font-bold bg-instBlue text-white px-1.5 py-0.5 rounded ml-2 border border-instGold/30"><i class="fa-solid fa-shield-check"></i> Oficial</span>` : `<span class="text-[8px] font-bold bg-border text-textSoft px-1.5 py-0.5 rounded ml-2">${sanitize(r.role)}</span>`;
-                        rDiv.innerHTML = `<div class="flex items-center mb-1"><strong class="text-xs text-textMain">${sanitize(r.authorName)}</strong>${rBdg}<span class="text-[9px] text-textSoft ml-auto">${formatDate(r.date)}</span></div><p class="text-[13px] text-textMain">${sanitize(r.text)}</p>`;
-                        repCont.appendChild(rDiv);
+                if(rCount > 0) {
+                    const rList = node.querySelector('.post-replies-list');
+                    p.replies.forEach(r => {
+                        const d = document.createElement('div'); d.className="bg-surfaceAlt p-2.5 rounded-lg border border-border";
+                        const rBadge = r.role === 'Funcionario' ? `<span class="text-[8px] bg-instBlue text-white px-1 py-0.5 rounded ml-1"><i class="fa-solid fa-shield-check"></i></span>` : '';
+                        d.innerHTML = `<div class="flex items-center mb-1"><strong class="text-xs text-textMain">${sanitize(r.authorName)}</strong>${rBadge}<span class="text-[9px] text-textSoft ml-auto">${timeAgo(r.date)}</span></div><p class="text-xs text-textMain">${sanitize(r.text)}</p>`;
+                        rList.appendChild(d);
                     });
                 }
 
-                // Formulario Respuesta
-                if(STATE.userData) {
-                    const rForm = node.querySelector('.post-reply-form');
-                    rForm.classList.remove('hidden');
-                    rForm.onsubmit = (e) => window.handleReply(e, post.id);
-                }
-
-                container.appendChild(node);
+                if(isAuth || isAdm) { const act = node.querySelector('.post-actions'); act.classList.remove('hidden'); act.querySelector('.btn-delete').onclick = () => deletePost(p.id, p.authorId); }
+                if(STATE.userData) { const frm = node.querySelector('.post-reply-form'); frm.onsubmit = e => { e.preventDefault(); handleReply(p.id, frm.querySelector('input')); }; } 
+                else { node.querySelector('.post-reply-form').classList.add('hidden'); }
+                cont.appendChild(node);
             });
-            // Reinit AOS para nuevos elementos
-            setTimeout(() => AOS.refresh(), 100);
         };
 
-        // Filtros Events
-        document.getElementById('filter-course').addEventListener('change', renderPosts);
-        document.getElementById('filter-subject').addEventListener('change', renderPosts);
-
-        // Respuestas Action
-        window.handleReply = async (e, postId) => {
-            e.preventDefault();
-            if (!STATE.userData) return showError("Debe estar autenticado.");
-            const input = e.target.querySelector('input'); const btn = e.target.querySelector('button');
-            const text = input.value.trim(); if(!text) return;
-            
-            input.disabled = true; btn.disabled = true;
+        const handleReply = async (pId, inputNode) => {
+            const text = inputNode.value.trim(); if(!text) return; inputNode.disabled = true;
             try {
-                const newReply = { id: Date.now().toString(), authorName: STATE.userData.nombre, role: STATE.userData.rol, text, date: new Date().toISOString() };
-                await updateDoc(doc(db, "posts", postId), { replies: arrayUnion(newReply) });
-                input.value = ''; showSuccess("Respuesta añadida.");
-            } catch(err) { showError("Fallo red."); }
-            finally { input.disabled = false; btn.disabled = false; }
+                const rep = { id: Date.now().toString(), authorName: STATE.userData.nombre, role: STATE.userData.rol, text, date: new Date().toISOString() };
+                await updateDoc(doc(db, "posts", pId), { replies: arrayUnion(rep) }); inputNode.value = ''; toast('Enviado');
+            } catch(e) { toast('Error de red', 'error'); } finally { inputNode.disabled = false; }
         };
 
-        // Delete Post
-        window.deletePost = async (id) => {
-            const p = STATE.posts.find(x => x.id === id);
-            if(!p || (!STATE.currentUser || (p.authorId !== STATE.currentUser.uid && STATE.userData?.rol !== 'Funcionario'))) return showError("Acceso Denegado");
-            const r = await Swal.fire({ title: '¿Retirar Documento?', text: 'Borrado permanente.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#b91c1c' });
-            if (r.isConfirmed) {
-                try { await deleteDoc(doc(db, "posts", id)); showSuccess("Registro eliminado."); } catch(err) { showError("Error al borrar."); }
-            }
+        const deletePost = async (id, authorId) => {
+            if(STATE.user.uid !== authorId && STATE.userData?.rol !== 'Funcionario') return;
+            const r = await Swal.fire({ title: '¿Eliminar comunicado?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#b91c1c' });
+            if(r.isConfirmed) { try { await deleteDoc(doc(db, "posts", id)); toast('Eliminado'); } catch(e){toast('Fallo al eliminar', 'error');} }
         };
 
-        // ==========================
-        // 6. CALENDARIO & EVENTOS
-        // ==========================
-        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-        const holidays = { "2026-01-01": "Año Nuevo", "2026-05-01": "Día del Trabajo", "2026-05-21": "Glorias Navales", "2026-09-18": "Fiestas Patrias" }; // Abreviado por límite
+        const mNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const holidays = { "2026-01-01": "Año Nuevo", "2026-05-01": "Día del Trabajo", "2026-05-21": "Glorias Navales" }; 
 
-        const today = new Date(); let currMo = today.getMonth(), currYr = today.getFullYear();
-        let selDate = `${currYr}-${String(currMo+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+        const dToday = new Date(); let cMo = dToday.getMonth(), cYr = dToday.getFullYear();
+        let selDate = `${cYr}-${String(cMo+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`;
 
-        onSnapshot(query(collection(db, "events")), (snapshot) => { 
-            STATE.events = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); 
-            renderCalendar(); 
-        });
+        onSnapshot(query(collection(db, "events")), (snap) => { STATE.events = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderCal(); });
 
-        const renderCalendar = () => {
-            document.getElementById('calendar-month-year').innerText = `${monthNames[currMo]} ${currYr}`;
+        const renderCal = () => {
+            document.getElementById('calendar-month-year').innerText = `${mNames[cMo]} ${cYr}`;
             const grid = document.getElementById('calendar-grid'); grid.innerHTML = '';
-            const fDay = new Date(currYr, currMo, 1).getDay(), dInMo = new Date(currYr, currMo + 1, 0).getDate();
+            const fDay = new Date(cYr, cMo, 1).getDay(), dim = new Date(cYr, cMo + 1, 0).getDate();
 
-            for (let i = 0; i < fDay; i++) grid.appendChild(document.createElement('div'));
-
-            for (let i = 1; i <= dInMo; i++) {
-                const dStr = `${currYr}-${String(currMo+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-                const div = document.createElement('div');
-                let classes = "calendar-day flex flex-col justify-center items-center h-8 w-8 mx-auto rounded-full ";
-                if(dStr === `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`) classes += 'today ';
-                if(dStr === selDate) classes += 'selected ';
-                div.className = classes; div.onclick = () => { selDate = dStr; renderCalendar(); };
-
-                const isHol = holidays[dStr]; const hasEv = STATE.events.some(e => e.date === dStr);
-                const dotCont = document.createElement('div'); dotCont.className = "flex gap-0.5 mt-0.5 h-1.5";
-                if(isHol) dotCont.innerHTML += `<div class="w-1.5 h-1.5 bg-instRed rounded-full shadow-sm"></div>`;
-                if(hasEv) dotCont.innerHTML += `<div class="w-1.5 h-1.5 bg-instGold rounded-full shadow-sm"></div>`;
-
-                const dNum = document.createElement('span');
-                dNum.className = (new Date(currYr, currMo, i).getDay() === 0 || isHol) ? 'text-instRed font-bold' : 'text-textMain';
-                dNum.style.fontSize = '12px'; dNum.style.lineHeight = '1'; dNum.innerText = i;
-                
-                div.append(dNum, dotCont); grid.appendChild(div);
-            }
-            renderDayEvents();
-        };
-
-        const renderDayEvents = () => {
-            const cont = document.getElementById('day-events-container'); cont.innerHTML = '';
-            const [y, m, d] = selDate.split('-');
-            const tpl = document.getElementById('tpl-event');
+            for(let i=0; i<fDay; i++) grid.appendChild(document.createElement('div'));
             
-            let empty = true;
-            if (holidays[selDate]) {
-                cont.innerHTML += `<div class="bg-red-50 border border-red-100 p-2.5 rounded-lg flex items-center gap-2 mb-2"><i class="fa-solid fa-flag text-instRed text-xs"></i><p class="text-xs text-instRed font-bold uppercase">${holidays[selDate]}</p></div>`;
-                empty = false;
+            for(let i=1; i<=dim; i++) {
+                const dStr = `${cYr}-${String(cMo+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const div = document.createElement('div');
+                div.className = `calendar-day relative flex flex-col items-center justify-center h-8 w-8 mx-auto rounded-full ${dStr===selDate?'selected':''} ${dStr===`${dToday.getFullYear()}-${String(dToday.getMonth()+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`?'today':''}`;
+                div.onclick = () => { selDate = dStr; renderCal(); };
+                
+                const isHol = holidays[dStr], hasEv = STATE.events.some(e=>e.date===dStr);
+                const txt = document.createElement('span'); txt.className = (new Date(cYr, cMo, i).getDay()===0 || isHol) ? 'text-instRed font-bold text-[13px] z-10 leading-none' : 'text-[13px] z-10 leading-none'; txt.textContent = i;
+                const dots = document.createElement('div'); dots.className="flex gap-0.5 mt-0.5 h-1 z-10";
+                if(isHol) dots.innerHTML+='<div class="w-1 h-1 bg-instRed rounded-full shadow-sm"></div>';
+                if(hasEv) dots.innerHTML+='<div class="w-1 h-1 bg-instGold rounded-full shadow-sm"></div>';
+                
+                div.append(txt, dots); grid.appendChild(div);
             }
-
-            STATE.events.filter(e => e.date === selDate).forEach(ev => {
-                const node = tpl.content.cloneNode(true);
-                node.querySelector('.ev-title').textContent = ev.title;
-                node.querySelector('.ev-time').innerHTML += sanitize(ev.time);
-                node.querySelector('.ev-author').textContent = `Por: ${ev.authorName}`;
-                
-                if (ev.description) { const d = node.querySelector('.ev-desc'); d.textContent = ev.description; d.classList.remove('hidden'); }
-                if (STATE.userData?.rol === 'Funcionario') { const dbn = node.querySelector('.ev-delete'); dbn.classList.remove('hidden'); dbn.onclick = () => window.deleteEvent(ev.id); }
-                
-                cont.appendChild(node); empty = false;
-            });
-            if(empty) cont.innerHTML = `<p class="text-[10px] text-textSoft text-center py-3 bg-surfaceAlt rounded border border-border border-dashed">Sin agendamientos oficiales.</p>`;
+            renderEvs();
         };
 
-        document.getElementById('btn-prev-month').addEventListener('click', () => { currMo--; if(currMo<0){currMo=11;currYr--;} renderCalendar(); });
-        document.getElementById('btn-next-month').addEventListener('click', () => { currMo++; if(currMo>11){currMo=0;currYr++;} renderCalendar(); });
+        const renderEvs = () => {
+            const cont = document.getElementById('day-events-container'); cont.innerHTML = '';
+            const [y, m, d] = selDate.split('-'); document.getElementById('selected-date-label').innerText = `${d} ${mNames[parseInt(m)-1]}`;
+            const tpl = document.getElementById('tpl-event'); let empty = true;
+            
+            if(holidays[selDate]) { cont.innerHTML += `<div class="bg-red-50 border border-red-100 p-2 rounded-lg flex items-center gap-2 mb-2"><i class="fa-solid fa-flag text-instRed text-xs"></i><p class="text-[10px] font-bold text-instRed uppercase">${holidays[selDate]}</p></div>`; empty=false; }
 
-        window.openEventModal = () => { if(STATE.userData?.rol === 'Funcionario') { document.getElementById('event-date-val').value = selDate; document.getElementById('modal-event').classList.remove('hidden'); setTimeout(()=>document.getElementById('modal-event').firstElementChild.classList.remove('scale-95','opacity-0'),50); } };
-        window.closeEventModal = () => { document.getElementById('modal-event').firstElementChild.classList.add('scale-95','opacity-0'); setTimeout(()=>document.getElementById('modal-event').classList.add('hidden'),300); };
+            STATE.events.filter(e=>e.date===selDate).forEach(ev => {
+                const node = tpl.content.cloneNode(true);
+                node.querySelector('.ev-title').textContent = ev.title; node.querySelector('.ev-time').innerHTML += sanitize(ev.time);
+                if(ev.description) { const p = node.querySelector('.ev-desc'); p.textContent=ev.description; p.classList.remove('hidden'); }
+                if(STATE.userData?.rol==='Funcionario') { const dbn = node.querySelector('.ev-delete'); dbn.classList.remove('hidden'); dbn.onclick = () => deleteEv(ev.id); }
+                if(ev.isEvaluation) {
+                    const b = node.querySelector('.ev-badges'); b.classList.remove('hidden');
+                    b.innerHTML = `<span class="text-[8px] bg-instBlue text-white px-1 py-0.5 rounded">${sanitize(ev.evalType)}</span><span class="text-[8px] bg-surface border border-border px-1 py-0.5 rounded">${sanitize(ev.subject)}</span>`;
+                }
+                cont.appendChild(node); empty=false;
+            });
+            if(empty) cont.innerHTML = '<p class="text-[10px] text-textSoft text-center py-2">Sin agenda.</p>';
+        };
+
+        const deleteEv = async id => { const r = await Swal.fire({title:'¿Retirar?', icon:'warning', showCancelButton:true}); if(r.isConfirmed) await deleteDoc(doc(db,"events",id)); };
         
-        document.getElementById('event-form').addEventListener('submit', async (e) => {
+        document.getElementById('btn-prev-month').onclick = () => { cMo--; if(cMo<0){cMo=11;cYr--;} renderCal(); };
+        document.getElementById('btn-next-month').onclick = () => { cMo++; if(cMo>11){cMo=0;cYr++;} renderCal(); };
+        
+        document.getElementById('event-type').onchange = e => {
+            const isE = e.target.value === 'evaluacion';
+            document.getElementById('eval-fields-container').classList.toggle('hidden', !isE);
+            document.getElementById('general-event-time').parentElement.classList.toggle('hidden', isE);
+            document.getElementById('event-time') && (document.getElementById('event-time').required = isE);
+        };
+        
+        document.getElementById('event-form').onsubmit = async e => {
             e.preventDefault(); const btn = document.getElementById('btn-submit-event'); btn.disabled=true;
+            const isE = document.getElementById('event-type').value === 'evaluacion';
             try {
                 await addDoc(collection(db, "events"), {
                     date: document.getElementById('event-date-val').value, title: document.getElementById('event-title').value.trim(),
-                    time: document.getElementById('event-time').value, authorId: STATE.currentUser.uid, authorName: STATE.userData.nombre
+                    time: isE ? (document.getElementById('event-time') ? document.getElementById('event-time').value : '') : document.getElementById('general-event-time').value,
+                    description: document.getElementById('event-desc').value.trim(), isEvaluation: isE, evalType: isE ? document.getElementById('eval-type').value : null,
+                    subject: isE ? document.getElementById('eval-subject').value : null, block: isE ? document.getElementById('eval-block').value : null,
+                    authorId: STATE.user.uid, authorName: STATE.userData.nombre
                 });
-                showSuccess("Agendado exitosamente."); window.closeEventModal();
-            } catch(err) { showError("Error al agendar."); } finally { btn.disabled=false; }
-        });
-
-        window.deleteEvent = async (id) => {
-            if (STATE.userData?.rol !== 'Funcionario') return;
-            const r = await Swal.fire({ title: '¿Retirar?', icon: 'warning', showCancelButton: true });
-            if (r.isConfirmed) { try { await deleteDoc(doc(db, "events", id)); showSuccess("Evento retirado."); } catch(err) { showError("Error al borrar."); } }
+                closeAllModals(true); toast('Agendado', 'success');
+            } catch(e) { toast('Error al guardar', 'error'); } finally { btn.disabled=false; }
         };
-
-        // ==========================
-        // 7. MODALES MISC
-        // ==========================
-        window.openRulesModal = () => { document.getElementById('modal-rules').classList.remove('hidden'); setTimeout(()=>document.getElementById('modal-rules-content').classList.remove('scale-95','opacity-0'),50); };
-        window.closeRulesModal = () => { document.getElementById('modal-rules-content').classList.add('scale-95','opacity-0'); setTimeout(()=>document.getElementById('modal-rules').classList.add('hidden'),300); };
     </script>
 </body>
 </html>

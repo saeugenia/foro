@@ -56,13 +56,12 @@
         .filter-chip { transition: all 0.2s ease; white-space: nowrap; }
         .filter-chip.active { background-color: #101935; color: white; border-color: #101935; font-weight: 600; }
 
-        /* Calendario UX Corregido */
+        /* Calendario UX */
         .calendar-day { transition: all 0.15s ease; cursor: pointer; }
         .calendar-day:active { transform: scale(0.9); }
         .calendar-day:hover { background-color: #f1f5f9; }
         .calendar-day.selected { background-color: #101935; color: white; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 10px rgba(16,25,53,0.2); }
-        .calendar-day.selected span { color: #ffffff !important; } /* Fuerza que el número sea blanco */
-        .calendar-day.today { border: 2px solid #c9a227; background-color: rgba(201, 162, 39, 0.15); border-radius: 8px; } /* Transparencia para dejar ver el número */
+        .calendar-day.today { border: 2px solid #c9a227; border-radius: 8px; }
 
         /* Animaciones base */
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.97) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
@@ -149,51 +148,13 @@
                 <button onclick="document.getElementById('btn-login').click()" class="bg-surfaceAlt border border-border text-textMain text-xs font-bold py-2 px-4 rounded-lg">Identificarse ahora</button>
             </div>
 
-            <div id="user-panel" class="hidden bg-surface rounded-xl border border-border p-4 shadow-soft flex items-center gap-3 mb-4">
-                <img id="user-avatar" src="" class="w-12 h-12 rounded-full border border-border">
-                <div class="flex-1">
-                    <h3 class="text-sm font-bold text-textMain leading-tight">Hola, <span id="user-greeting"></span></h3>
-                    <div id="user-role-container" class="mt-1"></div>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="filters-container">
-                    <input type="hidden" id="filter-course" value="todos">
-                    <button class="filter-chip active px-4 py-1.5 rounded-full border border-border bg-instBlue text-white text-xs font-medium shrink-0" data-filter="course" data-val="todos">Todos</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="General / Toda la Institución">General</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="Prekínder">Prekínder</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="Kínder">Kínder</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="1° Básico">1° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="2° Básico">2° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="3° Básico">3° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="4° Básico">4° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="5° Básico">5° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="6° Básico">6° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="7° Básico">7° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="8° Básico">8° Básico</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="1° Medio">1° Medio</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="2° Medio">2° Medio</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="3° Medio">3° Medio</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="4° Medio">4° Medio</button>
-                </div>
-                <div>
-                    <select id="filter-subject" class="w-full md:w-64 p-2 border border-border rounded-lg bg-surface text-xs text-textSoft outline-none cursor-pointer shadow-sm">
-                        <option value="todas">Todas las Asignaturas</option>
-                        <option value="Ninguna / General">Ninguna / General</option>
-                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
-                        <option value="Matemática">Matemática</option>
-                        <option value="Ciencias Naturales">Ciencias Naturales</option>
-                        <option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option>
-                        <option value="Inglés">Inglés</option>
-                        <option value="Educación Física y Salud">Educación Física y Salud</option>
-                        <option value="Artes Visuales">Artes Visuales</option>
-                        <option value="Música">Música</option>
-                        <option value="Tecnología">Tecnología</option>
-                        <option value="Religión">Religión</option>
-                        <option value="Orientación">Orientación</option>
-                    </select>
-                </div>
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="filters-container">
+                <button class="filter-chip active px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="todos">Todos</button>
+                <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="General / Toda la Institución">General</button>
+                <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="1° Básico">1° Básico</button>
+                <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="2° Básico">2° Básico</button>
+                <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="3° Básico">3° Básico</button>
+                <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-surface text-textSoft text-xs font-medium shrink-0" data-filter="course" data-val="4° Medio">4° Medio</button>
             </div>
 
             <section id="posts-container" class="space-y-4 min-h-[50vh]">
@@ -201,10 +162,15 @@
                     <div class="flex gap-3 mb-4"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1 space-y-2"><div class="skeleton h-3 w-1/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
                     <div class="skeleton h-4 w-3/4 mb-3"></div><div class="skeleton h-16 w-full mb-3"></div>
                 </div>
+                <div class="bg-surface rounded-xl border border-border p-5 shadow-soft">
+                    <div class="flex gap-3 mb-4"><div class="skeleton w-10 h-10 rounded-full"></div><div class="flex-1 space-y-2"><div class="skeleton h-3 w-1/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
+                    <div class="skeleton h-10 w-full mb-3"></div>
+                </div>
             </section>
         </div>
 
         <div id="view-calendar" class="hidden md:block md:col-span-4 space-y-5 pb-8">
+            
             <div class="bg-surface rounded-xl border border-border p-5 shadow-soft relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-[3px] flex"><div class="flex-1 bg-instGold"></div><div class="w-1/4 bg-instRed"></div></div>
                 <div class="flex items-center justify-between mb-4 mt-1">
@@ -264,7 +230,8 @@
                     </div>
                 </div>
                 <div class="post-actions flex gap-2 hidden">
-                    <button class="btn-delete text-textSoft hover:text-instRed p-1.5 rounded transition-colors"><i class="fa-solid fa-trash text-xs"></i></button>
+                    <button class="btn-edit text-textSoft hover:text-instBlue p-1.5 rounded transition-colors"><i class="fa-solid fa-pen text-xs"></i></button>
+                    <button class="btn-delete text-textSoft hover:text-danger p-1.5 rounded transition-colors"><i class="fa-solid fa-trash text-xs"></i></button>
                 </div>
             </header>
             
@@ -305,7 +272,7 @@
         </div>
     </template>
 
-    <div id="modal-container" class="fixed inset-0 bg-[#101935]/60 backdrop-blur-[2px] hidden z-50 flex items-end sm:items-center justify-center transition-opacity opacity-0" onclick="closeAllModals(event)">
+    <div id="modal-container" class="fixed inset-0 bg-primary/60 backdrop-blur-[2px] hidden z-50 flex items-end sm:items-center justify-center transition-opacity opacity-0" onclick="closeAllModals(event)">
         
         <div id="modal-create-post" class="modal-content w-full sm:max-w-lg bg-surface sm:rounded-2xl rounded-t-2xl p-5 shadow-2xl relative" onclick="event.stopPropagation()">
             <div class="w-12 h-1.5 bg-border rounded-full mx-auto mb-4 sm:hidden"></div>
@@ -317,35 +284,12 @@
                 <input type="text" id="m-post-title" placeholder="Asunto oficial" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-sm font-medium" required>
                 <div class="grid grid-cols-2 gap-3">
                     <select id="m-post-course" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-xs cursor-pointer" required>
-                        <option value="General / Toda la Institución">General / Todos los Cursos</option>
-                        <option value="Prekínder">Prekínder</option>
-                        <option value="Kínder">Kínder</option>
-                        <option value="1° Básico">1° Básico</option>
-                        <option value="2° Básico">2° Básico</option>
-                        <option value="3° Básico">3° Básico</option>
-                        <option value="4° Básico">4° Básico</option>
-                        <option value="5° Básico">5° Básico</option>
-                        <option value="6° Básico">6° Básico</option>
-                        <option value="7° Básico">7° Básico</option>
-                        <option value="8° Básico">8° Básico</option>
-                        <option value="1° Medio">1° Medio</option>
-                        <option value="2° Medio">2° Medio</option>
-                        <option value="3° Medio">3° Medio</option>
-                        <option value="4° Medio">4° Medio</option>
+                        <option value="General / Toda la Institución">General / Todos</option>
+                        <option value="1° Básico">1° Básico</option><option value="4° Medio">4° Medio</option>
                     </select>
                     <select id="m-post-subject" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-xs cursor-pointer" required>
                         <option value="Ninguna / General">Sin Asignatura</option>
-                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
-                        <option value="Matemática">Matemática</option>
-                        <option value="Ciencias Naturales">Ciencias Naturales</option>
-                        <option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option>
-                        <option value="Inglés">Inglés</option>
-                        <option value="Educación Física y Salud">Educación Física y Salud</option>
-                        <option value="Artes Visuales">Artes Visuales</option>
-                        <option value="Música">Música</option>
-                        <option value="Tecnología">Tecnología</option>
-                        <option value="Religión">Religión</option>
-                        <option value="Orientación">Orientación</option>
+                        <option value="Lenguaje y Comunicación">Lenguaje</option><option value="Matemática">Matemática</option>
                     </select>
                 </div>
                 <div>
@@ -371,39 +315,17 @@
                 <input type="hidden" id="event-date-val">
                 <p id="event-date-display" class="text-xs font-semibold text-instGold mb-2"></p>
                 <select id="event-type" class="w-full p-2.5 border border-border rounded-lg bg-surfaceAlt text-sm outline-none cursor-pointer">
-                    <option value="evento">🗓️ Evento Institucional</option>
-                    <option value="evaluacion">📝 Evaluación/Prueba</option>
+                    <option value="evento">🗓️ Evento Institucional</option><option value="evaluacion">📝 Evaluación/Prueba</option>
                 </select>
                 <input type="text" id="event-title" placeholder="Título corto (Ej: Reunión)" class="w-full p-2.5 border border-border rounded-lg bg-surface text-sm" required>
                 
                 <div id="eval-fields-container" class="hidden grid grid-cols-2 gap-2 border-t border-border pt-2 mt-2">
-                    <select id="eval-type" class="w-full p-2 border border-border rounded-lg bg-surface text-xs">
-                        <option value="Prueba Sumativa">Prueba Sumativa</option>
-                        <option value="Prueba Formativa">Prueba Formativa</option>
-                        <option value="Trabajo Práctico">Trabajo Práctico</option>
-                        <option value="Disertación">Disertación</option>
-                    </select>
-                    <select id="eval-subject" class="w-full p-2 border border-border rounded-lg bg-surface text-xs">
-                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
-                        <option value="Matemática">Matemática</option>
-                        <option value="Ciencias Naturales">Ciencias Naturales</option>
-                        <option value="Historia">Historia, Geografía y Cs.</option>
-                        <option value="Inglés">Inglés</option>
-                        <option value="Educación Física">Educación Física y Salud</option>
-                        <option value="Artes Visuales">Artes Visuales</option>
-                        <option value="Música">Música</option>
-                        <option value="Tecnología">Tecnología</option>
-                        <option value="Religión">Religión</option>
-                    </select>
+                    <select id="eval-type" class="w-full p-2 border border-border rounded-lg bg-surface text-xs"><option value="Prueba Sumativa">Prueba Sumativa</option><option value="Trabajo Práctico">Trabajo Práctico</option></select>
+                    <select id="eval-subject" class="w-full p-2 border border-border rounded-lg bg-surface text-xs"><option value="Lenguaje">Lenguaje</option><option value="Matemática">Matemática</option></select>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-2">
-                    <select id="eval-block" class="hidden w-full p-2 border border-border rounded-lg bg-surface text-xs">
-                        <option value="Bloque 1">Bloque 1</option>
-                        <option value="Bloque 2">Bloque 2</option>
-                        <option value="Bloque 3">Bloque 3</option>
-                        <option value="Bloque 4">Bloque 4</option>
-                    </select>
+                    <select id="eval-block" class="hidden w-full p-2 border border-border rounded-lg bg-surface text-xs"><option value="Bloque 1">Bloque 1</option><option value="Bloque 2">Bloque 2</option></select>
                     <input type="time" id="general-event-time" class="w-full p-2 border border-border rounded-lg bg-surface text-xs" required>
                 </div>
                 <textarea id="event-desc" rows="2" maxlength="100" placeholder="Detalles extra (opcional)..." class="w-full p-2 border border-border rounded-lg bg-surface text-xs resize-none"></textarea>
@@ -438,9 +360,9 @@
             <div class="w-12 h-1.5 bg-border rounded-full mx-auto mb-4 sm:hidden"></div>
             <h2 class="text-base font-bold text-instBlue mb-4"><i class="fa-solid fa-scale-balanced text-instGold"></i> Convivencia Escolar</h2>
             <div class="text-xs text-textSoft space-y-3 mb-6 bg-surfaceAlt p-4 rounded-lg border border-border">
-                <p><strong class="text-textMain">1. Respeto mutuo:</strong> La comunicación debe ser formal y respetuosa.</p>
-                <p><strong class="text-textMain">2. Uso académico:</strong> Prohibido el comercio, spam o política.</p>
-                <p><strong class="text-textMain">3. Privacidad:</strong> No compartir datos sensibles de menores de edad.</p>
+                <p><strong class="text-textMain">1. Respeto mutuo:</strong> La comunicación debe ser formal.</p>
+                <p><strong class="text-textMain">2. Uso académico:</strong> Prohibido el comercio o spam.</p>
+                <p><strong class="text-textMain">3. Privacidad:</strong> No compartir datos de menores de edad.</p>
             </div>
             <button onclick="closeAllModals(true)" class="w-full bg-instBlue text-white font-bold py-2.5 rounded-lg shadow-sm">Entendido</button>
         </div>
@@ -448,22 +370,35 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, startAfter, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
+        // ==========================
+        // CONFIG & STATE
+        // ==========================
         const firebaseConfig = { apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4", authDomain: "foro-conectaedu.firebaseapp.com", projectId: "foro-conectaedu", storageBucket: "foro-conectaedu.firebasestorage.app", messagingSenderId: "183234856524", appId: "1:183234856524:web:9cef8e98008740431196e9" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app); const storage = getStorage(app); const provider = new GoogleAuthProvider();
         
-        const STATE = { user: null, userData: null, posts: [], events: [], lastPostTs: 0, activeTab: 'feed' };
-        const CFG = { POST_LMT: 30, FILE_MAX: 5242880, COOLDOWN: 15000 };
+        const STATE = { 
+            user: null, userData: null, 
+            posts: [], events: [], 
+            lastDoc: null, hasMore: true, lastPostTs: 0,
+            activeTab: 'feed' // mobile nav state
+        };
+        const CFG = { POST_LMT: 20, FILE_MAX: 5242880, COOLDOWN: 15000 };
 
+        // ==========================
+        // HELPERS UX/UI
+        // ==========================
         const toast = (msg, type='success') => {
             const bg = type === 'success' ? '#0f766e' : (type === 'error' ? '#b91c1c' : '#101935');
             const icon = type === 'success' ? 'check' : (type === 'error' ? 'exclamation' : 'info');
             Toastify({text: `<i class="fa-solid fa-circle-${icon}"></i> ${msg}`, escapeMarkup: false, duration: 3000, gravity: "top", position: "center", style: {background: bg, borderRadius: "10px", fontSize: "12px", fontWeight: "bold", padding: "10px 20px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)"}}).showToast();
         };
         const sanitize = str => { const div = document.createElement('div'); div.textContent = str || ''; return div.innerHTML; };
+        
+        // Time format tipo "hace 5 minutos" o "Ayer"
         const timeAgo = (iso) => {
             const date = new Date(iso), sec = Math.floor((new Date() - date) / 1000);
             if(sec < 60) return 'Hace un momento';
@@ -473,38 +408,53 @@
             return date.toLocaleDateString('es-CL', { day:'2-digit', month:'short' });
         };
 
+        // Network Status
         window.addEventListener('offline', () => document.getElementById('offline-banner').classList.add('show'));
         window.addEventListener('online', () => { document.getElementById('offline-banner').classList.remove('show'); toast('Conexión recuperada'); });
 
+        // TABS Mobile
         window.switchTab = (tab) => {
             STATE.activeTab = tab;
             document.getElementById('view-feed').className = tab === 'feed' ? 'md:col-span-8 space-y-5 pb-8 block' : 'hidden md:block md:col-span-8 space-y-5 pb-8';
             document.getElementById('view-calendar').className = tab === 'calendar' ? 'md:col-span-4 space-y-5 pb-8 block' : 'hidden md:block md:col-span-4 space-y-5 pb-8';
-            document.getElementById('tab-feed').classList.toggle('text-instBlue', tab === 'feed'); document.getElementById('tab-feed').classList.toggle('text-textSoft', tab !== 'feed');
-            document.getElementById('tab-calendar').classList.toggle('text-instBlue', tab === 'calendar'); document.getElementById('tab-calendar').classList.toggle('text-textSoft', tab !== 'calendar');
+            
+            document.getElementById('tab-feed').classList.toggle('text-instBlue', tab === 'feed');
+            document.getElementById('tab-feed').classList.toggle('text-textSoft', tab !== 'feed');
+            document.getElementById('tab-calendar').classList.toggle('text-instBlue', tab === 'calendar');
+            document.getElementById('tab-calendar').classList.toggle('text-textSoft', tab !== 'calendar');
         };
 
+        // Modales Controller
         const container = document.getElementById('modal-container');
         window.openModal = (id) => {
+            // Hide all children
             Array.from(container.children).forEach(c => c.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden'); container.classList.remove('hidden');
+            document.getElementById(id).classList.remove('hidden');
+            container.classList.remove('hidden');
+            // Animate opacity
             setTimeout(() => { container.classList.remove('opacity-0'); container.classList.add('modal-active'); }, 10);
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // prevent bg scroll
         };
         window.closeAllModals = (force = false) => {
+            // Don't close onboarding by clicking outside
             if(!force && !document.getElementById('modal-onboarding').classList.contains('hidden')) return;
-            container.classList.remove('modal-active'); container.classList.add('opacity-0');
+            container.classList.remove('modal-active');
+            container.classList.add('opacity-0');
             setTimeout(() => { container.classList.add('hidden'); document.body.style.overflow = ''; }, 300);
         };
         
         window.openPostModal = () => { if(STATE.userData) openModal('modal-create-post'); else toast('Inicie sesión primero', 'info'); };
-        window.openEventModal = () => { if(STATE.userData?.rol === 'Funcionario') { document.getElementById('event-date-val').value = selDate; document.getElementById('event-date-display').innerText = `Fecha seleccionada: ${selDate.split('-').reverse().join('/')}`; openModal('modal-event'); }};
+        window.openEventModal = () => { if(STATE.userData?.rol === 'Funcionario') { document.getElementById('event-date-val').value = selDate; openModal('modal-event'); }};
         window.openRulesModal = () => openModal('modal-rules');
 
+        // ==========================
+        // AUTHENTICATION
+        // ==========================
         setPersistence(auth, browserSessionPersistence);
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithPopup(auth, provider); } catch(e) { toast(e.message, 'error'); }});
         const handleLogout = () => signOut(auth);
-        document.getElementById('btn-logout').addEventListener('click', handleLogout); document.getElementById('btn-logout-mobile').addEventListener('click', handleLogout);
+        document.getElementById('btn-logout').addEventListener('click', handleLogout);
+        document.getElementById('btn-logout-mobile').addEventListener('click', handleLogout);
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -512,15 +462,18 @@
                 try {
                     if (user.email.endsWith('@slepcolchagua.cl')) {
                         STATE.userData = { rol: 'Funcionario', nombre: user.displayName, email: user.email };
-                        await setDoc(doc(db, "users", user.uid), STATE.userData, { merge: true }); updateHeaderUI();
+                        await setDoc(doc(db, "users", user.uid), STATE.userData, { merge: true });
+                        updateHeaderUI();
                     } else if (user.email.endsWith('@gmail.com')) {
                         const snap = await getDoc(doc(db, "users", user.uid));
-                        if (snap.exists()) { STATE.userData = snap.data(); updateHeaderUI(); } else { openModal('modal-onboarding'); }
+                        if (snap.exists()) { STATE.userData = snap.data(); updateHeaderUI(); }
+                        else { openModal('modal-onboarding'); }
                     } else { signOut(auth); toast('Dominio inválido', 'error'); }
                 } catch(e) { toast('Error de lectura auth', 'error'); }
             } else { STATE.user = null; STATE.userData = null; updateHeaderUI(); }
         });
 
+        // Onboarding Form
         document.getElementById('user-type').addEventListener('change', e => {
             const isApod = e.target.value === 'Apoderado';
             document.getElementById('extra-fields').classList.toggle('hidden', !e.target.value);
@@ -532,28 +485,40 @@
             e.preventDefault(); const btn = document.getElementById('btn-submit-onboarding'); btn.disabled=true; btn.innerText="Guardando...";
             const rol = document.getElementById('user-type').value;
             STATE.userData = { rol, nombre: document.getElementById('user-name').value.trim(), curso: document.getElementById('user-course').value.trim(), estudiante: rol==='Apoderado'?document.getElementById('student-name').value:'', email:STATE.user.email };
-            await setDoc(doc(db, "users", STATE.user.uid), STATE.userData); closeAllModals(true); updateHeaderUI();
+            await setDoc(doc(db, "users", STATE.user.uid), STATE.userData);
+            closeAllModals(true); updateHeaderUI();
         });
 
         const updateHeaderUI = () => {
-            const isLogged = !!STATE.userData; const isStaff = STATE.userData?.rol === 'Funcionario';
+            const isLogged = !!STATE.userData;
+            const isStaff = STATE.userData?.rol === 'Funcionario';
+            
+            // Header Desktop components
             document.getElementById('btn-login').classList.toggle('hidden', isLogged);
-            const hdInfo = document.getElementById('header-user-info'); hdInfo.classList.toggle('hidden', !isLogged); hdInfo.classList.toggle('flex', isLogged);
+            const hdInfo = document.getElementById('header-user-info');
+            hdInfo.classList.toggle('hidden', !isLogged);
+            hdInfo.classList.toggle('flex', isLogged);
+            
+            // Mobile Quick Post Trigger
             document.getElementById('quick-post-trigger').classList.toggle('hidden', !isLogged);
             document.getElementById('login-prompt').classList.toggle('hidden', isLogged);
             document.getElementById('btn-logout-mobile').classList.toggle('hidden', !isLogged);
             
             if(isLogged) {
                 const ava = STATE.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(STATE.userData.nombre)}&background=101935&color=fff`;
-                document.getElementById('header-user-name').innerText = STATE.userData.nombre.split(' ')[0];
+                document.getElementById('header-user-name').innerText = STATE.userData.nombre.split(' ')[0]; // First name only in header
                 document.getElementById('header-user-role').innerText = STATE.userData.rol;
-                document.getElementById('header-avatar').src = ava; document.getElementById('quick-avatar').src = ava;
+                document.getElementById('header-avatar').src = ava;
+                document.getElementById('quick-avatar').src = ava;
+                
+                // Panel Credencial (Muro)
                 document.getElementById('user-panel').classList.remove('hidden');
                 document.getElementById('user-greeting').innerText = STATE.userData.nombre;
                 document.getElementById('user-avatar').src = ava;
                 document.getElementById('user-role-container').innerHTML = isStaff 
                     ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-instBlue text-white text-[9px] font-bold uppercase tracking-wider"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>` 
                     : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surfaceAlt border border-border text-textSoft text-[9px] font-bold uppercase"><i class="fa-solid fa-user"></i> ${sanitize(STATE.userData.rol)}</span>`;
+                
                 document.getElementById('btn-add-event').classList.toggle('hidden', !isStaff);
                 document.getElementById('school-logo').classList.remove('hidden'); document.getElementById('school-icon').classList.add('hidden');
             } else {
@@ -561,9 +526,12 @@
                 document.getElementById('school-logo').classList.add('hidden'); document.getElementById('school-icon').classList.remove('hidden');
                 document.getElementById('btn-add-event').classList.add('hidden');
             }
-            renderPosts();
+            renderPosts(); // Refresh permissions on posts
         };
 
+        // ==========================
+        // PUBLICACIÓN (MURO)
+        // ==========================
         document.getElementById('m-post-file').addEventListener('change', e => {
             const lbl = document.getElementById('m-file-name');
             if(e.target.files.length) { lbl.innerText = sanitize(e.target.files[0].name); lbl.classList.add('text-instBlue'); } 
@@ -571,79 +539,124 @@
         });
 
         document.getElementById('post-form-modal').addEventListener('submit', async e => {
-            e.preventDefault(); if(!STATE.userData) return;
+            e.preventDefault();
+            if(!STATE.userData) return;
             const now = Date.now(); if(now - STATE.lastPostTs < CFG.COOLDOWN) return toast('Debe esperar para publicar', 'info');
+            
             const btn = document.getElementById('btn-m-submit'); btn.disabled=true; btn.innerText="Subiendo...";
-            const fileInp = document.getElementById('m-post-file'); let fileUrl = null, fileName = null;
+            const fileInp = document.getElementById('m-post-file');
+            let fileUrl = null, fileName = null;
 
             if(fileInp.files.length) {
                 const f = fileInp.files[0];
                 if(f.size > CFG.FILE_MAX) { btn.disabled=false; btn.innerText='Publicar'; return toast('Archivo excede 5MB', 'error'); }
-                try { fileName = f.name; const snap = await uploadBytes(ref(storage, `archivos/${Date.now()}_${f.name}`), f); fileUrl = await getDownloadURL(snap.ref); } 
-                catch(err) { btn.disabled=false; btn.innerText='Publicar'; return toast('Fallo al subir adjunto', 'error'); }
+                try {
+                    fileName = f.name;
+                    const snap = await uploadBytes(ref(storage, `archivos/${Date.now()}_${f.name}`), f);
+                    fileUrl = await getDownloadURL(snap.ref);
+                } catch(err) { btn.disabled=false; btn.innerText='Publicar'; return toast('Fallo al subir adjunto', 'error'); }
             }
 
             try {
                 await addDoc(collection(db, "posts"), {
-                    title: document.getElementById('m-post-title').value.trim(), course: document.getElementById('m-post-course').value,
-                    subject: document.getElementById('m-post-subject').value, body: document.getElementById('m-post-body').value.trim(),
-                    authorId: STATE.user.uid, authorName: STATE.userData.nombre, role: STATE.userData.rol, date: new Date().toISOString(), fileUrl, fileName, replies: [] 
+                    title: document.getElementById('m-post-title').value.trim(),
+                    course: document.getElementById('m-post-course').value,
+                    subject: document.getElementById('m-post-subject').value,
+                    body: document.getElementById('m-post-body').value.trim(),
+                    authorId: STATE.user.uid, authorName: STATE.userData.nombre, role: STATE.userData.rol, 
+                    date: new Date().toISOString(), fileUrl, fileName, replies: [] 
                 });
-                STATE.lastPostTs = now; document.getElementById('post-form-modal').reset(); document.getElementById('m-file-name').innerText = "Adjuntar PDF/IMG";
-                closeAllModals(true); toast('Comunicado publicado', 'success');
-            } catch(err) { toast('Error de red', 'error'); } finally { btn.disabled=false; btn.innerText="Publicar"; }
+                STATE.lastPostTs = now;
+                document.getElementById('post-form-modal').reset();
+                document.getElementById('m-file-name').innerText = "Adjuntar PDF/IMG";
+                closeAllModals(true);
+                toast('Comunicado publicado', 'success');
+            } catch(err) { toast('Error de red', 'error'); }
+            finally { btn.disabled=false; btn.innerText="Publicar"; }
         });
 
-        onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(CFG.POST_LMT)), (snap) => {
-            STATE.posts = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderPosts();
+        // Lectura Optimizada
+        let unsubPosts = onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(CFG.POST_LMT)), (snap) => {
+            STATE.posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            STATE.lastDoc = snap.docs[snap.docs.length-1];
+            renderPosts();
         });
 
+        // Manejo de Chips de Filtro
         document.querySelectorAll('.filter-chip').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-chip').forEach(b => { b.classList.remove('active', 'bg-instBlue', 'text-white'); b.classList.add('bg-surface', 'text-textSoft'); });
-                const target = e.target; target.classList.remove('bg-surface', 'text-textSoft'); target.classList.add('active', 'bg-instBlue', 'text-white');
-                document.getElementById('filter-course').value = target.dataset.val; renderPosts();
+                // Quitar active a todos los chips
+                document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active', 'bg-instBlue', 'text-white'));
+                document.querySelectorAll('.filter-chip').forEach(b => b.classList.add('bg-surface', 'text-textSoft'));
+                
+                // Activar este
+                const target = e.target;
+                target.classList.remove('bg-surface', 'text-textSoft');
+                target.classList.add('active', 'bg-instBlue', 'text-white');
+                
+                // Sincronizar select invisible/filtro lógico
+                document.getElementById('filter-course').value = target.dataset.val;
+                renderPosts();
             });
         });
         
         document.getElementById('filter-subject').addEventListener('change', () => renderPosts());
 
         const renderPosts = () => {
-            const cont = document.getElementById('posts-container'); const tpl = document.getElementById('tpl-post');
-            const fC = document.getElementById('filter-course').value; const fS = document.getElementById('filter-subject').value;
+            const cont = document.getElementById('posts-container');
+            const tpl = document.getElementById('tpl-post');
+            const fC = document.getElementById('filter-course').value;
+            const fS = document.getElementById('filter-subject').value;
+            
             const filtered = STATE.posts.filter(p => (fC === 'todos' || p.course === fC) && (fS === 'todas' || p.subject === fS));
             cont.innerHTML = '';
             
-            if(!filtered.length) { cont.innerHTML = `<div class="text-center py-12 bg-surface rounded-xl border border-border shadow-soft"><i class="fa-solid fa-inbox text-3xl text-border mb-2"></i><p class="text-sm font-medium text-textSoft">Bandeja vacía</p></div>`; return; }
+            if(!filtered.length) {
+                cont.innerHTML = `<div class="text-center py-12 bg-surface rounded-xl border border-border shadow-soft"><i class="fa-solid fa-inbox text-3xl text-border mb-2"></i><p class="text-sm font-medium text-textSoft">Bandeja vacía</p></div>`;
+                return;
+            }
 
-            filtered.forEach(p => {
+            filtered.forEach((p, idx) => {
                 const node = tpl.content.cloneNode(true);
-                const isAuth = STATE.user && p.authorId === STATE.user.uid; const isAdm = STATE.userData?.rol === 'Funcionario'; const isOfi = p.role === 'Funcionario';
+                const isAuth = STATE.user && p.authorId === STATE.user.uid;
+                const isAdm = STATE.userData?.rol === 'Funcionario';
+                const isOfi = p.role === 'Funcionario';
+
                 const root = node.querySelector('.post-card');
                 if(isOfi) { root.classList.add('border-l-transparent'); node.querySelector('.post-accent-bar').classList.remove('hidden'); node.querySelector('.post-accent-bar').classList.add('bg-instBlue'); }
 
+                // Cabecera
                 node.querySelector('.post-avatar').textContent = p.authorName.charAt(0);
                 node.querySelector('.post-avatar').className += isOfi ? ' bg-instBlue text-instGold' : ' bg-surfaceAlt border border-border text-textSoft';
                 node.querySelector('.post-author').textContent = p.authorName;
                 node.querySelector('.post-role-badge').innerHTML = isOfi ? `<span class="text-[8px] font-bold px-1.5 py-0.5 rounded bg-instBlue text-white uppercase"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>` : `<span class="text-[8px] font-bold px-1.5 py-0.5 rounded border border-border bg-surfaceAlt text-textSoft uppercase">${sanitize(p.role)}</span>`;
                 node.querySelector('.post-date').innerHTML = `<i class="fa-regular fa-clock"></i> ${timeAgo(p.date)}`;
+
+                // Content
                 node.querySelector('.post-title').textContent = p.title;
-                
                 const bgCont = node.querySelector('.post-badges');
                 if(p.course && p.course !== 'General / Toda la Institución') { const s=document.createElement('span'); s.className="bg-surfaceAlt text-textSoft text-[9px] font-semibold px-1.5 py-0.5 rounded border border-border"; s.textContent=p.course; bgCont.appendChild(s); }
                 if(p.subject && p.subject !== 'Ninguna / General') { const s=document.createElement('span'); s.className="bg-surfaceAlt text-textSoft text-[9px] font-semibold px-1.5 py-0.5 rounded border border-border"; s.textContent=p.subject; bgCont.appendChild(s); }
+                
                 node.querySelector('.post-body').textContent = p.body;
 
+                // File
                 if(p.fileUrl) {
                     const fDiv = document.createElement('div'); fDiv.className = "mt-2 p-2.5 bg-surfaceAlt border border-border rounded-lg flex items-center justify-between";
                     fDiv.innerHTML = `<div class="flex items-center gap-2 overflow-hidden"><i class="fa-solid fa-file-pdf text-instRed text-lg"></i><span class="text-xs font-medium truncate">${sanitize(p.fileName)}</span></div><a href="${p.fileUrl}" target="_blank" class="text-instBlue text-[10px] font-bold px-3 py-1.5 bg-surface border border-border rounded shadow-sm"><i class="fa-solid fa-download"></i> Bajar</a>`;
                     node.querySelector('.post-file-container').appendChild(fDiv);
                 }
 
-                const rCount = p.replies?.length || 0; const tglBtn = node.querySelector('.post-toggle-replies');
+                // Replies Toggle
+                const rCount = p.replies?.length || 0;
+                const tglBtn = node.querySelector('.post-toggle-replies');
                 node.querySelector('.reply-count-text').textContent = rCount === 0 ? "Responder" : `Ver ${rCount} comentario${rCount>1?'s':''}`;
-                tglBtn.onclick = () => { root.querySelector('.post-replies-section').classList.toggle('hidden'); };
+                tglBtn.onclick = () => {
+                    const sec = root.querySelector('.post-replies-section');
+                    sec.classList.toggle('hidden');
+                };
 
+                // Replies List
                 if(rCount > 0) {
                     const rList = node.querySelector('.post-replies-list');
                     p.replies.forEach(r => {
@@ -654,19 +667,32 @@
                     });
                 }
 
-                if(isAuth || isAdm) { const act = node.querySelector('.post-actions'); act.classList.remove('hidden'); act.querySelector('.btn-delete').onclick = () => deletePost(p.id, p.authorId); }
-                if(STATE.userData) { const frm = node.querySelector('.post-reply-form'); frm.onsubmit = e => { e.preventDefault(); handleReply(p.id, frm.querySelector('input')); }; } 
-                else { node.querySelector('.post-reply-form').classList.add('hidden'); }
+                // Actions & Form
+                if(isAuth || isAdm) {
+                    const act = node.querySelector('.post-actions'); act.classList.remove('hidden');
+                    act.querySelector('.btn-delete').onclick = () => deletePost(p.id, p.authorId);
+                }
+                
+                if(STATE.userData) {
+                    const frm = node.querySelector('.post-reply-form');
+                    frm.onsubmit = e => { e.preventDefault(); handleReply(p.id, frm.querySelector('input')); };
+                } else {
+                    node.querySelector('.post-reply-form').classList.add('hidden');
+                }
+
                 cont.appendChild(node);
             });
         };
 
         const handleReply = async (pId, inputNode) => {
-            const text = inputNode.value.trim(); if(!text) return; inputNode.disabled = true;
+            const text = inputNode.value.trim(); if(!text) return;
+            inputNode.disabled = true;
             try {
                 const rep = { id: Date.now().toString(), authorName: STATE.userData.nombre, role: STATE.userData.rol, text, date: new Date().toISOString() };
-                await updateDoc(doc(db, "posts", pId), { replies: arrayUnion(rep) }); inputNode.value = ''; toast('Enviado');
-            } catch(e) { toast('Error de red', 'error'); } finally { inputNode.disabled = false; }
+                await updateDoc(doc(db, "posts", pId), { replies: arrayUnion(rep) });
+                inputNode.value = ''; toast('Enviado');
+            } catch(e) { toast('Error de red', 'error'); }
+            finally { inputNode.disabled = false; }
         };
 
         const deletePost = async (id, authorId) => {
@@ -675,6 +701,9 @@
             if(r.isConfirmed) { try { await deleteDoc(doc(db, "posts", id)); toast('Eliminado'); } catch(e){toast('Fallo al eliminar', 'error');} }
         };
 
+        // ==========================
+        // 6. CALENDARIO
+        // ==========================
         const mNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         const holidays = { "2026-01-01": "Año Nuevo", "2026-05-01": "Día del Trabajo", "2026-05-21": "Glorias Navales" }; 
 
@@ -693,14 +722,14 @@
             for(let i=1; i<=dim; i++) {
                 const dStr = `${cYr}-${String(cMo+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
                 const div = document.createElement('div');
-                div.className = `calendar-day relative flex flex-col items-center justify-center h-8 w-8 mx-auto rounded-full ${dStr===selDate?'selected':''} ${dStr===`${dToday.getFullYear()}-${String(dToday.getMonth()+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`?'today':''}`;
+                div.className = `calendar-day flex flex-col items-center justify-center h-8 w-8 mx-auto rounded-full ${dStr===selDate?'selected':''} ${dStr===`${dToday.getFullYear()}-${String(dToday.getMonth()+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`?'today':''}`;
                 div.onclick = () => { selDate = dStr; renderCal(); };
                 
                 const isHol = holidays[dStr], hasEv = STATE.events.some(e=>e.date===dStr);
-                const txt = document.createElement('span'); txt.className = (new Date(cYr, cMo, i).getDay()===0 || isHol) ? 'text-instRed font-bold text-[13px] z-10 leading-none' : 'text-[13px] z-10 leading-none'; txt.textContent = i;
-                const dots = document.createElement('div'); dots.className="flex gap-0.5 mt-0.5 h-1 z-10";
-                if(isHol) dots.innerHTML+='<div class="w-1 h-1 bg-instRed rounded-full shadow-sm"></div>';
-                if(hasEv) dots.innerHTML+='<div class="w-1 h-1 bg-instGold rounded-full shadow-sm"></div>';
+                const txt = document.createElement('span'); txt.className = (new Date(cYr, cMo, i).getDay()===0 || isHol) ? 'text-instRed font-bold text-[13px] leading-none' : 'text-[13px] leading-none'; txt.textContent = i;
+                const dots = document.createElement('div'); dots.className="flex gap-0.5 mt-0.5 h-1";
+                if(isHol) dots.innerHTML+='<div class="w-1 h-1 bg-instRed rounded-full"></div>';
+                if(hasEv) dots.innerHTML+='<div class="w-1 h-1 bg-instGold rounded-full"></div>';
                 
                 div.append(txt, dots); grid.appendChild(div);
             }
@@ -710,15 +739,20 @@
         const renderEvs = () => {
             const cont = document.getElementById('day-events-container'); cont.innerHTML = '';
             const [y, m, d] = selDate.split('-'); document.getElementById('selected-date-label').innerText = `${d} ${mNames[parseInt(m)-1]}`;
-            const tpl = document.getElementById('tpl-event'); let empty = true;
+            const tpl = document.getElementById('tpl-event');
+            let empty = true;
             
-            if(holidays[selDate]) { cont.innerHTML += `<div class="bg-red-50 border border-red-100 p-2 rounded-lg flex items-center gap-2 mb-2"><i class="fa-solid fa-flag text-instRed text-xs"></i><p class="text-[10px] font-bold text-instRed uppercase">${holidays[selDate]}</p></div>`; empty=false; }
+            if(holidays[selDate]) {
+                cont.innerHTML += `<div class="bg-red-50 border border-red-100 p-2 rounded-lg flex items-center gap-2 mb-2"><i class="fa-solid fa-flag text-instRed text-xs"></i><p class="text-[10px] font-bold text-instRed uppercase">${holidays[selDate]}</p></div>`; empty=false;
+            }
 
             STATE.events.filter(e=>e.date===selDate).forEach(ev => {
                 const node = tpl.content.cloneNode(true);
-                node.querySelector('.ev-title').textContent = ev.title; node.querySelector('.ev-time').innerHTML += sanitize(ev.time);
+                node.querySelector('.ev-title').textContent = ev.title;
+                node.querySelector('.ev-time').innerHTML += sanitize(ev.time);
                 if(ev.description) { const p = node.querySelector('.ev-desc'); p.textContent=ev.description; p.classList.remove('hidden'); }
                 if(STATE.userData?.rol==='Funcionario') { const dbn = node.querySelector('.ev-delete'); dbn.classList.remove('hidden'); dbn.onclick = () => deleteEv(ev.id); }
+                
                 if(ev.isEvaluation) {
                     const b = node.querySelector('.ev-badges'); b.classList.remove('hidden');
                     b.innerHTML = `<span class="text-[8px] bg-instBlue text-white px-1 py-0.5 rounded">${sanitize(ev.evalType)}</span><span class="text-[8px] bg-surface border border-border px-1 py-0.5 rounded">${sanitize(ev.subject)}</span>`;
@@ -733,11 +767,12 @@
         document.getElementById('btn-prev-month').onclick = () => { cMo--; if(cMo<0){cMo=11;cYr--;} renderCal(); };
         document.getElementById('btn-next-month').onclick = () => { cMo++; if(cMo>11){cMo=0;cYr++;} renderCal(); };
         
+        // Form Calendar
         document.getElementById('event-type').onchange = e => {
             const isE = e.target.value === 'evaluacion';
             document.getElementById('eval-fields-container').classList.toggle('hidden', !isE);
             document.getElementById('general-event-time').parentElement.classList.toggle('hidden', isE);
-            document.getElementById('event-time') && (document.getElementById('event-time').required = isE);
+            document.getElementById('event-time').required = isE;
         };
         
         document.getElementById('event-form').onsubmit = async e => {
@@ -746,7 +781,7 @@
             try {
                 await addDoc(collection(db, "events"), {
                     date: document.getElementById('event-date-val').value, title: document.getElementById('event-title').value.trim(),
-                    time: isE ? (document.getElementById('event-time') ? document.getElementById('event-time').value : '') : document.getElementById('general-event-time').value,
+                    time: isE ? document.getElementById('event-time').value : document.getElementById('general-event-time').value,
                     description: document.getElementById('event-desc').value.trim(), isEvaluation: isE, evalType: isE ? document.getElementById('eval-type').value : null,
                     subject: isE ? document.getElementById('eval-subject').value : null, block: isE ? document.getElementById('eval-block').value : null,
                     authorId: STATE.user.uid, authorName: STATE.userData.nombre
@@ -754,6 +789,7 @@
                 closeAllModals(true); toast('Agendado', 'success');
             } catch(e) { toast('Error al guardar', 'error'); } finally { btn.disabled=false; }
         };
+
     </script>
 </body>
 </html>

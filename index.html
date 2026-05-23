@@ -34,7 +34,8 @@
     <header class="bg-white/90 backdrop-blur-md border-b sticky top-0 z-40 shadow-sm transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3 group cursor-pointer">
-                <div class="bg-accent text-white p-2 rounded-xl shadow-md group-hover:rotate-6 transition-transform">
+                <img id="school-logo" src="logo2.jpg" alt="Logo Escuela" class="w-11 h-11 object-contain hidden rounded-lg shadow-sm">
+                <div id="school-icon" class="bg-accent text-white p-2 rounded-xl shadow-md group-hover:rotate-6 transition-transform">
                     <i class="fa-solid fa-graduation-cap text-xl"></i>
                 </div>
                 <div>
@@ -77,23 +78,55 @@
                 <form id="post-form" class="space-y-4 relative z-0">
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Título del Anuncio</label>
-                        <input type="text" id="post-title" placeholder="Ej: Suspensión de clases / Material de estudio..." class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none bg-slate-50 transition-all" required>
+                        <input type="text" id="post-title" placeholder="Ej: Suspensión de clases / Entrega de notas..." class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none bg-slate-50 transition-all" required>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Curso al que va dirigido (Opcional)</label>
-                            <input type="text" id="post-course" placeholder="Ej: 3° Medio B / Toda la escuela" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none bg-slate-50 transition-all">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Curso Destinatario</label>
+                            <select id="post-course" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent outline-none bg-slate-50 cursor-pointer transition-all" required>
+                                <option value="General / Toda la Institución">🏢 General / Toda la Institución</option>
+                                <option value="1° Básico">1° Básico</option>
+                                <option value="2° Básico">2° Básico</option>
+                                <option value="3° Básico">3° Básico</option>
+                                <option value="4° Básico">4° Básico</option>
+                                <option value="5° Básico">5° Básico</option>
+                                <option value="6° Básico">6° Básico</option>
+                                <option value="7° Básico">7° Básico</option>
+                                <option value="8° Básico">8° Básico</option>
+                                <option value="1° Medio">1° Medio</option>
+                                <option value="2° Medio">2° Medio</option>
+                                <option value="3° Medio">3° Medio</option>
+                                <option value="4° Medio">4° Medio</option>
+                            </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Asignatura (Opcional)</label>
-                            <input type="text" id="post-subject" placeholder="Ej: Matemáticas / Historia" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none bg-slate-50 transition-all">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Asignatura Asociada</label>
+                            <select id="post-subject" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent outline-none bg-slate-50 cursor-pointer transition-all" required>
+                                <option value="Ninguna / General">🌍 Ninguna / General</option>
+                                <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
+                                <option value="Matemática">Matemática</option>
+                                <option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option>
+                                <option value="Ciencias Naturales">Ciencias Naturales</option>
+                                <option value="Biología">Biología</option>
+                                <option value="Física">Física</option>
+                                <option value="Química">Química</option>
+                                <option value="Inglés">Inglés</option>
+                                <option value="Artes Visuales">Artes Visuales</option>
+                                <option value="Música">Música</option>
+                                <option value="Educación Física y Salud">Educación Física y Salud</option>
+                                <option value="Tecnología">Tecnología</option>
+                                <option value="Orientación">Orientación</option>
+                            </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Mensaje o Comunicado</label>
-                        <textarea id="post-body" rows="4" placeholder="Escribe el detalle de tu publicación aquí..." class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none bg-slate-50 transition-all" required></textarea>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Mensaje o Comunicado</label>
+                            <span id="char-counter" class="text-xs text-slate-400 font-semibold">0 / 400</span>
+                        </div>
+                        <textarea id="post-body" rows="4" maxlength="400" placeholder="Escribe el detalle de tu publicación aquí (Máx. 400 caracteres)..." class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none bg-slate-50 transition-all" required></textarea>
                     </div>
                     
                     <div class="p-4 border border-dashed border-slate-200 rounded-xl bg-slate-50/50 hover:bg-slate-50 transition-colors cursor-pointer group relative">
@@ -102,12 +135,29 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="submit" class="bg-accent hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-md">
+                        <button type="submit" class="bg-accent hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-md w-full sm:w-auto">
                             <i class="fa-solid fa-paper-plane"></i> Publicar en el Muro
                         </button>
                     </div>
                 </form>
             </section>
+
+            <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <span class="text-sm font-bold text-slate-700 w-full sm:w-auto flex items-center gap-2"><i class="fa-solid fa-filter text-accent"></i> Filtrar publicaciones:</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full sm:w-auto flex-1 max-w-xl">
+                    <select id="filter-course" class="p-2.5 text-xs border border-slate-200 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-accent cursor-pointer">
+                        <option value="todos">📚 Todos los Cursos</option>
+                        <option value="General / Toda la Institución">🏢 General / Toda la Institución</option>
+                        <option value="1° Básico">1° Básico</option><option value="2° Básico">2° Básico</option><option value="3° Básico">3° Básico</option><option value="4° Básico">4° Básico</option><option value="5° Básico">5° Básico</option><option value="6° Básico">6° Básico</option><option value="7° Básico">7° Básico</option><option value="8° Básico">8° Básico</option>
+                        <option value="1° Medio">1° Medio</option><option value="2° Medio">2° Medio</option><option value="3° Medio">3° Medio</option><option value="4° Medio">4° Medio</option>
+                    </select>
+                    <select id="filter-subject" class="p-2.5 text-xs border border-slate-200 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-accent cursor-pointer">
+                        <option value="todas">📖 Todas las Asignaturas</option>
+                        <option value="Ninguna / General">🌍 Ninguna / General</option>
+                        <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option><option value="Matemática">Matemática</option><option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option><option value="Ciencias Naturales">Ciencias Naturales</option><option value="Biología">Biología</option><option value="Física">Física</option><option value="Química">Química</option><option value="Inglés">Inglés</option><option value="Artes Visuales">Artes Visuales</option><option value="Música">Música</option><option value="Educación Física y Salud">Educación Física y Salud</option><option value="Tecnología">Tecnología</option><option value="Orientación">Orientación</option>
+                    </select>
+                </div>
+            </div>
 
             <section class="space-y-4">
                 <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fa-regular fa-comments text-accent"></i> Muro de Avisos y Novedades</h2>
@@ -143,7 +193,7 @@
     </main>
 
     <div id="modal-rules" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+        <div id="modal-rules-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-2xl">
                 <h2 class="text-xl font-bold text-primary"><i class="fa-solid fa-shield-check text-success"></i> Reglas de Uso</h2>
                 <button onclick="window.closeRulesModal()" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -181,15 +231,34 @@
             <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa-solid fa-pen text-accent"></i> Editar Publicación</h2>
             <form id="edit-form" class="space-y-4">
                 <input type="hidden" id="edit-post-id">
-                <input type="text" id="edit-post-title" class="w-full p-3 border rounded-xl bg-slate-50" required>
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="edit-post-course" placeholder="Curso (Opcional)" class="w-full p-3 border rounded-xl bg-slate-50">
-                    <input type="text" id="edit-post-subject" placeholder="Asignatura (Opcional)" class="w-full p-3 border rounded-xl bg-slate-50">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Título</label>
+                    <input type="text" id="edit-post-title" class="w-full p-3 border rounded-xl bg-slate-50" required>
                 </div>
-                <textarea id="edit-post-body" rows="4" class="w-full p-3 border rounded-xl bg-slate-50" required></textarea>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Curso</label>
+                        <select id="edit-post-course" class="w-full p-3 border rounded-xl bg-slate-50">
+                            <option value="General / Toda la Institución">🏢 General / Toda la Institución</option>
+                            <option value="1° Básico">1° Básico</option><option value="2° Básico">2° Básico</option><option value="3° Básico">3° Básico</option><option value="4° Básico">4° Básico</option><option value="5° Básico">5° Básico</option><option value="6° Básico">6° Básico</option><option value="7° Básico">7° Básico</option><option value="8° Básico">8° Básico</option>
+                            <option value="1° Medio">1° Medio</option><option value="2° Medio">2° Medio</option><option value="3° Medio">3° Medio</option><option value="4° Medio">4° Medio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Asignatura</label>
+                        <select id="edit-post-subject" class="w-full p-3 border rounded-xl bg-slate-50">
+                            <option value="Ninguna / General">🌍 Ninguna / General</option>
+                            <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option><option value="Matemática">Matemática</option><option value="Historia, Geografía y Ciencias Sociales">Historia, Geografía y Ciencias Sociales</option><option value="Ciencias Naturales">Ciencias Naturales</option><option value="Biología">Biología</option><option value="Física">Física</option><option value="Química">Química</option><option value="Inglés">Inglés</option><option value="Artes Visuales">Artes Visuales</option><option value="Música">Música</option><option value="Educación Física y Salud">Educación Física y Salud</option><option value="Tecnología">Tecnología</option><option value="Orientación">Orientación</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Cuerpo del Comunicado</label>
+                    <textarea id="edit-post-body" rows="4" maxlength="400" class="w-full p-3 border rounded-xl bg-slate-50" required></textarea>
+                </div>
                 <div class="flex justify-end gap-2 mt-4">
                     <button type="button" onclick="document.getElementById('modal-edit').classList.add('hidden')" class="px-5 py-2.5 text-slate-600 rounded-xl">Cancelar</button>
-                    <button type="submit" class="px-5 py-2.5 bg-accent text-white rounded-xl font-bold">Guardar</button>
+                    <button type="submit" class="px-5 py-2.5 bg-accent text-white rounded-xl font-bold">Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -221,10 +290,26 @@
         let userData = null;
         let postsArray = [];
 
-        // DOM Auth
+        // DOM Elementos Básicos
         const btnLogin = document.getElementById('btn-login');
         const btnLogout = document.getElementById('btn-logout');
+        const postBody = document.getElementById('post-body');
+        const charCounter = document.getElementById('char-counter');
+        const filterCourse = document.getElementById('filter-course');
+        const filterSubject = document.getElementById('filter-subject');
         
+        // Contador de Caracteres en tiempo real
+        postBody.addEventListener('input', () => {
+            const currentLen = postBody.value.length;
+            charCounter.innerText = `${currentLen} / 400`;
+            if (currentLen >= 400) {
+                charCounter.className = "text-xs text-danger font-bold animate-pulse";
+            } else {
+                charCounter.className = "text-xs text-slate-400 font-semibold";
+            }
+        });
+
+        // Eventos de Autenticación
         btnLogin.addEventListener('click', () => signInWithPopup(auth, provider).catch(e => Swal.fire('Error', e.message, 'error')));
         btnLogout.addEventListener('click', () => signOut(auth));
 
@@ -268,14 +353,23 @@
                 document.getElementById('user-greeting').innerText = `Hola, ${userData.nombre}`;
                 document.getElementById('user-role-badge').innerText = userData.rol;
                 document.getElementById('user-avatar').src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${userData.nombre}&background=4f46e5&color=fff`;
+                
+                // MOSTRAR LOGO DE LA ESCUELA ARRIBA AL INICIAR SESIÓN
+                document.getElementById('school-logo').classList.remove('hidden');
+                document.getElementById('school-icon').classList.add('hidden');
             } else {
                 btnLogin.classList.remove('hidden');
                 document.getElementById('user-panel').classList.add('hidden');
                 document.getElementById('form-overlay').classList.remove('hidden');
+                
+                // OCULTAR LOGO DE LA ESCUELA SI NO HAY SESIÓN
+                document.getElementById('school-logo').classList.add('hidden');
+                document.getElementById('school-icon').classList.remove('hidden');
             }
+            filterAndRenderPosts();
         }
 
-        // ================= CREAR POST (CON CURSO Y ASIGNATURA) =================
+        // Crear Publicación
         document.getElementById('post-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser || !userData) return;
@@ -284,7 +378,7 @@
             let fileUrl = null;
             let fileName = null;
 
-            Swal.fire({ title: 'Publicando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({ title: 'Publicando anuncio...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
@@ -293,14 +387,14 @@
                 try {
                     const snap = await uploadBytes(storageRef, file);
                     fileUrl = await getDownloadURL(snap.ref);
-                } catch(e) { return Swal.fire('Error', 'Error subiendo archivo', 'error'); }
+                } catch(e) { return Swal.fire('Error', 'Error subiendo archivo adjunto.', 'error'); }
             }
 
             await addDoc(collection(db, "posts"), {
                 title: document.getElementById('post-title').value,
-                course: document.getElementById('post-course').value.trim(),
-                subject: document.getElementById('post-subject').value.trim(),
-                body: document.getElementById('post-body').value,
+                course: document.getElementById('post-course').value,
+                subject: document.getElementById('post-subject').value,
+                body: postBody.value,
                 authorId: currentUser.uid, 
                 authorName: userData.nombre, 
                 role: userData.rol, 
@@ -309,13 +403,14 @@
             });
 
             document.getElementById('post-form').reset();
-            Swal.fire('¡Publicado!', '', 'success');
+            charCounter.innerText = "0 / 400";
+            Swal.fire('¡Publicado con éxito!', '', 'success');
         });
 
-        // ================= SISTEMA DE RESPUESTAS =================
+        // Respuestas
         window.handleReply = async (e, postId) => {
             e.preventDefault();
-            if (!currentUser || !userData) return Swal.fire('Atención', 'Debes iniciar sesión para comentar.', 'warning');
+            if (!currentUser || !userData) return Swal.fire('Atención', 'Debes iniciar sesión para responder.', 'warning');
             
             const input = document.getElementById(`reply-input-${postId}`);
             const text = input.value.trim();
@@ -337,44 +432,58 @@
             });
         };
 
-        // Escucha en tiempo real de Posts
+        // Escucha en tiempo real de la base de datos
         onSnapshot(query(collection(db, "posts"), orderBy("date", "desc")), (snapshot) => {
             postsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderPosts();
+            filterAndRenderPosts();
         });
 
-        function renderPosts() {
+        // Eventos para ejecutar los filtros en tiempo real
+        filterCourse.addEventListener('change', filterAndRenderPosts);
+        filterSubject.addEventListener('change', filterAndRenderPosts);
+
+        function filterAndRenderPosts() {
+            const selectedCourse = filterCourse.value;
+            const selectedSubject = filterSubject.value;
+
+            const filteredPosts = postsArray.filter(post => {
+                const matchCourse = (selectedCourse === 'todos') || (post.course === selectedCourse);
+                const matchSubject = (selectedSubject === 'todas') || (post.subject === selectedSubject);
+                return matchCourse && matchSubject;
+            });
+
             const container = document.getElementById('posts-container');
             container.innerHTML = '';
-            if(postsArray.length === 0) return container.innerHTML = `<div class="text-center py-10 bg-white rounded-2xl border text-slate-400">Sin publicaciones.</div>`;
+            
+            if(filteredPosts.length === 0) {
+                return container.innerHTML = `<div class="text-center py-12 bg-white rounded-2xl border text-slate-400 font-medium text-sm">No se encontraron publicaciones que coincidan con los filtros.</div>`;
+            }
 
-            postsArray.forEach(post => {
+            filteredPosts.forEach(post => {
                 const isAuthor = currentUser && post.authorId === currentUser.uid;
-                const isAdmin = userData && userData.rol === 'Funcionario';
+                const isAdmin = userData && userData.rol === 'Funcionario'; 
                 
-                // Etiquetas de Curso y Asignatura (Igual que en el original)
                 let courseBadgeHtml = '';
-                if (post.course) {
-                    courseBadgeHtml = `<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded ml-2"><i class="fa-solid fa-users"></i> ${post.course}</span>`;
+                if (post.course && post.course !== 'General / Toda la Institución') {
+                    courseBadgeHtml = `<span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200"><i class="fa-solid fa-users text-[9px]"></i> ${post.course}</span>`;
                 }
 
                 let subjectBadgeHtml = '';
-                if (post.subject) {
-                    subjectBadgeHtml = `<span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded ml-2"><i class="fa-solid fa-book"></i> ${post.subject}</span>`;
+                if (post.subject && post.subject !== 'Ninguna / General') {
+                    subjectBadgeHtml = `<span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-200"><i class="fa-solid fa-book text-[9px]"></i> ${post.subject}</span>`;
                 }
 
-                // Generación del HTML de las RESPUESTAS
                 let repliesHtml = '';
                 if (post.replies && post.replies.length > 0) {
-                    repliesHtml += `<div class="mt-5 space-y-3 pl-4 border-l-2 border-indigo-100">`;
+                    repliesHtml += `<div class="mt-4 space-y-2.5 pl-4 border-l-2 border-indigo-100">`;
                     post.replies.forEach(reply => {
                         const rDate = new Date(reply.date).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', hour:'2-digit', minute:'2-digit' });
                         repliesHtml += `
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 animate-fade-in">
                                 <div class="flex items-center gap-2 mb-1">
                                     <strong class="text-xs text-slate-800">${reply.authorName}</strong>
-                                    <span class="text-[9px] bg-slate-200 text-slate-600 px-1.5 rounded">${reply.role}</span>
-                                    <span class="text-[10px] text-slate-400">${rDate}</span>
+                                    <span class="text-[9px] font-bold bg-slate-200 text-slate-600 px-1.5 rounded">${reply.role}</span>
+                                    <span class="text-[10px] text-slate-400 ml-auto">${rDate}</span>
                                 </div>
                                 <p class="text-sm text-slate-600">${reply.text}</p>
                             </div>
@@ -383,7 +492,6 @@
                     repliesHtml += `</div>`;
                 }
 
-                // Generación del HTML del FORMULARIO de respuestas
                 let replyFormHtml = `
                     <form onsubmit="window.handleReply(event, '${post.id}')" class="mt-4 flex gap-2">
                         <input type="text" id="reply-input-${post.id}" placeholder="Escribe tu respuesta aquí..." class="flex-1 p-2.5 text-sm border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-accent outline-none" required>
@@ -391,12 +499,11 @@
                     </form>
                 `;
 
-                // Botones de Edición / Eliminar
                 let buttonsHtml = '';
                 if (isAuthor || isAdmin) {
-                    buttonsHtml = `<div class="flex gap-2 justify-end">`;
-                    if (isAuthor) buttonsHtml += `<button onclick="window.openEdit('${post.id}')" class="text-indigo-600 text-xs font-bold hover:underline"><i class="fa-solid fa-pen"></i> Editar</button>`;
-                    if (isAdmin) buttonsHtml += `<button onclick="window.deletePost('${post.id}')" class="text-red-500 text-xs font-bold ml-3 hover:underline"><i class="fa-solid fa-trash"></i> Eliminar</button>`;
+                    buttonsHtml = `<div class="flex gap-3 justify-end items-center mt-2 sm:mt-0">`;
+                    buttonsHtml += `<button onclick="window.openEdit('${post.id}')" class="text-indigo-600 text-xs font-bold hover:underline transition flex items-center gap-1"><i class="fa-solid fa-pen text-[10px]"></i> Editar</button>`;
+                    buttonsHtml += `<button onclick="window.deletePost('${post.id}')" class="text-danger text-xs font-bold hover:underline transition flex items-center gap-1"><i class="fa-solid fa-trash text-[10px]"></i> Eliminar</button>`;
                     buttonsHtml += `</div>`;
                 }
 
@@ -404,14 +511,14 @@
                 
                 let fileHtml = post.fileUrl ? `
                     <div class="mt-3 p-3 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-600 truncate"><i class="fa-solid fa-paperclip text-indigo-500"></i> ${post.fileName}</span>
-                        <a href="${post.fileUrl}" target="_blank" class="text-accent text-xs font-bold px-3 py-1.5 bg-white border rounded-lg hover:bg-slate-50 transition"><i class="fa-solid fa-download"></i></a>
+                        <span class="text-xs font-bold text-slate-600 truncate max-w-[80%]"><i class="fa-solid fa-paperclip text-indigo-500"></i> ${post.fileName}</span>
+                        <a href="${post.fileUrl}" target="_blank" class="text-accent text-xs font-bold px-3 py-1.5 bg-white border rounded-lg hover:bg-slate-100 transition"><i class="fa-solid fa-download"></i></a>
                     </div>` : '';
 
                 const postEl = document.createElement('div');
-                postEl.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-4 transition-shadow hover:shadow-md';
+                postEl.className = 'bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm mb-4 transition-shadow hover:shadow-md animate-fade-in';
                 postEl.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-indigo-50 text-accent flex items-center justify-center font-bold text-sm border border-indigo-100">
                                 ${post.authorName.charAt(0).toUpperCase()}
@@ -426,17 +533,17 @@
                         </div>
                     </div>
                     
-                    <h3 class="text-lg font-bold text-slate-800 mb-2 leading-tight">
-                        ${post.title} 
-                        <div class="inline-flex mt-1 sm:mt-0">${courseBadgeHtml} ${subjectBadgeHtml}</div>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-800 mb-2 leading-tight flex flex-wrap items-center gap-2">
+                        <span>${post.title}</span>
+                        <div class="inline-flex gap-1.5">${courseBadgeHtml} ${subjectBadgeHtml}</div>
                     </h3>
                     
-                    <p class="text-slate-600 text-sm whitespace-pre-line mb-3">${post.body}</p>
+                    <p class="text-slate-600 text-sm whitespace-pre-line mb-3 break-words">${post.body}</p>
                     ${fileHtml}
                     
                     <hr class="my-4 border-slate-100">
                     
-                    <div class="flex justify-between items-center mb-2">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
                         <span class="text-xs font-bold text-slate-500"><i class="fa-regular fa-comment"></i> ${post.replies ? post.replies.length : 0} Respuestas</span>
                         ${buttonsHtml}
                     </div>
@@ -448,13 +555,41 @@
             });
         }
 
-        // Acciones Globales
-        window.openRulesModal = () => document.getElementById('modal-rules').classList.remove('hidden');
-        window.closeRulesModal = () => document.getElementById('modal-rules').classList.add('hidden');
+        // ACCIONES DE MODALES (CORREGIDO APERTURA Y CIERRE DE NORMAS)
+        window.openRulesModal = () => {
+            const modal = document.getElementById('modal-rules');
+            const content = document.getElementById('modal-rules-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+            }, 50);
+        };
+        
+        window.closeRulesModal = () => {
+            const modal = document.getElementById('modal-rules');
+            const content = document.getElementById('modal-rules-content');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        };
         
         window.deletePost = async (id) => {
-            if(!userData || userData.rol !== 'Funcionario') return Swal.fire('Error', 'Solo funcionarios eliminan posts.', 'error');
-            const r = await Swal.fire({ title: '¿Borrar post?', icon: 'warning', showCancelButton: true });
+            const p = postsArray.find(x => x.id === id);
+            const isAuthor = currentUser && p.authorId === currentUser.uid;
+            const isAdmin = userData && userData.rol === 'Funcionario';
+            
+            if(!isAuthor && !isAdmin) return Swal.fire('Error', 'No cuentas con los permisos.', 'error');
+            
+            const r = await Swal.fire({ 
+                title: '¿Eliminar anuncio?', 
+                text: 'Esta acción borrará la publicación y todas sus respuestas de manera permanente.',
+                icon: 'warning', 
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Sí, borrar'
+            });
             if (r.isConfirmed) await deleteDoc(doc(db, "posts", id));
         };
 
@@ -462,9 +597,10 @@
             const p = postsArray.find(x => x.id === id);
             document.getElementById('edit-post-id').value = p.id;
             document.getElementById('edit-post-title').value = p.title;
-            document.getElementById('edit-post-course').value = p.course || '';
-            document.getElementById('edit-post-subject').value = p.subject || '';
+            document.getElementById('edit-post-course').value = p.course || 'General / Toda la Institución';
+            document.getElementById('edit-post-subject').value = p.subject || 'Ninguna / General';
             document.getElementById('edit-post-body').value = p.body;
+            
             document.getElementById('modal-edit').classList.remove('hidden');
             setTimeout(() => document.getElementById('modal-edit').firstElementChild.classList.remove('scale-95', 'opacity-0'), 50);
         };
@@ -479,6 +615,7 @@
                 body: document.getElementById('edit-post-body').value
             });
             document.getElementById('modal-edit').classList.add('hidden');
+            Swal.fire('¡Cambios guardados!', '', 'success');
         });
     </script>
 </body>

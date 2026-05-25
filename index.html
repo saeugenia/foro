@@ -407,7 +407,7 @@
                     <label class="flex items-center gap-2 px-4 py-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors shadow-sm group">
                         <i class="fa-solid fa-paperclip text-slate-400 group-hover:text-instBlue transition-colors"></i>
                         <span id="m-file-name" class="text-xs font-bold text-slate-600 max-w-[120px] truncate">Adjuntar Archivo</span>
-                        <input type="file" id="m-post-file" accept=".pdf,.jpg,.png" class="hidden">
+                        <input type="file" id="m-post-file" accept=".pdf,.jpg,.jpeg,.png" class="hidden">
                     </label>
                     <button type="submit" id="btn-m-submit" class="bg-gradient-to-br from-instBlue to-[#1a274d] text-white font-bold py-3 px-7 rounded-xl shadow-lg shadow-instBlue/20 text-sm flex items-center gap-2 btn-hover-fx">
                         Publicar <i class="fa-solid fa-paper-plane text-instGold"></i>
@@ -512,10 +512,12 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
         const firebaseConfig = { apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4", authDomain: "foro-conectaedu.firebaseapp.com", projectId: "foro-conectaedu", storageBucket: "foro-conectaedu.firebasestorage.app", messagingSenderId: "183234856524", appId: "1:183234856524:web:9cef8e98008740431196e9" };
-        const app = initializeApp(firebaseConfig); const db = getFirestore(app); const auth = getAuth(app); const storage = getStorage(app); const provider = new GoogleAuthProvider();
+        const app = initializeApp(firebaseConfig); 
+        const db = getFirestore(app); 
+        const auth = getAuth(app); 
+        const provider = new GoogleAuthProvider();
         
         const STATE = { currentUser: null, userData: null, posts: [], events: [] };
         
@@ -677,13 +679,58 @@
             l.classList.toggle('text-instBlue', e.target.files.length > 0);
         };
 
+        // --- SISTEMA DE UPLOAD MEJORADO (CLOUDINARY) ---
         document.getElementById('post-form-modal').onsubmit = async e => {
-            e.preventDefault(); const btn = document.getElementById('btn-m-submit'); btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
-            const fInp = document.getElementById('m-post-file'); let fileUrl = null, fileName = null;
+            e.preventDefault(); 
+            const btn = document.getElementById('btn-m-submit'); 
+            btn.disabled=true; 
+            btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
+            
+            const fInp = document.getElementById('m-post-file'); 
+            let fileUrl = null, fileName = null;
+            
             if(fInp.files.length) {
-                const f = fInp.files[0]; fileName = f.name;
-                try { const snap = await uploadBytes(ref(storage, `files/${Date.now()}_${f.name}`), f); fileUrl = await getDownloadURL(snap.ref); } catch(err) { btn.disabled=false; return showError('Error archivo'); }
+                const f = fInp.files[0]; 
+                
+                // 1. Validar Tamaño (Máx 5MB)
+                if (f.size > 5 * 1024 * 1024) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Publicar <i class="fa-solid fa-paper-plane text-instGold"></i>';
+                    return showError("Máximo 5MB");
+                }
+                
+                // 2. Validar Tipo MIME
+                const allowed = ['application/pdf', 'image/png', 'image/jpeg'];
+                if(!allowed.includes(f.type)){
+                    btn.disabled = false;
+                    btn.innerHTML = 'Publicar <i class="fa-solid fa-paper-plane text-instGold"></i>';
+                    return showError("Archivo no permitido");
+                }
+
+                fileName = f.name; // Nombre real para mostrar en UI
+                
+                try { 
+                    // 3. Subida directa a Cloudinary
+                    const formData = new FormData();
+                    formData.append("file", f);
+                    formData.append("upload_preset", "conectaedu_uploads");
+
+                    const response = await fetch("https://api.cloudinary.com/v1_1/dxppfmy93/auto/upload", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    if (!response.ok) throw new Error("Cloudinary Error");
+                    
+                    const data = await response.json();
+                    fileUrl = data.secure_url; 
+                } catch(err) { 
+                    btn.disabled=false; 
+                    btn.innerHTML = 'Publicar <i class="fa-solid fa-paper-plane text-instGold"></i>';
+                    return showError('Error al subir el archivo'); 
+                }
             }
+            
             try {
                 await addDoc(collection(db, "posts"), {
                     title: document.getElementById('m-post-title').value, course: document.getElementById('m-post-course').value,

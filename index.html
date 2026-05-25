@@ -73,9 +73,11 @@
     </div>
 
     <div id="landing-view" class="flex-1 flex items-center justify-center relative overflow-hidden px-4 py-12 z-10 fade-in">
-        <div class="absolute top-0 left-0 w-full h-2 bg-instBlue flex"><div class="w-1/3 h-full bg-instGold"></div><div class="w-16 h-full bg-instRed"></div></div>
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-instGold rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-pulse"></div>
-        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-instBlue rounded-full mix-blend-multiply filter blur-[80px] opacity-10"></div>
+        
+        <div class="absolute inset-0 bg-[url('fondo.jpg')] bg-cover bg-center bg-no-repeat opacity-15 z-0"></div>
+        <div class="absolute inset-0 bg-instBlue opacity-20 z-0"></div> <div class="absolute top-0 left-0 w-full h-2 bg-instBlue flex z-10"><div class="w-1/3 h-full bg-instGold"></div><div class="w-16 h-full bg-instRed"></div></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-instGold rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-pulse z-0"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-instBlue rounded-full mix-blend-multiply filter blur-[80px] opacity-10 z-0"></div>
 
         <div class="bg-white max-w-md w-full rounded-3xl shadow-float border border-border p-8 sm:p-10 relative z-20 text-center transform transition-all" data-aos="zoom-in" data-aos-duration="800">
             <div class="w-24 h-24 mx-auto mb-6 bg-surfaceAlt rounded-2xl border border-border flex items-center justify-center shadow-sm relative">
@@ -494,9 +496,9 @@
                 } else if(user.email.endsWith('@gmail.com')) {
                     const snap = await getDoc(doc(db, "users", user.uid));
                     if(snap.exists()) { STATE.userData = snap.data(); updateUI(); } else {
-                        document.getElementById('landing-view').classList.add('hidden');
-                        document.getElementById('app-view').classList.remove('hidden');
-                        document.getElementById('app-view').classList.add('flex');
+                        // MODIFICACIÓN 3: Bloquear acceso al muro obligando al registro de datos sin ocultar la vista de inicio
+                        STATE.userData = null;
+                        updateUI();
                         openModal('modal-onboarding');
                     }
                 } else { signOut(auth); showError('Dominio no permitido'); }
@@ -547,6 +549,7 @@
                 document.getElementById('quick-post-trigger').classList.remove('hidden');
                 document.getElementById('btn-add-event').classList.toggle('hidden', !isFunc);
                 renderPosts();
+                renderCal(); // MODIFICACIÓN 2: Renderizar el calendario de inmediato al cargar la interfaz para quitar "Cargando..."
             } else {
                 document.getElementById('landing-view').classList.remove('hidden');
                 document.getElementById('landing-view').classList.add('fade-in');

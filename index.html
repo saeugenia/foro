@@ -73,11 +73,9 @@
     </div>
 
     <div id="landing-view" class="flex-1 flex items-center justify-center relative overflow-hidden px-4 py-12 z-10 fade-in">
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25 pointer-events-none z-0" style="background-image: url('fondo.jpg');"></div>
-
-        <div class="absolute top-0 left-0 w-full h-2 bg-instBlue flex z-10"><div class="w-1/3 h-full bg-instGold"></div><div class="w-16 h-full bg-instRed"></div></div>
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-instGold rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-pulse z-10"></div>
-        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-instBlue rounded-full mix-blend-multiply filter blur-[80px] opacity-10 z-10"></div>
+        <div class="absolute top-0 left-0 w-full h-2 bg-instBlue flex"><div class="w-1/3 h-full bg-instGold"></div><div class="w-16 h-full bg-instRed"></div></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-instGold rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-pulse"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-instBlue rounded-full mix-blend-multiply filter blur-[80px] opacity-10"></div>
 
         <div class="bg-white max-w-md w-full rounded-3xl shadow-float border border-border p-8 sm:p-10 relative z-20 text-center transform transition-all" data-aos="zoom-in" data-aos-duration="800">
             <div class="w-24 h-24 mx-auto mb-6 bg-surfaceAlt rounded-2xl border border-border flex items-center justify-center shadow-sm relative">
@@ -412,7 +410,7 @@
             <div class="text-center mb-5">
                 <div class="w-14 h-14 bg-surfaceAlt text-instBlue border border-border rounded-full flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-id-card text-2xl"></i></div>
                 <h2 class="text-lg font-bold text-textMain">Completar Perfil</h2>
-                <p class="text-xs text-textSoft mt-1 font-medium">Configure su cuenta para acceder al systema.</p>
+                <p class="text-xs text-textSoft mt-1 font-medium">Configure su cuenta para acceder al sistema.</p>
             </div>
             <form id="onboarding-form" class="space-y-4 text-sm">
                 <select id="user-type" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold text-instBlue" required>
@@ -422,6 +420,7 @@
                 </select>
                 <div id="extra-fields" class="hidden space-y-3">
                     <input type="text" id="user-name" placeholder="Su Nombre y Apellido" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold" required>
+                    <input type="text" id="student-name" placeholder="Nombre completo del estudiante" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold hidden">
                     <select id="user-course" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold" required>
                         <option value="">Seleccione su curso...</option>
                         <option value="Prekínder">Prekínder</option><option value="Kínder">Kínder</option>
@@ -505,13 +504,28 @@
         });
 
         document.getElementById('user-type').onchange = e => {
-            document.getElementById('extra-fields').classList.toggle('hidden', !e.target.value);
-            document.getElementById('btn-submit-onboarding').classList.toggle('hidden', !e.target.value);
+            const val = e.target.value;
+            document.getElementById('extra-fields').classList.toggle('hidden', !val);
+            document.getElementById('btn-submit-onboarding').classList.toggle('hidden', !val);
+            
+            const studentInput = document.getElementById('student-name');
+            if (val === 'Apoderado') {
+                studentInput.classList.remove('hidden');
+                studentInput.required = true;
+            } else {
+                studentInput.classList.add('hidden');
+                studentInput.required = false;
+                studentInput.value = '';
+            }
         };
         
         document.getElementById('onboarding-form').onsubmit = async e => {
             e.preventDefault(); const btn = document.getElementById('btn-submit-onboarding'); btn.disabled=true;
-            STATE.userData = { rol: document.getElementById('user-type').value, nombre: document.getElementById('user-name').value, curso: document.getElementById('user-course').value, email: STATE.currentUser.email };
+            const rol = document.getElementById('user-type').value;
+            STATE.userData = { rol: rol, nombre: document.getElementById('user-name').value, curso: document.getElementById('user-course').value, email: STATE.currentUser.email };
+            if (rol === 'Apoderado') {
+                STATE.userData.nombreEstudiante = document.getElementById('student-name').value;
+            }
             await setDoc(doc(db, "users", STATE.currentUser.uid), STATE.userData); closeAllModals(true); updateUI();
         };
 
@@ -533,7 +547,6 @@
                 document.getElementById('quick-post-trigger').classList.remove('hidden');
                 document.getElementById('btn-add-event').classList.toggle('hidden', !isFunc);
                 renderPosts();
-                renderCal();
             } else {
                 document.getElementById('landing-view').classList.remove('hidden');
                 document.getElementById('landing-view').classList.add('fade-in');

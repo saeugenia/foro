@@ -228,7 +228,10 @@
                         <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="6° Básico">6° Básico</button>
                         <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="7° Básico">7° Básico</button>
                         <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="8° Básico">8° Básico</button>
-                    
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="1° Medio">1° Medio</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="2° Medio">2° Medio</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="3° Medio">3° Medio</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="4° Medio">4° Medio</button>
                     </div>
                     <div>
                         <select id="filter-subject" class="w-full md:w-64 p-3 border border-slate-200 rounded-xl bg-white/80 backdrop-blur text-xs font-bold text-slate-700 outline-none shadow-sm cursor-pointer hover:border-instBlue focus:ring-4 focus:ring-instBlue/10 transition-all">
@@ -357,7 +360,7 @@
         </div>
     </template>
 
-    <div id="modal-container" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 px-4" onclick="closeAllModals(event)">
+    <div id="modal-container" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 px-4" onclick="if(event.target === this) closeAllModals()">
         
         <div id="modal-create-post" class="modal-content w-full max-w-lg bg-white rounded-[1.5rem] p-7 shadow-2xl relative transition-all duration-300 transform scale-95 opacity-0 border border-slate-100" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
@@ -379,6 +382,10 @@
                         <option value="6° Básico">6° Básico</option>
                         <option value="7° Básico">7° Básico</option>
                         <option value="8° Básico">8° Básico</option>
+                        <option value="1° Medio">1° Medio</option>
+                        <option value="2° Medio">2° Medio</option>
+                        <option value="3° Medio">3° Medio</option>
+                        <option value="4° Medio">4° Medio</option>
                     </select>
                     <select id="m-post-subject" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-xs font-bold cursor-pointer shadow-inner" required>
                         <option value="Ninguna / General">Sin Asignatura</option>
@@ -501,7 +508,10 @@
                         <option value="6° Básico">6° Básico</option>
                         <option value="7° Básico">7° Básico</option>
                         <option value="8° Básico">8° Básico</option>
-                    
+                        <option value="1° Medio">1° Medio</option>
+                        <option value="2° Medio">2° Medio</option>
+                        <option value="3° Medio">3° Medio</option>
+                        <option value="4° Medio">4° Medio</option>
                     </select>
                 </div>
                 <button type="submit" id="btn-submit-onboarding" class="w-full bg-gradient-to-br from-instBlue to-[#1a274d] text-white font-bold py-3.5 rounded-xl mt-4 hidden shadow-lg shadow-instBlue/20 btn-hover-fx">Guardar e Ingresar</button>
@@ -581,8 +591,12 @@
             setTimeout(() => { container.classList.remove('opacity-0'); m.classList.remove('scale-95', 'opacity-0'); }, 10);
             document.body.style.overflow = 'hidden';
         };
+
+        // AQUÍ SE CORRIGIÓ LA LÓGICA DE CIERRE PARA QUE NO CIERRE EL MODAL DE PUBLICACIÓN SI FORCE NO ES TRUE
         window.closeAllModals = (force=false) => {
-            if(!force && !document.getElementById('modal-onboarding').classList.contains('hidden')) return;
+            if(force !== true && !document.getElementById('modal-onboarding').classList.contains('hidden')) return;
+            if(force !== true && !document.getElementById('modal-create-post').classList.contains('hidden')) return;
+            
             Array.from(container.children).forEach(c => c.classList.add('scale-95', 'opacity-0')); container.classList.add('opacity-0');
             setTimeout(() => { container.classList.add('hidden'); document.body.style.overflow = ''; }, 300);
         };
@@ -591,16 +605,24 @@
         window.openEventModal = () => openModal('modal-event');
         window.openRulesModal = () => openModal('modal-rules');
         
+        // AQUÍ SE CORRIGIÓ LA PREVISUALIZACIÓN Y LA DESCARGA PARA PDF
         window.openPreview = (url, name) => {
             document.getElementById('preview-title').innerHTML = `<i class="fa-solid fa-file-lines text-instGold mr-2"></i>${sanitize(name)}`;
-            document.getElementById('preview-download-btn').href = url;
+            
+            let downloadUrl = url;
+            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+                const parts = url.split('/upload/');
+                downloadUrl = parts[0] + '/upload/fl_attachment/' + parts[1];
+            }
+            document.getElementById('preview-download-btn').href = downloadUrl;
+            
             const body = document.getElementById('preview-body');
             body.innerHTML = '<div class="text-slate-400 font-bold text-sm animate-pulse flex flex-col items-center justify-center gap-2"><i class="fa-solid fa-circle-notch fa-spin text-2xl"></i> Cargando vista previa...</div>';
             
             openModal('modal-preview');
             
             setTimeout(() => {
-                if(url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) != null || url.includes('image/upload')) {
+                if(url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) != null) {
                     body.innerHTML = `<img src="${url}" class="max-w-full max-h-full object-contain rounded shadow-sm">`;
                 } else {
                     body.innerHTML = `<iframe src="${url}" class="w-full h-full border-0 rounded bg-white shadow-sm"></iframe>`;
@@ -660,6 +682,11 @@
             const isLog = !!STATE.userData; const isFunc = STATE.userData?.rol === 'Funcionario';
             
             if(isLog) {
+                // SOLICITUD DE PERMISOS PARA NOTIFICACIONES AL INICIAR SESIÓN
+                if ("Notification" in window && Notification.permission === "default") {
+                    Notification.requestPermission();
+                }
+
                 const ava = STATE.currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(STATE.userData.nombre)}&background=101935&color=fff&bold=true`;
                 document.getElementById('header-avatar').src = ava;
                 document.getElementById('header-user-name').innerText = STATE.userData.nombre.split(' ')[0];
@@ -790,7 +817,6 @@
                 document.getElementById('m-file-name').innerText="Adjuntar Archivo";
                 document.getElementById('upload-progress-container').classList.add('hidden');
                 
-                // Reseteo de filtros visuales para garantizar que el post se vea altiro
                 document.getElementById('filter-course').value = 'todos';
                 document.getElementById('filter-subject').value = 'todas';
                 document.querySelectorAll('.filter-chip').forEach(btnC => { 
@@ -816,7 +842,35 @@
             }
         };
 
-        onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(30)), snap => { STATE.posts = snap.docs.map(d => ({id:d.id, ...d.data()})); if(STATE.userData) renderPosts(); });
+        // AQUÍ SE INTEGRARON LAS NOTIFICACIONES EN TIEMPO REAL
+        let isInitialLoad = true;
+        onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(30)), snap => { 
+            const newPosts = [];
+            snap.docChanges().forEach(change => {
+                if (change.type === "added" && !isInitialLoad) {
+                    newPosts.push(change.doc.data());
+                }
+            });
+            
+            STATE.posts = snap.docs.map(d => ({id:d.id, ...d.data()})); 
+            
+            if(STATE.userData) {
+                renderPosts();
+                
+                if (!isInitialLoad && newPosts.length > 0) {
+                    newPosts.forEach(post => {
+                        // Lanzar notificación solo si el autor no es uno mismo y se aceptaron los permisos
+                        if (post.authorId !== STATE.currentUser.uid && "Notification" in window && Notification.permission === "granted") {
+                            new Notification("Nuevo Comunicado", {
+                                body: `${post.authorName} publicó: ${post.title}`,
+                                icon: "logo2.jpg"
+                            });
+                        }
+                    });
+                }
+            }
+            isInitialLoad = false;
+        });
 
         document.querySelectorAll('.filter-chip').forEach(b => b.onclick = e => {
             document.querySelectorAll('.filter-chip').forEach(btn => { btn.classList.remove('active', 'bg-instBlue', 'text-white'); btn.classList.add('bg-white', 'text-slate-500'); });
@@ -846,10 +900,18 @@
                 if(p.course && p.course !== 'General / Toda la Institución') bCont.innerHTML += `<span class="bg-slate-50 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-slate-200 shadow-sm"><i class="fa-solid fa-users text-[10px] mr-1.5 text-slate-400"></i>${sanitize(p.course)}</span>`;
                 if(p.subject && p.subject !== 'Ninguna / General') bCont.innerHTML += `<span class="bg-slate-50 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-slate-200 shadow-sm"><i class="fa-solid fa-book text-[10px] mr-1.5 text-slate-400"></i>${sanitize(p.subject)}</span>`;
                 
+                // AQUÍ TAMBIÉN SE CORRIGIÓ LA DESCARGA DIRECTA DE ARCHIVOS (agregando fl_attachment)
                 if(p.fileUrl) {
-                    const isImg = p.fileUrl.match(/\.(jpeg|jpg|gif|png)$/i) != null || p.fileUrl.includes('image/upload');
+                    const isImg = p.fileUrl.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) != null;
                     const icon = isImg ? 'fa-image' : 'fa-file-pdf';
                     const color = isImg ? 'text-instBlue' : 'text-instRed';
+                    
+                    let downloadUrl = p.fileUrl;
+                    if (downloadUrl.includes('cloudinary.com') && downloadUrl.includes('/upload/')) {
+                        const parts = downloadUrl.split('/upload/');
+                        downloadUrl = parts[0] + '/upload/fl_attachment/' + parts[1];
+                    }
+
                     n.querySelector('.post-file-container').innerHTML = `
                     <div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center group hover:bg-white transition-colors shadow-inner hover:shadow-sm cursor-pointer" onclick="window.openPreview('${p.fileUrl}', '${p.fileName.replace(/'/g, "\\'")}')">
                         <div class="flex items-center gap-3 overflow-hidden flex-1">
@@ -859,7 +921,7 @@
                                 <span class="text-[10px] text-slate-400 font-medium mt-0.5">Click para visualizar</span>
                             </div>
                         </div>
-                        <a href="${p.fileUrl}" target="_blank" download onclick="event.stopPropagation()" class="text-instBlue text-[11px] font-extrabold px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow hover:border-instBlue/30 transition-all flex items-center gap-2 shrink-0"><i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Descargar</span></a>
+                        <a href="${downloadUrl}" target="_blank" download onclick="event.stopPropagation()" class="text-instBlue text-[11px] font-extrabold px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow hover:border-instBlue/30 transition-all flex items-center gap-2 shrink-0"><i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Descargar</span></a>
                     </div>`;
                 }
                 

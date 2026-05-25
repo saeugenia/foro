@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="bg-[#f8fafc]">
+<html lang="es" class="bg-[#f8fafc] scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -18,8 +18,29 @@
                         border: '#e2e8f0', textMain: '#0f172a', textSoft: '#64748b'
                     },
                     boxShadow: { 
-                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)', 
-                        'float': '0 10px 40px rgba(16, 25, 53, 0.1)' 
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.03)', 
+                        'float': '0 12px 35px -10px rgba(16, 25, 53, 0.15)',
+                        'glow': '0 0 20px rgba(201, 162, 39, 0.15)',
+                        'glow-blue': '0 0 20px rgba(16, 25, 53, 0.15)'
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'blob-slow': 'blob 10s infinite',
+                        'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: 0, transform: 'translateY(15px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
@@ -36,68 +57,97 @@
 
     <style> 
         body { font-family: 'Inter', sans-serif; color: var(--textMain); -webkit-font-smoothing: antialiased; } 
-        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; letter-spacing: -0.02em; }
         
-        /* Ajuste Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        /* Ajuste Scrollbar tipo macOS/SaaS */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid #f8fafc; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; }
-        .text-brand { background: linear-gradient(90deg, #c9a227 0%, #b91c1c 50%, #101935 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.6); }
         
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #101935 !important; box-shadow: 0 0 0 3px rgba(16,25,53,0.1) !important; }
+        .text-brand { background: linear-gradient(135deg, #101935 0%, #1a274d 40%, #c9a227 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        input, select, textarea { transition: all 0.3s ease; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #101935 !important; box-shadow: 0 0 0 4px rgba(16,25,53,0.08) !important; background-color: #ffffff !important; }
 
-        .filter-chip { transition: all 0.2s; white-space: nowrap; }
-        .filter-chip.active { background-color: #101935; color: white; border-color: #101935; }
+        .filter-chip { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; border: 1px solid transparent; }
+        .filter-chip.active { background-color: #101935; color: white; box-shadow: 0 4px 10px rgba(16,25,53,0.2); transform: scale(1.05); }
+        .filter-chip:not(.active):hover { background-color: #f1f5f9; border-color: #e2e8f0; }
 
-        /* Calendario UX (Transparencia perfecta) */
-        .calendar-day { transition: all 0.2s ease; cursor: pointer; border-radius: 8px; }
-        .calendar-day:hover { background-color: #e2e8f0; }
-        .calendar-day.selected { background-color: #101935; color: white !important; font-weight: bold; transform: scale(1.05); box-shadow: 0 4px 10px rgba(16,25,53,0.2); }
+        /* Calendario UX - Premium */
+        .calendar-day { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-radius: 10px; border: 1px solid transparent; }
+        .calendar-day:hover:not(.selected) { background-color: #f1f5f9; border-color: #e2e8f0; transform: translateY(-1px); }
+        .calendar-day.selected { background-color: #101935; color: white !important; font-weight: bold; transform: scale(1.08) translateY(-2px); box-shadow: 0 6px 15px rgba(16,25,53,0.25); }
         .calendar-day.selected span { color: #ffffff !important; }
-        /* Fondo semi-transparente para leer el número del día actual */
-        .calendar-day.today { border: 2px solid #c9a227; background-color: rgba(201, 162, 39, 0.2) !important; color: #101935 !important; font-weight: bold; }
+        .calendar-day.today:not(.selected) { border: 2px solid rgba(201, 162, 39, 0.5); background-color: rgba(201, 162, 39, 0.05) !important; color: #101935 !important; font-weight: bold; }
 
         .skeleton { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Microinteracciones */
+        .btn-hover-fx { transition: all 0.3s ease; }
+        .btn-hover-fx:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16, 25, 53, 0.15); }
+        
+        .card-hover { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.08); border-color: rgba(226, 232, 240, 0.8); }
     </style>
 </head>
-<body class="relative min-h-screen bg-surfaceAlt flex flex-col">
+<body class="relative min-h-screen bg-surfaceAlt flex flex-col selection:bg-instBlue/20 selection:text-instBlue">
 
-    <div id="offline-banner" class="fixed top-0 left-0 w-full bg-instRed text-white text-center py-1.5 text-[11px] font-bold z-[100] flex justify-center items-center gap-2 transform -translate-y-full transition-transform duration-300">
+    <div id="loading-overlay" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-surfaceAlt/90 backdrop-blur-xl transition-opacity duration-500 hidden opacity-0">
+        <div class="relative flex justify-center items-center mb-6">
+            <div class="absolute animate-ping w-24 h-24 rounded-full bg-instBlue/10"></div>
+            <div class="w-16 h-16 border-4 border-slate-200 rounded-full border-t-instBlue animate-spin shadow-glow-blue relative z-10"></div>
+            <i class="fa-solid fa-cloud text-instBlue text-xl absolute z-20 animate-pulse-slow"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-brand mb-2 tracking-tight">Sincronizando plataforma</h2>
+        <p class="text-sm text-textSoft font-medium animate-pulse">Preparando tu panel de control de forma segura...</p>
+    </div>
+
+    <div id="offline-banner" class="fixed top-0 left-0 w-full bg-instRed text-white text-center py-2 text-[11px] font-bold z-[100] flex justify-center items-center gap-2 transform -translate-y-full transition-transform duration-300 shadow-md">
         <i class="fa-solid fa-cloud-bolt"></i> Trabajando sin conexión.
     </div>
 
-    <div id="landing-view" class="flex-1 flex items-center justify-center relative overflow-hidden px-4 py-12 z-10 fade-in">
+    <div id="landing-view" class="flex-1 flex items-center justify-center relative overflow-hidden px-4 py-12 z-10 fade-in transition-all duration-500">
         
-        <div class="absolute inset-0 bg-[url('fondo.jpg')] bg-cover bg-center bg-no-repeat opacity-15 z-0"></div>
-        <div class="absolute inset-0 bg-instBlue opacity-20 z-0"></div> <div class="absolute top-0 left-0 w-full h-2 bg-instBlue flex z-10"><div class="w-1/3 h-full bg-instGold"></div><div class="w-16 h-full bg-instRed"></div></div>
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-instGold rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-pulse z-0"></div>
-        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-instBlue rounded-full mix-blend-multiply filter blur-[80px] opacity-10 z-0"></div>
+        <div class="absolute inset-0 bg-[url('fondo.jpg')] bg-cover bg-center bg-no-repeat opacity-25 z-0"></div>
+        <div class="absolute inset-0 bg-instBlue/30 z-0"></div> 
+        <div class="absolute inset-0 bg-gradient-to-t from-surfaceAlt via-transparent to-transparent z-0"></div> 
+        
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-instBlue via-instGold to-instRed z-10"></div>
+        <div class="absolute -top-32 -right-32 w-[30rem] h-[30rem] bg-instGold/20 rounded-full mix-blend-multiply filter blur-[100px] animate-blob z-0"></div>
+        <div class="absolute -bottom-32 -left-32 w-[30rem] h-[30rem] bg-instBlue/20 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000 z-0"></div>
 
-        <div class="bg-white max-w-md w-full rounded-3xl shadow-float border border-border p-8 sm:p-10 relative z-20 text-center transform transition-all" data-aos="zoom-in" data-aos-duration="800">
-            <div class="w-24 h-24 mx-auto mb-6 bg-surfaceAlt rounded-2xl border border-border flex items-center justify-center shadow-sm relative">
+        <div class="glass-panel max-w-md w-full rounded-[2rem] shadow-float p-8 sm:p-10 relative z-20 text-center transform transition-all duration-500 hover:shadow-2xl hover:shadow-instBlue/5" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="w-24 h-24 mx-auto mb-8 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-slate-200/50 relative transform hover:rotate-3 transition-transform duration-300">
                 <img src="logo2.jpg" alt="Logo Santa Eugenia" class="w-full h-full object-contain rounded-2xl p-1" onerror="this.style.display='none'; document.getElementById('backup-icon').style.display='block';">
                 <i id="backup-icon" class="fa-solid fa-school text-4xl text-instBlue hidden"></i>
-                <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-instBlue text-instGold rounded-full flex items-center justify-center border-2 border-white shadow-sm"><i class="fa-solid fa-check text-xs"></i></div>
+                <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br from-instBlue to-[#1a274d] text-instGold rounded-full flex items-center justify-center border-2 border-white shadow-md"><i class="fa-solid fa-check text-xs"></i></div>
             </div>
 
-            <h2 class="text-[10px] font-extrabold text-instSoft uppercase tracking-[0.2em] mb-2 text-instGold">Foro Oficial</h2>
-            <h1 class="font-black text-2xl sm:text-3xl leading-none text-instBlue mb-2">Conecta Edu</h1>
-            <h3 class="font-bold text-sm text-textMain mb-6 border-b border-border pb-6">Escuela Santa Eugenia</h3>
+            <h2 class="text-[11px] font-extrabold text-instGold uppercase tracking-[0.25em] mb-3">Foro Oficial</h2>
+            <h1 class="font-black text-3xl sm:text-4xl leading-tight text-brand mb-2">Conecta Edu</h1>
+            <h3 class="font-bold text-sm text-slate-700 mb-8 pb-6 relative">
+                Escuela Santa Eugenia
+                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-slate-200 rounded-full"></div>
+            </h3>
             
-            <p class="text-sm text-textSoft mb-8 leading-relaxed font-medium">Plataforma exclusiva para nuestra comunidad educativa. Acceda para revisar comunicados, agenda escolar y evaluaciones.</p>
+            <p class="text-[15px] text-slate-500 mb-8 leading-relaxed font-medium">Plataforma exclusiva para nuestra comunidad educativa. Acceda para revisar comunicados, agenda escolar y evaluaciones.</p>
             
-            <button id="btn-login-landing" class="w-full bg-instBlue hover:bg-[#1a274d] text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-inst hover:shadow-float flex items-center justify-center gap-3 mb-6">
-                <i class="fa-brands fa-google text-lg text-instGold"></i> Ingresar con Google
+            <button id="btn-login-landing" class="group w-full bg-gradient-to-br from-instBlue to-[#1a274d] text-white font-bold py-4 px-4 rounded-xl transition-all duration-300 shadow-lg shadow-instBlue/20 hover:shadow-xl hover:shadow-instBlue/30 hover:-translate-y-1 flex items-center justify-center gap-3 mb-6 relative overflow-hidden border border-white/10">
+                <div class="absolute inset-0 bg-white/10 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                <div class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center"><i class="fa-brands fa-google text-lg text-white group-hover:text-instGold transition-colors"></i></div> 
+                <span class="tracking-wide">Ingresar con Google</span>
             </button>
             
-            <button onclick="window.openRulesModal()" class="text-xs font-bold text-textSoft hover:text-instBlue transition-colors flex items-center justify-center gap-2 mx-auto">
-                <i class="fa-solid fa-scale-balanced text-instGold"></i> Reglamento de la Plataforma
+            <button onclick="window.openRulesModal()" class="text-xs font-bold text-slate-500 hover:text-instBlue transition-colors flex items-center justify-center gap-2 mx-auto group">
+                <i class="fa-solid fa-scale-balanced text-instGold/70 group-hover:text-instGold transition-colors"></i> Reglamento de la Plataforma
             </button>
         </div>
     </div>
@@ -105,76 +155,87 @@
 
     <div id="app-view" class="hidden flex-col min-h-screen w-full pb-20 md:pb-0">
         
-        <header class="glass-header sticky top-0 z-40 shadow-sm">
+        <header class="glass-header sticky top-0 z-40 transition-all duration-300 shadow-sm shadow-slate-200/50">
             <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <img src="logo2.jpg" alt="Logo" class="w-10 h-10 object-contain rounded-lg shadow-sm border border-border bg-white p-0.5" onerror="this.style.display='none'; document.getElementById('school-icon-app').style.display='block';">
-                    <div id="school-icon-app" class="hidden text-instBlue text-2xl"><i class="fa-solid fa-building-columns"></i></div>
+                <div class="flex items-center gap-3 group cursor-pointer">
+                    <img src="logo2.jpg" alt="Logo" class="w-11 h-11 object-contain rounded-xl shadow-sm border border-slate-100 bg-white p-1 transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('school-icon-app').style.display='block';">
+                    <div id="school-icon-app" class="hidden text-instBlue text-2xl transition-transform group-hover:scale-105"><i class="fa-solid fa-building-columns"></i></div>
                     <div>
-                        <h1 class="font-extrabold text-xl leading-none text-brand">Conecta Edu</h1>
-                        <span class="text-[9px] text-textSoft font-bold tracking-widest uppercase">Escuela Santa Eugenia</span>
+                        <h1 class="font-extrabold text-xl leading-none text-brand tracking-tight">Conecta Edu</h1>
+                        <span class="text-[9px] text-slate-500 font-bold tracking-[0.2em] uppercase mt-0.5 block">Escuela Santa Eugenia</span>
                     </div>
                 </div>
                 
                 <div class="flex items-center gap-4">
                     <div id="header-user-info" class="hidden items-center gap-3">
                         <div class="hidden sm:block text-right">
-                            <p id="header-user-name" class="text-sm font-bold text-textMain leading-tight"></p>
-                            <p id="header-user-role" class="text-[10px] text-instBlue font-bold uppercase tracking-wider"></p>
+                            <p id="header-user-name" class="text-sm font-bold text-slate-800 leading-tight"></p>
+                            <p id="header-user-role" class="text-[10px] text-instBlue font-extrabold uppercase tracking-wider bg-instBlue/5 inline-block px-2 py-0.5 rounded-md mt-0.5"></p>
                         </div>
-                        <img id="header-avatar" src="" class="w-10 h-10 rounded-full border-2 border-surfaceAlt shadow-sm">
+                        <img id="header-avatar" src="" class="w-10 h-10 rounded-full border-2 border-white shadow-md ring-2 ring-transparent hover:ring-instBlue/20 transition-all cursor-pointer">
                     </div>
-                    <button id="btn-logout" class="text-textSoft hover:text-instRed transition-colors p-2 bg-white rounded-lg border border-border shadow-sm hover:bg-red-50"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    <button id="btn-logout" class="text-slate-400 hover:text-instRed transition-all duration-300 p-2.5 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-red-100 hover:bg-red-50/50 flex items-center justify-center">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
                 </div>
             </div>
-            <div class="absolute bottom-0 left-0 w-full h-[2px] bg-instBlue flex"><div class="w-1/4 h-full bg-instGold"></div><div class="w-8 h-full bg-instRed"></div></div>
+            <div class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-instBlue via-instGold to-instRed opacity-80"></div>
         </header>
 
-        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-border flex justify-around items-center z-40 pb-safe pt-2 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-            <button onclick="switchTab('feed')" id="tab-feed" class="flex flex-col items-center p-2 text-instBlue transition-colors w-16">
-                <i class="fa-solid fa-house text-xl mb-1"></i><span class="text-[10px] font-bold">Muro</span>
+        <nav class="md:hidden fixed bottom-0 left-0 w-full glass-header border-t border-slate-200 flex justify-around items-center z-40 pb-safe pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+            <button onclick="switchTab('feed')" id="tab-feed" class="flex flex-col items-center p-2 text-instBlue transition-all transform hover:scale-105 w-16 group">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-instBlue/5 transition-colors mb-1">
+                    <i class="fa-solid fa-house text-xl"></i>
+                </div>
+                <span class="text-[10px] font-bold">Muro</span>
             </button>
-            <button onclick="switchTab('calendar')" id="tab-calendar" class="flex flex-col items-center p-2 text-textSoft hover:text-instBlue transition-colors w-16">
-                <i class="fa-solid fa-calendar-day text-xl mb-1"></i><span class="text-[10px] font-bold">Agenda</span>
+            <button onclick="switchTab('calendar')" id="tab-calendar" class="flex flex-col items-center p-2 text-slate-400 hover:text-instBlue transition-all transform hover:scale-105 w-16 group">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-instBlue/5 transition-colors mb-1">
+                    <i class="fa-solid fa-calendar-day text-xl"></i>
+                </div>
+                <span class="text-[10px] font-bold">Agenda</span>
             </button>
-            <button onclick="window.openRulesModal()" class="flex flex-col items-center p-2 text-textSoft hover:text-instBlue transition-colors w-16">
-                <i class="fa-solid fa-shield-heart text-xl mb-1"></i><span class="text-[10px] font-bold">Normas</span>
+            <button onclick="window.openRulesModal()" class="flex flex-col items-center p-2 text-slate-400 hover:text-instBlue transition-all transform hover:scale-105 w-16 group">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-instBlue/5 transition-colors mb-1">
+                    <i class="fa-solid fa-shield-heart text-xl"></i>
+                </div>
+                <span class="text-[10px] font-bold">Normas</span>
             </button>
         </nav>
 
-        <main class="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 md:grid-cols-12 gap-6 relative w-full">
+        <main class="max-w-6xl mx-auto px-4 mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 relative w-full mb-12">
             
             <div id="view-feed" class="md:col-span-8 space-y-6">
                 
-                <div id="quick-post-trigger" class="hidden bg-white rounded-xl shadow-sm border border-border p-4 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors" onclick="window.openPostModal()">
-                    <div class="w-10 h-10 rounded-full bg-surfaceAlt border border-border flex items-center justify-center text-instBlue shrink-0 shadow-sm"><i class="fa-solid fa-pen"></i></div>
-                    <div class="bg-surfaceAlt border border-border rounded-lg py-2.5 px-4 text-textSoft text-sm flex-1 font-medium shadow-inner">Redactar nuevo comunicado oficial...</div>
-                    <div class="text-textSoft hover:text-instBlue px-2"><i class="fa-solid fa-paperclip text-lg"></i></div>
+                <div id="quick-post-trigger" class="hidden glass-panel rounded-2xl shadow-sm border border-slate-200/80 p-4 flex items-center gap-4 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group" onclick="window.openPostModal()">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center text-instBlue shrink-0 shadow-sm group-hover:scale-105 transition-transform"><i class="fa-solid fa-pen"></i></div>
+                    <div class="bg-slate-50/50 border border-slate-200 rounded-xl py-3 px-5 text-slate-400 text-sm flex-1 font-medium group-hover:bg-white transition-colors">Redactar nuevo comunicado oficial...</div>
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 group-hover:text-instBlue group-hover:bg-instBlue/5 transition-all"><i class="fa-solid fa-paperclip text-lg"></i></div>
                 </div>
 
-                <div class="flex flex-col gap-3">
-                    <div class="flex items-center gap-2 overflow-x-auto pb-2 pt-1 w-full" id="filters-container">
+                <div class="flex flex-col gap-4 sticky top-20 z-30 bg-surfaceAlt/80 backdrop-blur-xl py-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 pt-1 w-full snap-x scrollbar-hide" id="filters-container">
                         <input type="hidden" id="filter-course" value="todos">
-                        <button class="filter-chip active px-4 py-1.5 rounded-full border border-border bg-instBlue text-white text-xs font-semibold shrink-0" data-filter="course" data-val="todos">Todos</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="General / Toda la Institución">General</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="Prekínder">Prekínder</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="Kínder">Kínder</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="1° Básico">1° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="2° Básico">2° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="3° Básico">3° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="4° Básico">4° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="5° Básico">5° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="6° Básico">6° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="7° Básico">7° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="8° Básico">8° Básico</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="1° Medio">1° Medio</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="2° Medio">2° Medio</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="3° Medio">3° Medio</button>
-                        <button class="filter-chip px-4 py-1.5 rounded-full border border-border bg-white text-textSoft text-xs font-semibold shrink-0" data-filter="course" data-val="4° Medio">4° Medio</button>
+                        <button class="filter-chip active px-5 py-2 rounded-full border bg-instBlue text-white text-xs font-bold shrink-0 snap-start shadow-md shadow-instBlue/20" data-filter="course" data-val="todos">Todos</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0 snap-start" data-filter="course" data-val="General / Toda la Institución">General</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0 snap-start" data-filter="course" data-val="Prekínder">Prekínder</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0 snap-start" data-filter="course" data-val="Kínder">Kínder</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="1° Básico">1° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="2° Básico">2° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="3° Básico">3° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="4° Básico">4° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="5° Básico">5° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="6° Básico">6° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="7° Básico">7° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="8° Básico">8° Básico</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="1° Medio">1° Medio</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="2° Medio">2° Medio</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="3° Medio">3° Medio</button>
+                        <button class="filter-chip px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-500 text-xs font-semibold shrink-0" data-filter="course" data-val="4° Medio">4° Medio</button>
                     </div>
                     <div>
-                        <select id="filter-subject" class="w-full md:w-64 p-2.5 border border-border rounded-lg bg-white text-xs font-bold text-textMain outline-none shadow-sm cursor-pointer hover:border-instBlue transition-colors">
-                            <option value="todas">Todas las Asignaturas</option>
+                        <select id="filter-subject" class="w-full md:w-64 p-3 border border-slate-200 rounded-xl bg-white/80 backdrop-blur text-xs font-bold text-slate-700 outline-none shadow-sm cursor-pointer hover:border-instBlue focus:ring-4 focus:ring-instBlue/10 transition-all">
+                            <option value="todas">🎯 Todas las Asignaturas</option>
                             <option value="Ninguna / General">Ninguna / General</option>
                             <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
                             <option value="Matemática">Matemática</option>
@@ -192,91 +253,92 @@
                 </div>
 
                 <section id="posts-container" class="space-y-6 min-h-[50vh]">
-                    <div class="bg-white rounded-xl border border-border p-6 shadow-sm">
-                        <div class="flex gap-3 mb-4"><div class="skeleton w-12 h-12 rounded-full"></div><div class="flex-1 space-y-2"><div class="skeleton h-3 w-1/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                        <div class="skeleton h-5 w-3/4 mb-4"></div><div class="skeleton h-20 w-full mb-3"></div>
+                    <div class="glass-panel rounded-2xl border border-slate-200/80 p-6 shadow-soft">
+                        <div class="flex gap-4 mb-5"><div class="skeleton w-12 h-12 rounded-full"></div><div class="flex-1 space-y-3 pt-1"><div class="skeleton h-3 w-1/3 rounded-full"></div><div class="skeleton h-2 w-1/4 rounded-full"></div></div></div>
+                        <div class="skeleton h-4 w-3/4 mb-5 rounded-full"></div><div class="skeleton h-20 w-full mb-3 rounded-xl"></div>
                     </div>
                 </section>
             </div>
 
             <div id="view-calendar" class="hidden md:block md:col-span-4 space-y-6">
                 
-                <div class="bg-white rounded-xl border border-border p-5 shadow-sm relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 flex"><div class="flex-1 bg-instGold"></div><div class="w-1/4 bg-instRed"></div></div>
-                    <div class="flex items-center justify-between mb-4 mt-1">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded-lg bg-surfaceAlt border border-border text-instBlue flex items-center justify-center shadow-sm"><i class="fa-regular fa-calendar-days"></i></div>
-                            <h3 class="text-sm font-bold text-textMain uppercase tracking-tight">Agenda Escolar</h3>
+                <div class="glass-panel rounded-2xl border border-slate-200/80 p-6 shadow-soft relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-instGold to-instRed opacity-80"></div>
+                    <div class="flex items-center justify-between mb-5 mt-1">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 text-instBlue flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow"><i class="fa-regular fa-calendar-days text-lg"></i></div>
+                            <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-tight">Agenda Escolar</h3>
                         </div>
-                        <button id="btn-add-event" onclick="window.openEventModal()" class="hidden w-8 h-8 rounded-full bg-instBlue hover:bg-[#1a274d] text-white flex items-center justify-center transition-colors shadow-sm">
+                        <button id="btn-add-event" onclick="window.openEventModal()" class="hidden w-9 h-9 rounded-full bg-instBlue hover:bg-[#1a274d] text-white flex items-center justify-center transition-all duration-300 shadow-md shadow-instBlue/20 hover:shadow-lg hover:-translate-y-0.5">
                             <i class="fa-solid fa-plus text-sm"></i>
                         </button>
                     </div>
 
-                    <div class="flex justify-between items-center mb-3 bg-surfaceAlt rounded-lg p-1.5 border border-border">
-                        <button id="btn-prev-month" class="w-7 h-7 flex items-center justify-center text-textSoft hover:text-instBlue hover:bg-white rounded shadow-sm"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                        <h4 id="calendar-month-year" class="font-bold text-instBlue text-[11px] uppercase tracking-wider">Cargando...</h4>
-                        <button id="btn-next-month" class="w-7 h-7 flex items-center justify-center text-textSoft hover:text-instBlue hover:bg-white rounded shadow-sm"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                    <div class="flex justify-between items-center mb-4 bg-slate-50/80 rounded-xl p-2 border border-slate-200">
+                        <button id="btn-prev-month" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-instBlue hover:bg-white rounded-lg shadow-sm hover:shadow transition-all"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                        <h4 id="calendar-month-year" class="font-extrabold text-instBlue text-[11px] uppercase tracking-widest">Cargando...</h4>
+                        <button id="btn-next-month" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-instBlue hover:bg-white rounded-lg shadow-sm hover:shadow transition-all"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                     </div>
 
-                    <div class="grid grid-cols-7 gap-1 text-center mb-1">
-                        <span class="text-[10px] font-bold text-instRed">Do</span><span class="text-[10px] font-bold text-textSoft">Lu</span><span class="text-[10px] font-bold text-textSoft">Ma</span><span class="text-[10px] font-bold text-textSoft">Mi</span><span class="text-[10px] font-bold text-textSoft">Ju</span><span class="text-[10px] font-bold text-textSoft">Vi</span><span class="text-[10px] font-bold text-textSoft">Sa</span>
+                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                        <span class="text-[10px] font-bold text-instRed">Do</span><span class="text-[10px] font-bold text-slate-400">Lu</span><span class="text-[10px] font-bold text-slate-400">Ma</span><span class="text-[10px] font-bold text-slate-400">Mi</span><span class="text-[10px] font-bold text-slate-400">Ju</span><span class="text-[10px] font-bold text-slate-400">Vi</span><span class="text-[10px] font-bold text-slate-400">Sa</span>
                     </div>
                     
-                    <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center mb-4"></div>
+                    <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 text-center mb-5"></div>
                     
-                    <div class="border-t border-border pt-4">
-                        <h5 id="selected-date-label" class="text-[11px] font-bold text-instBlue uppercase tracking-wider mb-3 flex items-center gap-2"><i class="fa-solid fa-list-check text-instGold"></i> Eventos del Día</h5>
-                        <div id="day-events-container" class="space-y-2 min-h-[50px]"></div>
+                    <div class="border-t border-slate-200/80 pt-5">
+                        <h5 id="selected-date-label" class="text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-instGold"></i> Eventos del Día</h5>
+                        <div id="day-events-container" class="space-y-3 min-h-[50px]"></div>
                     </div>
                 </div>
 
-                <div class="hidden md:block bg-instBlue rounded-xl p-6 shadow-float text-white relative overflow-hidden" data-aos="fade-left">
-                    <div class="absolute -right-4 -bottom-4 text-white/10 text-7xl"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="font-bold text-sm mb-2 relative z-10 flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-instGold"></i> Normativa Institucional</h3>
-                    <p class="text-[11px] text-white/80 leading-relaxed relative z-10 mb-4 font-medium">Plataforma moderada. Todo uso debe enmarcarse en el respeto y la colaboración académica.</p>
-                    <button onclick="window.openRulesModal()" class="relative z-10 text-[10px] font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-lg transition-colors border border-white/20">Leer Reglamento</button>
+                <div class="hidden md:block bg-gradient-to-br from-instBlue via-[#152143] to-[#0a1024] rounded-2xl p-7 shadow-float text-white relative overflow-hidden card-hover" data-aos="fade-left">
+                    <div class="absolute -right-6 -bottom-6 text-white/5 text-8xl transform rotate-12 transition-transform duration-500 group-hover:scale-110"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20"></div>
+                    <h3 class="font-bold text-sm mb-3 relative z-10 flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-instGold"></i> Normativa Institucional</h3>
+                    <p class="text-[12px] text-slate-300 leading-relaxed relative z-10 mb-6 font-medium">Plataforma moderada. Todo uso debe enmarcarse en el respeto y la colaboración académica.</p>
+                    <button onclick="window.openRulesModal()" class="relative z-10 text-[10px] font-extrabold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl transition-colors border border-white/10 w-full shadow-inner flex justify-center items-center gap-2">Leer Reglamento <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
                 </div>
             </div>
         </main>
     </div>
 
     <template id="tpl-post">
-        <article class="post-card bg-white rounded-xl border border-border p-5 sm:p-6 shadow-sm hover:shadow-soft transition-all relative overflow-hidden">
-            <div class="absolute left-0 top-0 w-1 h-full post-accent-bar hidden bg-instBlue"></div>
+        <article class="post-card glass-panel rounded-2xl border border-slate-200/80 p-5 sm:p-7 shadow-soft card-hover relative overflow-hidden animate-fade-in-up">
+            <div class="absolute left-0 top-0 w-1.5 h-full post-accent-bar hidden bg-gradient-to-b from-instBlue to-instGold"></div>
             
-            <header class="flex justify-between items-start mb-4 gap-3">
-                <div class="flex items-center gap-3">
-                    <div class="post-avatar w-11 h-11 rounded-full flex items-center justify-center font-bold text-lg shadow-sm shrink-0 border border-border"></div>
+            <header class="flex justify-between items-start mb-5 gap-3">
+                <div class="flex items-center gap-3.5">
+                    <div class="post-avatar w-12 h-12 rounded-full flex items-center justify-center font-extrabold text-lg shadow-md shrink-0 border-2 border-white ring-2 ring-slate-100"></div>
                     <div class="flex flex-col justify-center">
-                        <div class="flex items-center flex-wrap gap-1.5 leading-none mb-1.5">
-                            <h4 class="post-author font-extrabold text-sm text-textMain"></h4>
+                        <div class="flex items-center flex-wrap gap-2 leading-none mb-1.5">
+                            <h4 class="post-author font-extrabold text-[15px] text-slate-800 tracking-tight"></h4>
                             <span class="post-role-badge"></span>
                         </div>
-                        <span class="post-date text-[11px] font-medium text-textSoft flex items-center gap-1"><i class="fa-regular fa-clock"></i> <span></span></span>
+                        <span class="post-date text-[11px] font-semibold text-slate-400 flex items-center gap-1.5"><i class="fa-regular fa-clock"></i> <span></span></span>
                     </div>
                 </div>
                 <div class="post-actions flex gap-2 hidden">
-                    <button class="btn-delete text-textSoft hover:text-instRed bg-surfaceAlt hover:bg-red-50 p-2 rounded-lg transition-colors border border-transparent hover:border-red-100"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                    <button class="btn-delete text-slate-400 hover:text-instRed bg-white hover:bg-red-50 p-2.5 rounded-xl transition-all duration-300 border border-slate-200 hover:border-red-100 shadow-sm hover:shadow-md"><i class="fa-solid fa-trash-can text-sm"></i></button>
                 </div>
             </header>
             
-            <div class="pl-0 sm:pl-[56px]">
-                <h3 class="post-title font-extrabold text-base text-instBlue mb-2 leading-tight"></h3>
-                <div class="post-badges flex flex-wrap gap-2 mb-3"></div>
-                <p class="post-body text-sm whitespace-pre-line mb-4 text-textMain leading-relaxed font-medium"></p>
+            <div class="pl-0 sm:pl-[62px]">
+                <h3 class="post-title font-black text-lg text-brand mb-3 leading-tight tracking-tight"></h3>
+                <div class="post-badges flex flex-wrap gap-2 mb-4"></div>
+                <p class="post-body text-[14.5px] whitespace-pre-line mb-5 text-slate-700 leading-relaxed font-medium"></p>
                 <div class="post-file-container"></div>
                 
-                <div class="mt-4 pt-4 border-t border-border/60">
-                    <button class="post-toggle-replies text-xs font-bold text-textSoft flex items-center gap-2 hover:text-instBlue transition-colors bg-surfaceAlt px-3 py-1.5 rounded-lg border border-border">
-                        <i class="fa-regular fa-comments"></i> <span class="reply-count-text">Comentar</span>
+                <div class="mt-5 pt-5 border-t border-slate-100">
+                    <button class="post-toggle-replies text-xs font-bold text-slate-500 flex items-center gap-2 hover:text-instBlue transition-colors bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 hover:border-instBlue/30 hover:bg-white shadow-sm">
+                        <i class="fa-regular fa-comments text-lg"></i> <span class="reply-count-text">Comentar</span>
                     </button>
                     
-                    <div class="post-replies-section hidden mt-4">
-                        <div class="post-replies-list space-y-3 mb-4"></div>
-                        <form class="post-reply-form flex gap-2">
-                            <input type="text" class="reply-input flex-1 p-2.5 text-xs border border-border rounded-lg bg-surfaceAlt focus:bg-white font-medium" required placeholder="Escribir una respuesta pública...">
-                            <button type="submit" class="bg-instBlue text-white px-4 rounded-lg text-xs font-bold hover:bg-[#1a274d] transition-colors shadow-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                    <div class="post-replies-section hidden mt-5 animate-fade-in-up">
+                        <div class="post-replies-list space-y-3.5 mb-4 border-l-2 border-slate-100 pl-4"></div>
+                        <form class="post-reply-form flex gap-3">
+                            <input type="text" class="reply-input flex-1 p-3 text-[13px] border border-slate-200 rounded-xl bg-slate-50 focus:bg-white transition-all font-medium shadow-inner" required placeholder="Escribir una respuesta pública...">
+                            <button type="submit" class="bg-gradient-to-br from-instBlue to-[#1a274d] text-white px-5 rounded-xl text-xs font-bold hover:shadow-lg transition-all shadow-md btn-hover-fx"><i class="fa-solid fa-paper-plane"></i></button>
                         </form>
                     </div>
                 </div>
@@ -285,12 +347,12 @@
     </template>
 
     <template id="tpl-event">
-        <div class="bg-surfaceAlt border border-gold-soft p-3 rounded-lg relative group transition-all text-left mb-2 shadow-sm">
-            <div class="flex justify-between items-start mb-1">
-                <h6 class="ev-title text-xs font-bold text-instBlue flex-1 leading-tight pr-2"></h6>
+        <div class="bg-white border border-slate-200 p-3.5 rounded-xl relative group transition-all text-left mb-2.5 shadow-sm hover:shadow-md hover:border-instBlue/30 hover:-translate-y-0.5">
+            <div class="flex justify-between items-start mb-1.5">
+                <h6 class="ev-title text-[13px] font-extrabold text-slate-800 flex-1 leading-tight pr-2"></h6>
                 <div class="flex items-center gap-1 shrink-0">
-                    <span class="ev-time text-[9px] font-bold bg-surface px-1.5 py-0.5 rounded border border-border text-textSoft flex items-center"><i class="fa-regular fa-clock mr-1"></i></span>
-                    <button class="ev-delete hidden text-textSoft hover:text-instRed transition-colors p-0.5"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
+                    <span class="ev-time text-[9px] font-bold bg-slate-50 px-2 py-1 rounded-md border border-slate-200 text-slate-500 flex items-center shadow-inner"><i class="fa-regular fa-clock mr-1"></i></span>
+                    <button class="ev-delete hidden text-slate-400 hover:text-instRed transition-colors p-1"><i class="fa-solid fa-trash-can text-[11px]"></i></button>
                 </div>
             </div>
             <div class="ev-badges flex flex-wrap gap-1 mb-1.5 hidden"></div>
@@ -298,17 +360,17 @@
         </div>
     </template>
 
-    <div id="modal-container" class="fixed inset-0 bg-[#101935]/80 backdrop-blur-sm hidden z-50 flex items-center justify-center transition-opacity opacity-0 px-4" onclick="closeAllModals(event)">
+    <div id="modal-container" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 px-4" onclick="closeAllModals(event)">
         
-        <div id="modal-create-post" class="modal-content w-full max-w-lg bg-white rounded-2xl p-6 shadow-2xl relative transition-transform transform scale-95 opacity-0" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-5 border-b border-border pb-3">
-                <h2 class="font-bold text-instBlue text-lg flex items-center gap-2"><i class="fa-solid fa-pen-to-square text-instGold"></i> Redactar Comunicado</h2>
-                <button class="text-textSoft hover:text-instRed w-8 h-8 flex items-center justify-center rounded-full bg-surfaceAlt hover:bg-red-50 transition-colors" onclick="closeAllModals(true)"><i class="fa-solid fa-xmark"></i></button>
+        <div id="modal-create-post" class="modal-content w-full max-w-lg bg-white rounded-[1.5rem] p-7 shadow-2xl relative transition-all duration-300 transform scale-95 opacity-0 border border-slate-100" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                <h2 class="font-extrabold text-instBlue text-xl flex items-center gap-2 tracking-tight"><i class="fa-solid fa-pen-to-square text-instGold"></i> Redactar Comunicado</h2>
+                <button class="text-slate-400 hover:text-instRed w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 hover:bg-red-50 transition-colors border border-transparent hover:border-red-100" onclick="closeAllModals(true)"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="post-form-modal" class="space-y-4">
-                <input type="text" id="m-post-title" placeholder="Asunto del comunicado" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm font-bold" required>
+                <input type="text" id="m-post-title" placeholder="Asunto del comunicado" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-sm font-bold shadow-inner" required>
                 <div class="grid grid-cols-2 gap-3">
-                    <select id="m-post-course" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-xs font-bold cursor-pointer" required>
+                    <select id="m-post-course" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-xs font-bold cursor-pointer shadow-inner" required>
                         <option value="General / Toda la Institución">General / Todos los Cursos</option>
                         <option value="Prekínder">Prekínder</option>
                         <option value="Kínder">Kínder</option>
@@ -325,7 +387,7 @@
                         <option value="3° Medio">3° Medio</option>
                         <option value="4° Medio">4° Medio</option>
                     </select>
-                    <select id="m-post-subject" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-xs font-bold cursor-pointer" required>
+                    <select id="m-post-subject" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-xs font-bold cursor-pointer shadow-inner" required>
                         <option value="Ninguna / General">Sin Asignatura</option>
                         <option value="Lenguaje y Comunicación">Lenguaje y Comunicación</option>
                         <option value="Matemática">Matemática</option>
@@ -340,41 +402,41 @@
                         <option value="Orientación">Orientación</option>
                     </select>
                 </div>
-                <textarea id="m-post-body" rows="4" placeholder="Detalle la información aquí (Máx 400 caracteres)..." maxlength="400" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm resize-none font-medium" required></textarea>
-                <div class="flex items-center justify-between pt-2">
-                    <label class="flex items-center gap-2 px-4 py-2.5 bg-surfaceAlt border border-border rounded-lg cursor-pointer hover:bg-border transition-colors">
-                        <i class="fa-solid fa-paperclip text-textSoft"></i>
-                        <span id="m-file-name" class="text-xs font-bold text-textMain max-w-[120px] truncate">Adjuntar</span>
+                <textarea id="m-post-body" rows="4" placeholder="Detalle la información aquí (Máx 400 caracteres)..." maxlength="400" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-sm resize-none font-medium shadow-inner" required></textarea>
+                <div class="flex items-center justify-between pt-3">
+                    <label class="flex items-center gap-2 px-4 py-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors shadow-sm group">
+                        <i class="fa-solid fa-paperclip text-slate-400 group-hover:text-instBlue transition-colors"></i>
+                        <span id="m-file-name" class="text-xs font-bold text-slate-600 max-w-[120px] truncate">Adjuntar Archivo</span>
                         <input type="file" id="m-post-file" accept=".pdf,.jpg,.png" class="hidden">
                     </label>
-                    <button type="submit" id="btn-m-submit" class="bg-instBlue hover:bg-[#1a274d] text-white font-bold py-2.5 px-6 rounded-lg transition-colors shadow-soft text-sm flex items-center gap-2">
+                    <button type="submit" id="btn-m-submit" class="bg-gradient-to-br from-instBlue to-[#1a274d] text-white font-bold py-3 px-7 rounded-xl shadow-lg shadow-instBlue/20 text-sm flex items-center gap-2 btn-hover-fx">
                         Publicar <i class="fa-solid fa-paper-plane text-instGold"></i>
                     </button>
                 </div>
             </form>
         </div>
 
-        <div id="modal-event" class="modal-content w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl relative hidden transition-transform transform scale-95 opacity-0" onclick="event.stopPropagation()">
-            <h2 class="text-lg font-bold text-instBlue mb-4 border-b border-border pb-3 flex items-center gap-2"><i class="fa-solid fa-calendar-plus text-instGold"></i> Agendar</h2>
-            <form id="event-form" class="space-y-3">
+        <div id="modal-event" class="modal-content w-full max-w-sm bg-white rounded-[1.5rem] p-7 shadow-2xl relative hidden transition-all duration-300 transform scale-95 opacity-0 border border-slate-100" onclick="event.stopPropagation()">
+            <h2 class="text-xl font-extrabold text-instBlue mb-5 border-b border-slate-100 pb-4 flex items-center gap-2 tracking-tight"><i class="fa-solid fa-calendar-plus text-instGold"></i> Agendar Evento</h2>
+            <form id="event-form" class="space-y-4">
                 <input type="hidden" id="event-date-val">
-                <input type="text" id="event-title" placeholder="Título corto (Ej: Prueba / Reunión)" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-sm font-bold" required>
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="event-type" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-xs font-bold outline-none cursor-pointer">
+                <input type="text" id="event-title" placeholder="Título corto (Ej: Prueba / Reunión)" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-sm font-bold shadow-inner" required>
+                <div class="grid grid-cols-2 gap-3">
+                    <select id="event-type" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-[11px] font-bold outline-none cursor-pointer shadow-inner">
                         <option value="evento">Evento General</option>
                         <option value="evaluacion">Evaluación</option>
                     </select>
-                    <input type="time" id="event-time" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt text-xs font-bold" required>
+                    <input type="time" id="event-time" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 text-xs font-bold shadow-inner" required>
                 </div>
                 
-                <div id="eval-fields-container" class="hidden grid-cols-2 gap-2 border-t border-border pt-3 mt-1">
-                    <select id="eval-type" class="w-full p-2.5 border border-border rounded-lg bg-surface text-xs font-bold">
+                <div id="eval-fields-container" class="hidden grid-cols-2 gap-3 border-t border-slate-100 pt-4 mt-2">
+                    <select id="eval-type" class="w-full p-3 border border-slate-200 rounded-xl bg-white text-[11px] font-bold shadow-sm">
                         <option value="Prueba Sumativa">Prueba Sumativa</option>
                         <option value="Prueba Formativa">Prueba Formativa</option>
                         <option value="Trabajo Práctico">Trabajo Práctico</option>
                         <option value="Disertación">Disertación</option>
                     </select>
-                    <select id="eval-subject" class="w-full p-2.5 border border-border rounded-lg bg-surface text-xs font-bold">
+                    <select id="eval-subject" class="w-full p-3 border border-slate-200 rounded-xl bg-white text-[11px] font-bold shadow-sm">
                         <option value="Lenguaje">Lenguaje</option>
                         <option value="Matemática">Matemática</option>
                         <option value="Ciencias">Ciencias</option>
@@ -388,49 +450,60 @@
                     </select>
                 </div>
 
-                <div class="flex justify-end gap-2 pt-3">
-                    <button type="button" onclick="closeAllModals(true)" class="px-5 py-2 text-xs text-textSoft bg-surfaceAlt rounded-lg font-bold hover:bg-border transition-colors">Cancelar</button>
-                    <button type="submit" id="btn-submit-event" class="px-5 py-2 bg-instBlue text-white rounded-lg text-xs font-bold shadow-sm hover:bg-[#1a274d] transition-colors">Guardar</button>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeAllModals(true)" class="px-5 py-2.5 text-xs text-slate-500 bg-slate-100 rounded-xl font-bold hover:bg-slate-200 transition-colors">Cancelar</button>
+                    <button type="submit" id="btn-submit-event" class="px-6 py-2.5 bg-gradient-to-br from-instBlue to-[#1a274d] text-white rounded-xl text-xs font-bold shadow-md btn-hover-fx">Guardar</button>
                 </div>
             </form>
         </div>
 
-        <div id="modal-rules" class="modal-content w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl relative hidden transition-transform transform scale-95 opacity-0" onclick="event.stopPropagation()">
-            <div class="text-center mb-5">
-                <div class="w-14 h-14 bg-surfaceAlt text-instBlue border border-border rounded-full flex items-center justify-center mx-auto mb-3 text-2xl"><i class="fa-solid fa-scale-balanced text-instGold"></i></div>
-                <h2 class="text-lg font-bold text-textMain">Normas de Convivencia</h2>
+        <div id="modal-rules" class="modal-content w-full max-w-md bg-white rounded-[1.5rem] p-8 shadow-2xl relative hidden transition-all duration-300 transform scale-95 opacity-0 border border-slate-100" onclick="event.stopPropagation()">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-slate-50 text-instBlue border border-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-sm"><i class="fa-solid fa-scale-balanced text-instGold"></i></div>
+                <h2 class="text-xl font-black text-slate-800 tracking-tight">Normas de Convivencia</h2>
             </div>
-            <div class="text-sm text-textSoft space-y-4 mb-6 bg-surfaceAlt p-5 rounded-xl border border-border">
-                <p><strong class="text-instBlue block mb-1"><i class="fa-solid fa-check text-green-600 mr-1"></i> Respeto:</strong> Lenguaje formal y constructivo.</p>
-                <p><strong class="text-instBlue block mb-1"><i class="fa-solid fa-check text-green-600 mr-1"></i> Uso:</strong> Solo asuntos académicos y del colegio.</p>
-                <p><strong class="text-instBlue block mb-1"><i class="fa-solid fa-check text-green-600 mr-1"></i> Privacidad:</strong> No comparta datos personales sensibles.</p>
+            <div class="text-sm text-slate-600 space-y-4 mb-8 bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-inner">
+                <p><strong class="text-instBlue block mb-1.5"><i class="fa-solid fa-check text-green-500 mr-2"></i> Respeto:</strong> Lenguaje formal y constructivo en todo momento.</p>
+                <p><strong class="text-instBlue block mb-1.5"><i class="fa-solid fa-check text-green-500 mr-2"></i> Uso Académico:</strong> Exclusivamente para asuntos del colegio.</p>
+                <p><strong class="text-instBlue block mb-1.5"><i class="fa-solid fa-check text-green-500 mr-2"></i> Privacidad:</strong> Prohibido compartir datos personales sensibles.</p>
             </div>
-            <button onclick="closeAllModals(true)" class="w-full bg-instBlue hover:bg-[#1a274d] text-white font-bold py-3 rounded-xl shadow-soft transition-colors">Aceptar y Cerrar</button>
+            <button onclick="closeAllModals(true)" class="w-full bg-gradient-to-br from-instBlue to-[#1a274d] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-instBlue/20 btn-hover-fx">Comprendo y Acepto</button>
         </div>
         
-        <div id="modal-onboarding" class="modal-content w-full max-w-sm bg-white rounded-2xl p-6 shadow-2xl relative hidden transition-transform transform scale-95 opacity-0" onclick="event.stopPropagation()">
-            <div class="text-center mb-5">
-                <div class="w-14 h-14 bg-surfaceAlt text-instBlue border border-border rounded-full flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-id-card text-2xl"></i></div>
-                <h2 class="text-lg font-bold text-textMain">Completar Perfil</h2>
-                <p class="text-xs text-textSoft mt-1 font-medium">Configure su cuenta para acceder al sistema.</p>
+        <div id="modal-onboarding" class="modal-content w-full max-w-sm bg-white rounded-[1.5rem] p-8 shadow-2xl relative hidden transition-all duration-300 transform scale-95 opacity-0 border border-slate-100" onclick="event.stopPropagation()">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-slate-50 text-instBlue border border-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm"><i class="fa-regular fa-id-card text-3xl"></i></div>
+                <h2 class="text-xl font-black text-slate-800 tracking-tight">Completar Perfil</h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-medium">Configure su cuenta para acceder de forma segura.</p>
             </div>
             <form id="onboarding-form" class="space-y-4 text-sm">
-                <select id="user-type" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold text-instBlue" required>
+                <select id="user-type" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 font-bold text-instBlue shadow-inner focus:bg-white" required>
                     <option value="">Seleccione su rol...</option>
                     <option value="Apoderado">Apoderado / Tutor</option>
                     <option value="Estudiante">Estudiante</option>
                 </select>
-                <div id="extra-fields" class="hidden space-y-3">
-                    <input type="text" id="user-name" placeholder="Su Nombre y Apellido" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold" required>
-                    <input type="text" id="student-name" placeholder="Nombre completo del estudiante" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold hidden">
-                    <select id="user-course" class="w-full p-3 border border-border rounded-lg bg-surfaceAlt font-bold" required>
+                <div id="extra-fields" class="hidden space-y-4">
+                    <input type="text" id="user-name" placeholder="Su Nombre y Apellido" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 font-bold shadow-inner focus:bg-white" required>
+                    <input type="text" id="student-name" placeholder="Nombre completo del estudiante" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 font-bold shadow-inner focus:bg-white hidden">
+                    <select id="user-course" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 font-bold shadow-inner focus:bg-white" required>
                         <option value="">Seleccione su curso...</option>
-                        <option value="Prekínder">Prekínder</option><option value="Kínder">Kínder</option>
-                        <option value="1° Básico">1° Básico</option><option value="2° Básico">2° Básico</option><option value="3° Básico">3° Básico</option><option value="4° Básico">4° Básico</option><option value="5° Básico">5° Básico</option><option value="6° Básico">6° Básico</option><option value="7° Básico">7° Básico</option><option value="8° Básico">8° Básico</option>
-                        <option value="1° Medio">1° Medio</option><option value="2° Medio">2° Medio</option><option value="3° Medio">3° Medio</option><option value="4° Medio">4° Medio</option>
+                        <option value="Prekínder">Prekínder</option>
+                        <option value="Kínder">Kínder</option>
+                        <option value="1° Básico">1° Básico</option>
+                        <option value="2° Básico">2° Básico</option>
+                        <option value="3° Básico">3° Básico</option>
+                        <option value="4° Básico">4° Básico</option>
+                        <option value="5° Básico">5° Básico</option>
+                        <option value="6° Básico">6° Básico</option>
+                        <option value="7° Básico">7° Básico</option>
+                        <option value="8° Básico">8° Básico</option>
+                        <option value="1° Medio">1° Medio</option>
+                        <option value="2° Medio">2° Medio</option>
+                        <option value="3° Medio">3° Medio</option>
+                        <option value="4° Medio">4° Medio</option>
                     </select>
                 </div>
-                <button type="submit" id="btn-submit-onboarding" class="w-full bg-instBlue text-white font-bold py-3 rounded-lg mt-2 hidden shadow-sm hover:bg-[#1a274d]">Guardar e Ingresar</button>
+                <button type="submit" id="btn-submit-onboarding" class="w-full bg-gradient-to-br from-instBlue to-[#1a274d] text-white font-bold py-3.5 rounded-xl mt-4 hidden shadow-lg shadow-instBlue/20 btn-hover-fx">Guardar e Ingresar</button>
             </form>
         </div>
     </div>
@@ -446,10 +519,30 @@
         
         const STATE = { currentUser: null, userData: null, posts: [], events: [] };
         
-        AOS.init({ once: true, duration: 600 });
+        // --- FERIADOS CHILE 2026 ---
+        const FERIADOS_2026 = {
+            "2026-01-01": "Año Nuevo",
+            "2026-04-03": "Viernes Santo",
+            "2026-04-04": "Sábado Santo",
+            "2026-05-01": "Día del Trabajo",
+            "2026-05-21": "Día de las Glorias Navales",
+            "2026-06-21": "Día Nacional de los Pueblos Indígenas",
+            "2026-06-29": "San Pedro y San Pablo",
+            "2026-07-16": "Día de la Virgen del Carmen",
+            "2026-08-15": "Asunción de la Virgen",
+            "2026-09-18": "Independencia Nacional",
+            "2026-09-19": "Glorias del Ejército",
+            "2026-10-12": "Encuentro de Dos Mundos",
+            "2026-10-31": "Día de las Iglesias Evangélicas",
+            "2026-11-01": "Día de Todos los Santos",
+            "2026-12-08": "Inmaculada Concepción",
+            "2026-12-25": "Navidad"
+        };
         
-        window.showSuccess = (msg) => Toastify({text: `<i class="fa-solid fa-check-circle"></i> ${msg}`, escapeMarkup: false, style: {background: '#0f766e', borderRadius: '8px', fontWeight: 'bold', fontSize: '13px'}, duration: 3000}).showToast();
-        window.showError = (msg) => Toastify({text: `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`, escapeMarkup: false, style: {background: '#b91c1c', borderRadius: '8px', fontWeight: 'bold', fontSize: '13px'}, duration: 3000}).showToast();
+        AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+        
+        window.showSuccess = (msg) => Toastify({text: `<i class="fa-solid fa-circle-check"></i> ${msg}`, escapeMarkup: false, style: {background: '#0f766e', borderRadius: '12px', fontWeight: 'bold', fontSize: '13px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}, duration: 3000}).showToast();
+        window.showError = (msg) => Toastify({text: `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`, escapeMarkup: false, style: {background: '#b91c1c', borderRadius: '12px', fontWeight: 'bold', fontSize: '13px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}, duration: 3000}).showToast();
 
         const sanitize = str => { const div = document.createElement('div'); div.textContent = str || ''; return div.innerHTML; };
         const timeAgo = (iso) => {
@@ -461,8 +554,8 @@
         window.switchTab = (tab) => {
             document.getElementById('view-feed').className = tab === 'feed' ? 'md:col-span-8 space-y-6 block fade-in' : 'hidden md:block md:col-span-8 space-y-6';
             document.getElementById('view-calendar').className = tab === 'calendar' ? 'md:col-span-4 space-y-6 block fade-in' : 'hidden md:block md:col-span-4 space-y-6';
-            document.getElementById('tab-feed').classList.toggle('text-instBlue', tab === 'feed'); document.getElementById('tab-feed').classList.toggle('text-textSoft', tab !== 'feed');
-            document.getElementById('tab-calendar').classList.toggle('text-instBlue', tab === 'calendar'); document.getElementById('tab-calendar').classList.toggle('text-textSoft', tab !== 'calendar');
+            document.getElementById('tab-feed').classList.toggle('text-instBlue', tab === 'feed'); document.getElementById('tab-feed').classList.toggle('text-slate-400', tab !== 'feed');
+            document.getElementById('tab-calendar').classList.toggle('text-instBlue', tab === 'calendar'); document.getElementById('tab-calendar').classList.toggle('text-slate-400', tab !== 'calendar');
         };
 
         const container = document.getElementById('modal-container');
@@ -496,7 +589,6 @@
                 } else if(user.email.endsWith('@gmail.com')) {
                     const snap = await getDoc(doc(db, "users", user.uid));
                     if(snap.exists()) { STATE.userData = snap.data(); updateUI(); } else {
-                        // MODIFICACIÓN 3: Bloquear acceso al muro obligando al registro de datos sin ocultar la vista de inicio
                         STATE.userData = null;
                         updateUI();
                         openModal('modal-onboarding');
@@ -535,11 +627,7 @@
             const isLog = !!STATE.userData; const isFunc = STATE.userData?.rol === 'Funcionario';
             
             if(isLog) {
-                document.getElementById('landing-view').classList.add('hidden');
-                document.getElementById('app-view').classList.remove('hidden');
-                document.getElementById('app-view').classList.add('flex', 'fade-in');
-                
-                const ava = STATE.currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(STATE.userData.nombre)}&background=101935&color=fff`;
+                const ava = STATE.currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(STATE.userData.nombre)}&background=101935&color=fff&bold=true`;
                 document.getElementById('header-avatar').src = ava;
                 document.getElementById('header-user-name').innerText = STATE.userData.nombre.split(' ')[0];
                 document.getElementById('header-user-role').innerText = STATE.userData.rol;
@@ -549,19 +637,43 @@
                 document.getElementById('quick-post-trigger').classList.remove('hidden');
                 document.getElementById('btn-add-event').classList.toggle('hidden', !isFunc);
                 renderPosts();
-                renderCal(); // MODIFICACIÓN 2: Renderizar el calendario de inmediato al cargar la interfaz para quitar "Cargando..."
+                renderCal();
+
+                const landingView = document.getElementById('landing-view');
+                const appView = document.getElementById('app-view');
+
+                if (!landingView.classList.contains('hidden')) {
+                    const loader = document.getElementById('loading-overlay');
+                    loader.classList.remove('hidden');
+                    void loader.offsetWidth;
+                    loader.classList.remove('opacity-0');
+                    
+                    landingView.classList.add('opacity-0');
+                    setTimeout(() => landingView.classList.add('hidden'), 500);
+
+                    setTimeout(() => {
+                        loader.classList.add('opacity-0');
+                        appView.classList.remove('hidden');
+                        appView.classList.add('flex', 'animate-fade-in-up');
+                        setTimeout(() => loader.classList.add('hidden'), 500);
+                    }, 2000); 
+                } else {
+                    appView.classList.remove('hidden');
+                    appView.classList.add('flex');
+                }
+
             } else {
-                document.getElementById('landing-view').classList.remove('hidden');
+                document.getElementById('landing-view').classList.remove('hidden', 'opacity-0');
                 document.getElementById('landing-view').classList.add('fade-in');
                 document.getElementById('app-view').classList.add('hidden');
-                document.getElementById('app-view').classList.remove('flex');
+                document.getElementById('app-view').classList.remove('flex', 'animate-fade-in-up');
                 document.getElementById('quick-post-trigger').classList.add('hidden');
             }
         };
 
         document.getElementById('m-post-file').onchange = e => {
             const l = document.getElementById('m-file-name');
-            l.innerText = e.target.files.length ? e.target.files[0].name.substring(0, 15) + '...' : "Adjuntar";
+            l.innerText = e.target.files.length ? e.target.files[0].name.substring(0, 15) + '...' : "Adjuntar Archivo";
             l.classList.toggle('text-instBlue', e.target.files.length > 0);
         };
 
@@ -579,7 +691,7 @@
                     authorId: STATE.currentUser.uid, authorName: STATE.userData.nombre, role: STATE.userData.rol,
                     date: new Date().toISOString(), fileUrl, fileName, replies: []
                 });
-                document.getElementById('post-form-modal').reset(); document.getElementById('m-file-name').innerText="Adjuntar";
+                document.getElementById('post-form-modal').reset(); document.getElementById('m-file-name').innerText="Adjuntar Archivo";
                 closeAllModals(true); showSuccess('Comunicado Publicado');
             } catch(e) { showError('Error de conexión'); } finally { btn.disabled=false; btn.innerHTML='Publicar <i class="fa-solid fa-paper-plane text-instGold"></i>'; }
         };
@@ -587,8 +699,8 @@
         onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(30)), snap => { STATE.posts = snap.docs.map(d => ({id:d.id, ...d.data()})); if(STATE.userData) renderPosts(); });
 
         document.querySelectorAll('.filter-chip').forEach(b => b.onclick = e => {
-            document.querySelectorAll('.filter-chip').forEach(btn => { btn.classList.remove('active', 'bg-instBlue', 'text-white'); btn.classList.add('bg-white', 'text-textSoft'); });
-            e.target.classList.remove('bg-white', 'text-textSoft'); e.target.classList.add('active', 'bg-instBlue', 'text-white');
+            document.querySelectorAll('.filter-chip').forEach(btn => { btn.classList.remove('active', 'bg-instBlue', 'text-white'); btn.classList.add('bg-white', 'text-slate-500'); });
+            e.target.classList.remove('bg-white', 'text-slate-500'); e.target.classList.add('active', 'bg-instBlue', 'text-white');
             document.getElementById('filter-course').value = e.target.dataset.val; renderPosts();
         });
         document.getElementById('filter-subject').onchange = () => renderPosts();
@@ -598,30 +710,30 @@
             const cont = document.getElementById('posts-container'), tpl = document.getElementById('tpl-post');
             const fC = document.getElementById('filter-course').value, fS = document.getElementById('filter-subject').value;
             const fil = STATE.posts.filter(p => (fC==='todos'||p.course===fC) && (fS==='todas'||p.subject===fS));
-            cont.innerHTML = fil.length ? '' : `<div class="text-center py-12 bg-white rounded-xl border border-border shadow-sm"><i class="fa-solid fa-envelope-open text-4xl text-border mb-3"></i><p class="text-sm font-bold text-textSoft">Sin comunicados recientes</p></div>`;
+            cont.innerHTML = fil.length ? '' : `<div class="text-center py-16 glass-panel rounded-[2rem] border border-slate-200 shadow-sm"><i class="fa-solid fa-folder-open text-5xl text-slate-300 mb-4 animate-pulse-slow"></i><p class="text-[15px] font-bold text-slate-400">Sin comunicados recientes</p></div>`;
             
             fil.forEach(p => {
                 const n = tpl.content.cloneNode(true), r = n.querySelector('.post-card');
                 const isOfi = p.role === 'Funcionario';
                 if(isOfi) { r.classList.add('border-l-4', 'border-l-instBlue'); n.querySelector('.post-accent-bar').classList.remove('hidden'); }
-                n.querySelector('.post-avatar').textContent = p.authorName[0].toUpperCase(); n.querySelector('.post-avatar').className += isOfi ? ' bg-instBlue text-instGold border-none' : ' bg-surfaceAlt text-textSoft';
+                n.querySelector('.post-avatar').textContent = p.authorName[0].toUpperCase(); n.querySelector('.post-avatar').className += isOfi ? ' bg-gradient-to-br from-instBlue to-[#1a274d] text-instGold border-none' : ' bg-slate-100 text-slate-500';
                 n.querySelector('.post-author').textContent = sanitize(p.authorName);
-                n.querySelector('.post-role-badge').innerHTML = isOfi ? `<span class="text-[9px] font-extrabold px-2 py-0.5 rounded bg-instBlue text-white uppercase tracking-wider"><i class="fa-solid fa-shield-check text-instGold mr-1"></i> Oficial</span>` : `<span class="text-[9px] font-bold px-2 py-0.5 rounded border border-border bg-surfaceAlt text-textSoft uppercase">${sanitize(p.role)}</span>`;
+                n.querySelector('.post-role-badge').innerHTML = isOfi ? `<span class="text-[9px] font-black px-2.5 py-1 rounded-md bg-instBlue text-white uppercase tracking-wider shadow-sm"><i class="fa-solid fa-shield-check text-instGold mr-1"></i> Oficial</span>` : `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-slate-500 uppercase">${sanitize(p.role)}</span>`;
                 n.querySelector('.post-date span').textContent = timeAgo(p.date);
                 n.querySelector('.post-title').textContent = sanitize(p.title); n.querySelector('.post-body').textContent = sanitize(p.body);
                 
                 const bCont = n.querySelector('.post-badges');
-                if(p.course && p.course !== 'General / Toda la Institución') bCont.innerHTML += `<span class="bg-surfaceAlt text-textMain text-[10px] font-bold px-2 py-1 rounded-lg border border-border shadow-sm"><i class="fa-solid fa-users text-[9px] mr-1 text-textSoft"></i>${sanitize(p.course)}</span>`;
-                if(p.subject && p.subject !== 'Ninguna / General') bCont.innerHTML += `<span class="bg-surfaceAlt text-textMain text-[10px] font-bold px-2 py-1 rounded-lg border border-border shadow-sm"><i class="fa-solid fa-book text-[9px] mr-1 text-textSoft"></i>${sanitize(p.subject)}</span>`;
+                if(p.course && p.course !== 'General / Toda la Institución') bCont.innerHTML += `<span class="bg-slate-50 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-slate-200 shadow-sm"><i class="fa-solid fa-users text-[10px] mr-1.5 text-slate-400"></i>${sanitize(p.course)}</span>`;
+                if(p.subject && p.subject !== 'Ninguna / General') bCont.innerHTML += `<span class="bg-slate-50 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-slate-200 shadow-sm"><i class="fa-solid fa-book text-[10px] mr-1.5 text-slate-400"></i>${sanitize(p.subject)}</span>`;
                 
-                if(p.fileUrl) n.querySelector('.post-file-container').innerHTML = `<div class="mt-3 p-3 bg-surfaceAlt border border-border rounded-xl flex justify-between items-center group"><div class="flex items-center gap-3 overflow-hidden"><div class="w-8 h-8 rounded-lg bg-white border border-border flex items-center justify-center text-instBlue shadow-sm"><i class="fa-solid fa-file-pdf"></i></div><span class="text-xs font-bold truncate text-textMain">${sanitize(p.fileName)}</span></div><a href="${p.fileUrl}" target="_blank" class="text-instBlue text-[11px] font-bold px-4 py-2 bg-white border border-border rounded-lg shadow-sm hover:bg-slate-50 transition-colors"><i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Bajar</span></a></div>`;
+                if(p.fileUrl) n.querySelector('.post-file-container').innerHTML = `<div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center group hover:bg-white transition-colors shadow-inner hover:shadow-sm"><div class="flex items-center gap-3 overflow-hidden"><div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-instRed shadow-sm group-hover:scale-105 transition-transform"><i class="fa-solid fa-file-pdf text-lg"></i></div><span class="text-[13px] font-bold truncate text-slate-700">${sanitize(p.fileName)}</span></div><a href="${p.fileUrl}" target="_blank" class="text-instBlue text-[11px] font-extrabold px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow hover:border-instBlue/30 transition-all flex items-center gap-2"><i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Descargar</span></a></div>`;
                 
                 const rCnt = p.replies?.length||0; n.querySelector('.reply-count-text').textContent = rCnt===0?"Responder":`${rCnt} Comentario${rCnt>1?'s':''}`;
                 n.querySelector('.post-toggle-replies').onclick = () => r.querySelector('.post-replies-section').classList.toggle('hidden');
                 
                 if(rCnt>0){
                     const rl = n.querySelector('.post-replies-list');
-                    p.replies.forEach(rp => { rl.innerHTML += `<div class="bg-surfaceAlt p-3 rounded-xl border border-border"><div class="flex items-center mb-1.5"><strong class="text-xs text-textMain">${sanitize(rp.authorName)}</strong>${rp.role==='Funcionario'?'<span class="text-[8px] bg-instBlue text-white px-1.5 py-0.5 rounded ml-2 font-bold"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>':''}<span class="text-[10px] text-textSoft font-medium ml-auto">${timeAgo(rp.date)}</span></div><p class="text-[13px] text-textMain font-medium">${sanitize(rp.text)}</p></div>`; });
+                    p.replies.forEach(rp => { rl.innerHTML += `<div class="bg-slate-50/80 p-3.5 rounded-xl border border-slate-100"><div class="flex items-center mb-1.5"><strong class="text-[13px] text-slate-800 tracking-tight">${sanitize(rp.authorName)}</strong>${rp.role==='Funcionario'?'<span class="text-[8px] bg-instBlue text-white px-1.5 py-0.5 rounded-md ml-2 font-bold uppercase"><i class="fa-solid fa-shield-check text-instGold"></i> Oficial</span>':''}<span class="text-[10px] text-slate-400 font-medium ml-auto">${timeAgo(rp.date)}</span></div><p class="text-[13.5px] text-slate-600 font-medium leading-relaxed">${sanitize(rp.text)}</p></div>`; });
                 }
                 
                 const isCurrentFunc = STATE.userData?.rol === 'Funcionario';
@@ -644,14 +756,36 @@
             const g = document.getElementById('calendar-grid'); g.innerHTML = '';
             const fD = new Date(cYr, cMo, 1).getDay(), dim = new Date(cYr, cMo+1, 0).getDate();
             for(let i=0; i<fD; i++) g.appendChild(document.createElement('div'));
+            
             for(let i=1; i<=dim; i++) {
                 const dS = `${cYr}-${String(cMo+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const isHoliday = FERIADOS_2026[dS];
+                
                 const div = document.createElement('div');
-                div.className = `calendar-day flex flex-col items-center justify-center h-8 w-8 mx-auto text-[13px] ${dS===selDate?'selected':''} ${dS===`${dToday.getFullYear()}-${String(dToday.getMonth()+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`?'today':''}`;
+                div.className = `calendar-day flex flex-col items-center justify-center h-8 w-8 mx-auto text-[13px] relative ${dS===selDate?'selected':''} ${dS===`${dToday.getFullYear()}-${String(dToday.getMonth()+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`?'today':''}`;
+                
+                if (isHoliday && dS!==selDate && dS!==`${dToday.getFullYear()}-${String(dToday.getMonth()+1).padStart(2,'0')}-${String(dToday.getDate()).padStart(2,'0')}`) {
+                    div.classList.add('bg-red-50/40', 'border-red-100/50');
+                }
+                
                 div.onclick = () => { selDate=dS; renderCal(); };
-                const txt = document.createElement('span'); txt.className = new Date(cYr, cMo, i).getDay()===0?'text-instRed font-bold':'font-semibold'; txt.textContent = i;
+                
+                const txt = document.createElement('span'); 
+                txt.className = (new Date(cYr, cMo, i).getDay()===0 || isHoliday) ? 'text-instRed font-bold' : 'font-semibold text-slate-700'; 
+                txt.textContent = i;
+                
                 const hE = STATE.events.some(e=>e.date===dS);
-                div.append(txt); if(hE) div.innerHTML+='<div class="w-1 h-1 bg-instGold rounded-full mt-0.5"></div>'; g.appendChild(div);
+                div.append(txt); 
+                
+                const dots = document.createElement('div'); 
+                dots.className = "flex gap-0.5 mt-0.5";
+                
+                if(isHoliday) dots.innerHTML += '<div class="w-1.5 h-1.5 bg-instRed rounded-full shadow-sm"></div>';
+                if(hE) dots.innerHTML += '<div class="w-1.5 h-1.5 bg-instGold rounded-full shadow-glow"></div>';
+                
+                if(isHoliday || hE) div.append(dots);
+                
+                g.appendChild(div);
             }
             renderEvs();
         };
@@ -659,12 +793,25 @@
         const renderEvs = () => {
             const cont = document.getElementById('day-events-container'); cont.innerHTML='';
             const evs = STATE.events.filter(e=>e.date===selDate);
-            if(!evs.length) { cont.innerHTML='<p class="text-[11px] text-textSoft font-medium p-3 bg-surfaceAlt rounded-lg border border-border text-center">Día despejado.</p>'; return; }
+            const holiday = FERIADOS_2026[selDate];
+
+            if(!evs.length && !holiday) { 
+                cont.innerHTML='<div class="text-[12px] text-slate-500 font-medium p-4 bg-slate-50 rounded-xl border border-slate-200 border-dashed text-center">Día despejado.</div>'; 
+                return; 
+            }
+            
+            if(holiday) {
+                const hd = document.createElement('div'); 
+                hd.className="bg-red-50/50 border border-red-100 p-3.5 rounded-xl flex justify-between items-center shadow-sm mb-2.5";
+                hd.innerHTML = `<div class="flex-1 pr-2"><div class="mb-1.5"><span class="text-[9px] bg-instRed/10 text-instRed px-2 py-0.5 rounded-md font-extrabold uppercase mr-1.5 border border-instRed/20">Feriado</span><h6 class="text-[13px] font-extrabold text-instRed inline tracking-tight">${holiday}</h6></div><span class="text-[10px] text-red-400 font-bold inline-block bg-white px-2 py-1 rounded-md border border-red-100"><i class="fa-solid fa-flag"></i> Nacional</span></div>`;
+                cont.appendChild(hd);
+            }
+
             evs.forEach(e => {
-                const d=document.createElement('div'); d.className="bg-surfaceAlt border border-border p-3 rounded-xl flex justify-between items-center shadow-sm";
-                const evTypeBdg = e.isEvaluation ? `<span class="text-[9px] bg-instBlue text-white px-1.5 py-0.5 rounded font-bold uppercase mr-1">${sanitize(e.evalType||'Evaluación')}</span>` : '';
-                d.innerHTML = `<div class="flex-1 pr-2"><div class="mb-1">${evTypeBdg}<h6 class="text-xs font-bold text-instBlue inline">${sanitize(e.title)}</h6></div><span class="text-[10px] text-textSoft font-bold inline-block bg-white px-1.5 py-0.5 rounded border border-border"><i class="fa-regular fa-clock"></i> ${sanitize(e.time)}</span></div>`;
-                if(STATE.userData?.rol==='Funcionario') { const b=document.createElement('button'); b.className="text-textSoft hover:text-instRed text-xs p-1.5 bg-white border border-border rounded shadow-sm hover:bg-red-50"; b.innerHTML='<i class="fa-solid fa-trash-can"></i>'; b.onclick=()=>window.deleteEvent(e.id); d.appendChild(b); }
+                const d=document.createElement('div'); d.className="bg-white border border-slate-200 p-3.5 rounded-xl flex justify-between items-center shadow-sm hover:shadow hover:-translate-y-0.5 transition-all mb-2.5";
+                const evTypeBdg = e.isEvaluation ? `<span class="text-[9px] bg-instBlue/10 text-instBlue px-2 py-0.5 rounded-md font-extrabold uppercase mr-1.5 border border-instBlue/20">${sanitize(e.evalType||'Evaluación')}</span>` : '';
+                d.innerHTML = `<div class="flex-1 pr-2"><div class="mb-1.5">${evTypeBdg}<h6 class="text-[13px] font-extrabold text-slate-800 inline tracking-tight">${sanitize(e.title)}</h6></div><span class="text-[10px] text-slate-500 font-bold inline-block bg-slate-50 px-2 py-1 rounded-md border border-slate-200"><i class="fa-regular fa-clock"></i> ${sanitize(e.time)}</span></div>`;
+                if(STATE.userData?.rol==='Funcionario') { const b=document.createElement('button'); b.className="text-slate-400 hover:text-instRed text-xs p-2 bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-red-50 hover:border-red-100 transition-all"; b.innerHTML='<i class="fa-solid fa-trash-can"></i>'; b.onclick=()=>window.deleteEvent(e.id); d.appendChild(b); }
                 cont.appendChild(d);
             });
         };

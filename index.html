@@ -942,7 +942,41 @@
                 const isCurrentFunc = STATE.userData?.rol === 'Funcionario';
                 if(isCurrentFunc) { const a = n.querySelector('.post-actions'); a.classList.remove('hidden'); a.querySelector('.btn-delete').onclick = async () => { const res = await Swal.fire({title:'¿Retirar Comunicado?', icon:'warning', showCancelButton:true, confirmButtonColor: '#b91c1c'}); if(res.isConfirmed) { await deleteDoc(doc(db,"posts",p.id)); showSuccess('Retirado'); } }; }
                 
-                const frm = n.querySelector('.post-reply-form'); frm.onsubmit = async e => { e.preventDefault(); const i=frm.querySelector('input'); const btn=frm.querySelector('button'); btn.disabled=true; await updateDoc(doc(db,"posts",p.id), {replies:arrayUnion({id:Date.now().toString(), authorName:STATE.userData.nombre, role:STATE.userData.rol, text:i.value, date:new Date().toISOString()})}); i.value=''; btn.disabled=false; showSuccess('Enviado'); };
+                const frm = n.querySelector('.post-reply-form');
+
+frm.onsubmit = async e => {
+    e.preventDefault();
+
+    const i = frm.querySelector('input');
+    const btn = frm.querySelector('button');
+
+    if (!i.value.trim()) return;
+
+    try {
+        btn.disabled = true;
+
+        await updateDoc(doc(db, "posts", p.id), {
+            replies: arrayUnion({
+                id: Date.now().toString(),
+                authorName: STATE.userData.nombre,
+                role: STATE.userData.rol,
+                text: i.value.trim(),
+                date: new Date().toISOString()
+            })
+        });
+
+        i.value = '';
+
+        showSuccess('Respuesta enviada');
+
+    } catch (err) {
+        console.error(err);
+        showError('No se pudo enviar la respuesta');
+
+    } finally {
+        btn.disabled = false;
+    }
+};
                 cont.appendChild(n);
             });
         };

@@ -531,18 +531,133 @@
 
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, doc, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-        const firebaseConfig = { apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4", authDomain: "foro-conectaedu.firebaseapp.com", projectId: "foro-conectaedu", storageBucket: "foro-conectaedu.firebasestorage.app", messagingSenderId: "183234856524", appId: "1:183234856524:web:9cef8e98008740431196e9" };
-        const app = initializeApp(firebaseConfig); 
-        const db = getFirestore(app); 
-        const auth = getAuth(app); 
-        const provider = new GoogleAuthProvider();
+    const firebaseConfig = {
+        apiKey: "AIzaSyCOfNPxNcrxGBTQSjUXppN9GJnEQfcrDm4",
+        authDomain: "foro-conectaedu.firebaseapp.com",
+        projectId: "foro-conectaedu",
+        storageBucket: "foro-conectaedu.firebasestorage.app",
+        messagingSenderId: "183234856524",
+        appId: "1:183234856524:web:9cef8e98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Persistencia local y control estricto de inactividad (15 minutos)
+    setPersistence(auth, browserLocalPersistence);
+    const INACTIVITY_LIMIT = 15 * 60 * 1000;
+
+    function updateActivity() {
+        localStorage.setItem('lastActivity', Date.now().toString());
+    }
+
+    function checkInactivity() {
+        const lastActivity = localStorage.getItem('lastActivity');
+        if (lastActivity && (Date.now() - parseInt(lastActivity)) > INACTIVITY_LIMIT) {
+            localStorage.removeItem('lastActivity');
+            signOut(auth).then(() => {
+                location.reload();
+            });
+            return true;
+        }
+        return false;
+    }
+
+    window.addEventListener('mousemove', updateActivity);
+    window.addEventListener('keydown', updateActivity);
+    window.addEventListener('click', updateActivity);
+    window.addEventListener('scroll', updateActivity);
+    
+    setInterval(checkInactivity, 30000);
+
+    const STATE = { currentUser: null, userData: null, posts: [], events: [] };
+    let unsubPosts = null;
+    let unsubEvents = null;
+
+    // Bloqueo inmediato con pantalla de carga al hacer clic en ingresar
+    document.getElementById('btn-login-landing').onclick = async () => {
+        const loader = document.getElementById('loading-overlay');
+        if (loader) loader.classList.remove('hidden', 'opacity-0');
         
-        const STATE = { currentUser: null, userData: null, posts: [], events: [] };
+        try {
+            await signInWithPopup(auth, new GoogleAuthProvider());
+        } catch (error) {
+            console.error("Error en autenticación:", error);
+            if (loader) {
+                loader.classList.add('opacity-0');
+                setTimeout(() => loader.classList.add('hidden'), 500);
+            }
+        }
+    };
+
+    document.getElementById('btn-logout').onclick = () => {
+        localStorage.removeItem('lastActivity');
+        signOut(auth);
+    };
+
+    // Validación de sesión y carga controlada de datos en tiempo real
+    onAuthStateChanged(auth, async (user) => {
+        if (checkInactivity()) return;
+
+        if (user) {
+            updateActivity();
+            STATE.currentUser = user;
+            
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    STATE.userData = userDoc.data();
+                    
+                    // Escuchadores protegidos dentro del ciclo de autenticación
+                    if (unsubPosts) unsubPosts(); 
+                    unsubPosts = onSnapshot(query(collection(db, "posts"), orderBy("date", "desc"), limit(30)), snap => {
+                        STATE.posts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        if (STATE.userData) renderPosts();
+                    });
+
+                    if (unsubEvents) unsubEvents();
+                    unsubEvents = onSnapshot(collection(db, "events"), snap => {
+                        STATE.events = snap.docs.map(d => ({id: d.id, ...d.data()}));
+                        if (STATE.userData) renderCal();
+                    });
+
+                    updateUI(); 
+                } else {
+                    const loader = document.getElementById('loading-overlay');
+                    if (loader) {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.classList.add('hidden'), 500);
+                    }
+                    if (typeof window.openModal === 'function') {
+                        window.openModal('modal-onboarding');
+                    }
+                }
+            } catch (error) {
+                console.error("Error obteniendo credenciales:", error);
+            }
+        } else {
+            STATE.currentUser = null;
+            STATE.userData = null;
+            if (unsubPosts) unsubPosts();
+            if (unsubEvents) unsubEvents();
+            
+            document.getElementById('app-view').classList.add('hidden');
+            document.getElementById('landing-view').classList.remove('hidden', 'opacity-0');
+            document.getElementById('header-user-info').classList.add('hidden');
+            
+            const loader = document.getElementById('loading-overlay');
+            if (loader) {
+                loader.classList.add('opacity-0');
+                setTimeout(() => loader.classList.add('hidden'), 500);
+            }
+        }
+    });
         
         // --- FERIADOS CHILE 2026 ---
         const FERIADOS_2026 = {

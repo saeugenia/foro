@@ -638,23 +638,30 @@
         document.getElementById('btn-login-landing').onclick = doLogin;
         document.getElementById('btn-logout').onclick = () => signOut(auth);
 
-        onAuthStateChanged(auth, async (user) => {
-            if(user) {
-                STATE.currentUser = user;
-                if(user.email.endsWith('@slepcolchagua.cl')) {
-                    STATE.userData = { rol: 'Funcionario', nombre: user.displayName, email: user.email };
-                    await setDoc(doc(db, "users", user.uid), STATE.userData, { merge: true }); updateUI();
-                } else if(user.email.endsWith('@gmail.com')) {
-                    const snap = await getDoc(doc(db, "users", user.uid));
-                    if(snap.exists()) { STATE.userData = snap.data(); updateUI(); } else {
-                        STATE.userData = null;
-                        updateUI();
-                        openModal('modal-onboarding');
-                    }
-                } else { signOut(auth); showError('Dominio no permitido'); }
-            } else { STATE.currentUser = null; STATE.userData = null; updateUI(); }
-        });
+function initRealtimePosts() {
 
+    if (STATE.unsubscribePosts)
+        STATE.unsubscribePosts();
+
+    STATE.unsubscribePosts = onSnapshot(
+        collection(db, "posts"),
+        snap => {
+
+            STATE.posts = snap.docs.map(d => ({
+                id: d.id,
+                ...d.data()
+            }));
+
+            console.log("Posts cargados:", STATE.posts.length);
+
+            renderPosts();
+
+        },
+        err => {
+            console.error("Error realtime:", err);
+        }
+    );
+}
         document.getElementById('user-type').onchange = e => {
             const val = e.target.value;
             document.getElementById('extra-fields').classList.toggle('hidden', !val);
@@ -954,17 +961,28 @@ frm.onsubmit = async e => {
 
     try {
         btn.disabled = true;
+const postRef = doc(db, "posts", p.id);
 
-        await updateDoc(doc(db, "posts", p.id), {
-            replies: arrayUnion({
-                id: Date.now().toString(),
-                authorName: STATE.userData.nombre,
-                role: STATE.userData.rol,
-                text: i.value.trim(),
-                date: new Date().toISOString()
-            })
-        });
+const postSnap = await getDoc(postRef);
 
+const data = postSnap.data();
+
+const replies = Array.isArray(data.replies)
+    ? data.replies
+    : [];
+
+await updateDoc(postRef, {
+    replies: [
+        ...replies,
+        {
+            id: crypto.randomUUID(),
+            authorName: STATE.userData?.nombre || "Usuario",
+            role: STATE.userData?.rol || "usuario",
+            text: i.value.trim(),
+            date: new Date().toISOString()
+        }
+    ]
+});
         i.value = '';
 
         showSuccess('Respuesta enviada');

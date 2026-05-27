@@ -635,44 +635,23 @@
         document.getElementById('btn-logout').onclick = () => signOut(auth);
 
         onAuthStateChanged(auth, async (user) => {
+            if(user) {
+                STATE.currentUser = user;
+                if(user.email.endsWith('@slepcolchagua.cl')) {
+                    STATE.userData = { rol: 'Funcionario', nombre: user.displayName, email: user.email };
+                    await setDoc(doc(db, "users", user.uid), STATE.userData, { merge: true }); updateUI();
+                } else if(user.email.endsWith('@gmail.com')) {
+                    const snap = await getDoc(doc(db, "users", user.uid));
+                    if(snap.exists()) { STATE.userData = snap.data(); updateUI(); } else {
+                        STATE.userData = null;
+                        initRealtimePosts()
+                        updateUI();
+                        openModal('modal-onboarding');
+                    }
+                } else { signOut(auth); showError('Dominio no permitido'); }
+            } else { STATE.currentUser = null; STATE.userData = null; updateUI(); }
+        });
 
-    if(user) {
-
-        STATE.currentUser = user;
-
-        if(user.email.endsWith('@slepcolchagua.cl')) {
-
-            STATE.userData = {
-
-                nombre: user.displayName || "Usuario",
-                correo: user.email,
-                rol: "admin"
-
-            };
-
-        } else {
-
-            const userRef = doc(db, "users", user.uid);
-            const snap = await getDoc(userRef);
-
-            if(snap.exists()) {
-                STATE.userData = snap.data();
-            }
-        }
-
-        // 🔥 ESTA ES LA LÍNEA IMPORTANTE
-        initRealtimePosts();
-
-        updateUI();
-
-    } else {
-
-        STATE.currentUser = null;
-        STATE.userData = null;
-
-        location.hash = '#login';
-    }
-});
         document.getElementById('user-type').onchange = e => {
             const val = e.target.value;
             document.getElementById('extra-fields').classList.toggle('hidden', !val);
